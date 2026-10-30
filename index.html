@@ -19,6 +19,7 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
         :root { 
             --primary: #0a5c3a; --primary-dark: #063d26; --primary-light: rgba(10, 92, 58, 0.08);
             --accent: #f2b705; --accent-hover: #e0a300; --dark-bg: #f4f8f5; --card-bg: #ffffff; 
@@ -28,88 +29,186 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Hind Siliguri', 'Segoe UI', Arial, sans-serif; }
         body { margin: 0; background: var(--dark-bg); color: var(--text-primary); padding-bottom: 110px; user-select: none; }
-        header { background: var(--primary); color: white; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        header { 
+            background: var(--primary); color: white; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
         header .brand { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         header .brand img { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.9); border-radius: 10px; padding: 2px; flex-shrink: 0; }
-        header .avatar { width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: var(--primary); border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; overflow: hidden; }
+        header .avatar { 
+            width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: var(--primary); border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; overflow: hidden;
+        }
         header .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
         .page { display: none; padding: 15px; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); min-height: 80vh; box-sizing: border-box; }
         .active { display: block !important; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 24px; border: 1px solid var(--border-glow); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); margin-bottom: 15px; text-align: center; position: relative; }
+        
+        .card { 
+            background: var(--card-bg); padding: 20px; border-radius: 24px; border: 1px solid var(--border-glow); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); margin-bottom: 15px; text-align: center; position: relative; 
+        }
         .card h3 { margin-top: 0; color: var(--primary); font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; justify-content: center; }
-        input, select, textarea { width: 100%; padding: 11px 15px; margin: 6px 0; border: 1.5px solid #cbd5e1; border-radius: 14px; outline: none; background: #ffffff; font-size: 14px; color: var(--text-primary); transition: all 0.25s ease; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 11px 15px; margin: 6px 0; border: 1.5px solid #cbd5e1; border-radius: 14px; outline: none; background: #ffffff; font-size: 14px; color: var(--text-primary); transition: all 0.25s ease; 
+        }
         input::placeholder { color: var(--text-secondary); }
         input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
+
         input[type="file"] { user-select: auto !important; -webkit-user-select: auto !important; pointer-events: auto !important; cursor: pointer !important; position: relative !important; z-index: 100 !important; }
-        .btn { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #090d1a; border: none; border-radius: 14px; font-weight: 800; font-size: 13px; cursor: pointer; margin-top: 10px; box-shadow: 0 5px 15px var(--primary-glow); transition: all 0.2s; }
+        
+        .btn { 
+            width: 100%; padding: 13px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #090d1a; border: none; border-radius: 14px; font-weight: 800; font-size: 13px; cursor: pointer; margin-top: 10px; box-shadow: 0 5px 15px var(--primary-glow); transition: all 0.2s; 
+        }
         .btn:active { transform: scale(0.97); }
-        .table-container { width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; background: #ffffff; border-radius: 12px; border: 1px solid #cbd5e1; margin-bottom: 15px; box-shadow: 0 4px 14px rgba(0,0,0,0.03); }
-        .somiti-table { width: 100% !important; max-width: 100% !important; border-collapse: collapse !important; table-layout: fixed !important; font-size: 11px !important; background: #ffffff; }
-        .somiti-table th { background: #f1f5f9; color: #1e293b; font-weight: 800; padding: 8px 3px !important; border: 1px solid #cbd5e1; font-size: 10px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
-        .somiti-table td { padding: 8px 3px !important; border: 1px solid #e2e8f0; vertical-align: middle !important; font-size: 10.5px !important; overflow: hidden; text-overflow: ellipsis; word-break: break-word; text-align: center; }
+        
+        .table-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        }
+
+        .somiti-table {
+            width: 100% !important;
+            max-width: 100% !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+            font-size: 11px !important;
+            background: #ffffff;
+        }
+
+        .somiti-table th {
+            background: #f1f5f9;
+            color: #1e293b;
+            font-weight: 800;
+            padding: 8px 3px !important;
+            border: 1px solid #cbd5e1;
+            font-size: 10px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .somiti-table td {
+            padding: 8px 3px !important;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle !important;
+            font-size: 10.5px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
+            text-align: center;
+        }
+
         .somiti-table th:nth-child(1), .somiti-table td:nth-child(1) { width: 9%; }
         .somiti-table th:nth-child(2), .somiti-table td:nth-child(2) { width: 22%; }
         .somiti-table th:nth-child(3), .somiti-table td:nth-child(3) { width: 34%; text-align: left !important; padding-left: 5px !important; }
         .somiti-table th:nth-child(4), .somiti-table td:nth-child(4) { width: 23%; text-align: right !important; padding-right: 5px !important; }
         .somiti-table th:nth-child(5), .somiti-table td:nth-child(5) { width: 12%; }
-        .id-badge { background: var(--primary-light); color: var(--primary); padding: 2px 3px; border-radius: 4px; font-weight: 800; font-size: 9px; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
-        .tbl-btn { background: var(--primary); color: white; border: none; padding: 5px 4px; border-radius: 5px; font-size: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+
+        .id-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 3px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 9px;
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tbl-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 4px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
         .btn-collect { background: var(--orange); }
+
         .balance-card { background: var(--primary); color: white; padding: 24px; border-radius: 24px; margin-bottom: 16px; box-shadow: 0 12px 30px rgba(10, 92, 58, 0.15); position: relative; overflow: hidden; }
         .gold-balance-pill { background: var(--accent); color: var(--primary); padding: 10px 14px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px rgba(242, 183, 5, 0.35); min-width: 135px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .gold-balance-pill small { font-size: 9.5px; font-weight: 800; display: block; color: var(--primary); opacity: 0.9; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 3px; }
         .gold-balance-pill h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--primary); line-height: 1.1; }
         .total-fund-mini { background: rgba(255,255,255,0.08); padding: 12px; border-radius: 14px; display: inline-block; font-size: 11.5px; border: 1px solid rgba(255,255,255,0.05); margin-top: 15px; width: 100%; text-align: center; font-weight: 500; color: rgba(255, 255, 255, 0.9); }
         .total-fund-mini b { color: var(--accent); }
+        
         .fin-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
         .fin-item { background: var(--card-bg); padding: 14px 18px; border-radius: 18px; border: 1px solid var(--border-glow); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        
         .grid { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 16px 20px !important; background: var(--card-bg); padding: 24px 12px; border-radius: 24px; box-shadow: 0 10px 30px rgba(10, 92, 58, 0.04); border: 1px solid var(--border-glow); margin-bottom: 16px; }
         .menu-item { flex: 0 0 72px !important; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s ease; }
         .menu-item:active { transform: scale(0.92); }
         .menu-item i { font-size: 20px; color: var(--primary); background: var(--primary-light); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; transition: all 0.25s; flex-shrink: 0; }
         .menu-item:hover i { background: var(--primary); color: white; }
         .menu-item span { font-size: 11px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+        
         .notice-item { background: rgba(10, 92, 58, 0.03); padding: 14px; border-radius: 12px; border-left: 4px solid var(--primary); margin-bottom: 10px; text-align: justify; }
         .notice-item p { margin: 0; font-size: 13px; color: var(--text-primary); line-height: 1.4; }
         .notice-item small { color: var(--text-secondary); font-size: 10px; display: block; margin-top: 6px; text-align: right; }
         .report-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px; }
+        
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #ffffff; margin-bottom: 8px; border-radius: 12px; border: 1px solid #cbd5e1; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(10, 92, 58, 0.02); color: var(--text-primary); }
         .item-row:hover { border-color: var(--primary); background: #f8fafc; }
         .item-row:active { transform: scale(0.97); }
+
         .history-item { text-align: left; padding: 12px; background: #ffffff; border-radius: 14px; margin-bottom: 8px; position: relative; border: 1px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.02); color: var(--text-primary); }
         .status-badge { font-size: 9px; padding: 3px 8px; border-radius: 10px; color: white; font-weight: bold; position: absolute; right: 10px; top: 10px; }
+        
         .filter-tabs { display: flex; gap: 8px; margin-bottom: 15px; background: #e2e8f0; padding: 5px; border-radius: 12px; }
         .filter-tab { flex: 1; text-align: center; padding: 10px; font-size: 11.5px; color: var(--text-secondary); cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.25s; white-space: nowrap; }
         .filter-tab.active-tab { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(10, 92, 58, 0.2); }
+        
         .admin-tabs { display: flex; gap: 2px; margin-bottom: 18px; background: #e2e8f0; padding: 4px; border-radius: 14px; overflow: hidden; justify-content: space-between; width: 100%; }
         .admin-tab { flex: 1; min-width: 0; text-align: center; padding: 9px 1px; font-size: 9.5px; color: var(--text-secondary); cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.25s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .admin-tab.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(10, 92, 58, 0.2); }
+        
         .month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: #edf2f7; padding: 12px; border-radius: 16px; margin-top: 10px; }
         .month-item { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 6px; font-size: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; font-weight: bold; color: var(--text-primary); position: relative; }
         .month-item input { display: none; }
         .month-item.selected { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; box-shadow: 0 4px 12px rgba(10, 92, 58, 0.2); }
+        
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--primary); display: none; justify-content: space-around; align-items: center; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12); z-index: 999; border-top: 1px solid rgba(255,255,255,0.05); }
         .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: rgba(255, 255, 255, 0.7); cursor: pointer; transition: 0.25s; font-weight: 500; flex: 1; padding: 6px 0; }
         .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active-nav { color: var(--accent); font-weight: bold; }
+        
         #nav-historyPage { background: var(--accent) !important; color: var(--primary) !important; width: 58px !important; height: 58px !important; min-width: 58px !important; max-width: 58px !important; min-height: 58px !important; max-height: 58px !important; border-radius: 50% !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; position: relative !important; top: -15px !important; box-shadow: 0 6px 15px rgba(242, 183, 5, 0.4) !important; border: 4px solid var(--dark-bg) !important; flex-shrink: 0 !important; }
         #nav-historyPage i { color: var(--primary) !important; font-size: 20px !important; margin: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
         #nav-historyPage span { display: none !important; }
+
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .stat-box { background: #f8fafc; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid #cbd5e1; }
         .stat-box small { font-size: 10px; color: var(--text-secondary); font-weight: 700; }
         .stat-box b { display: block; font-size: 16px; color: var(--primary); margin-top: 4px; font-weight: 800; }
+        
         .dashboard-banner { background: #ffffff; padding: 15px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #cbd5e1; }
         .main-stat-card { background: var(--primary); color: white; padding: 18px 12px; border-radius: 16px; text-align: center; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(10, 92, 58, 0.15); }
         .main-stat-card h1 { margin: 4px 0; font-size: 24px; font-weight: 800; color: var(--accent); }
         .main-stat-card span { font-size: 10px; opacity: 0.9; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        
         .mini-stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .mini-card { background: #f8fafc; padding: 10px 4px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid #cbd5e1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .mini-card i { font-size: 16px; color: var(--primary); margin-bottom: 4px; }
         .mini-card b { font-size: 14px; display: block; color: var(--text-primary); font-weight: 700; }
         .mini-card span { font-size: 8.5px; color: var(--text-secondary); font-weight: 800; text-transform: uppercase; }
+        
         .logout-btn { background: rgba(217, 4, 41, 0.05); border: 1px solid rgba(217, 4, 41, 0.15); padding: 12px; border-radius: 12px; color: var(--red); font-weight: bold; text-align: center; margin-top: 15px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        
         .dot-badge { width: 6px; height: 6px; background: var(--red); border-radius: 50%; display: none; position: absolute; top: 6px; right: 2px; }
         .dev-img { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 6px; object-fit: cover; }
         #globalLoader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); display: none; align-items: center; justify-content: center; z-index: 10000; }
@@ -117,17 +216,33 @@
         .ripple-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); border-radius: 50%; animation: pulseRipple 1.2s infinite ease-out; }
         @keyframes pulseRipple { 0% { transform: scale(0.2); opacity: 1; } 100% { transform: scale(3.5); opacity: 0; } }
 
-        .statement-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; background: white; border-radius: 12px; overflow: hidden; border: 1px solid #cbd5e1; }
-        .statement-table th { background: #f1f5f9; color: var(--primary); padding: 8px 4px; text-align: center; border: 1px solid #cbd5e1; font-weight: 700; font-size: 10.5px; white-space: nowrap !important; }
-        .statement-table td { padding: 8px 4px; border: 1px solid #e2e8f0; text-align: center; color: var(--text-primary); font-size: 11px; }
+        .statement-table {
+            width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px;
+            background: white; border-radius: 12px; overflow: hidden; border: 1px solid #cbd5e1;
+        }
+        .statement-table th {
+            background: #f1f5f9; color: var(--primary); padding: 8px 4px; text-align: center;
+            border: 1px solid #cbd5e1; font-weight: 700; font-size: 10.5px; white-space: nowrap !important;
+        }
+        .statement-table td {
+            padding: 8px 4px; border: 1px solid #e2e8f0; text-align: center;
+            color: var(--text-primary); font-size: 11px;
+        }
 
-        .pdf-page-wrapper { width: 1000px !important; height: 620px !important; padding: 15px 25px !important; background: #ffffff !important; color: #000000 !important; font-family: 'Hind Siliguri', 'Segoe UI', Arial, sans-serif !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; margin-bottom: 20px !important; }
+        .pdf-page-wrapper {
+            width: 1000px !important; height: 620px !important; padding: 15px 25px !important;
+            background: #ffffff !important; color: #000000 !important;
+            font-family: 'Hind Siliguri', 'Segoe UI', Arial, sans-serif !important;
+            box-sizing: border-box !important; position: relative !important; overflow: hidden !important; margin-bottom: 20px !important;
+        }
         .pdf-table { width: 100% !important; border-collapse: collapse !important; font-size: 10px !important; table-layout: fixed !important; }
         .pdf-table th, .pdf-table td { word-wrap: break-word !important; overflow: hidden !important; }
+
         .preview-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
         .preview-kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; border-radius: 12px; text-align: center; }
         .preview-kpi-card small { font-size: 9px; color: var(--text-secondary); font-weight: bold; display: block; }
         .preview-kpi-card b { font-size: 13px; color: var(--primary); display: block; margin-top: 2px; }
+
         .photo-picker-box { background: var(--primary-light); border: 1.5px dashed var(--primary); padding: 12px; border-radius: 14px; text-align: center; cursor: pointer; margin-top: 8px; transition: all 0.2s ease; }
         .photo-picker-box:active { transform: scale(0.98); }
 
@@ -455,6 +570,7 @@
 
     <!-- Home Page -->
     <div id="homePage" class="page">
+        <!-- Dashboard Push Message Banner -->
         <div id="pushBannerBox" style="display:none; background: linear-gradient(135deg, #0a5c3a, #0f172a); color: #ffffff; padding: 18px; border-radius: 20px; margin-bottom: 16px; box-shadow: 0 10px 25px rgba(10, 92, 58, 0.2); text-align: left; border: 1.5px solid var(--accent);">
             <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14.5px; margin-bottom: 8px; color: var(--accent);">
                 <i class="fas fa-bell"></i> <span id="pushBannerTitle">অ্যাডমিন বার্তা</span>
@@ -1035,7 +1151,6 @@
     <div id="nav-reportPage" class="nav-item" onclick="showPage('reportPage')"><i class="fas fa-file-invoice-dollar"></i><span>রিপোর্ট</span></div>
     <div id="nav-noticePage" class="nav-item" onclick="showPage('noticePage')"><i class="fas fa-bell"></i><span>নোটিশ</span></div>
 </div>
-
 <script>
     const SUPABASE_URL = "https://bzoltdbzowebkdnhoqvc.supabase.co";
     const SUPABASE_KEY = "sb_publishable_HIkEuo9fEau6kGwCpaEY4g_WjrIROKw";
@@ -1068,6 +1183,8 @@
     let currentPlMonth = "";
     let currentPlYear = "";
     let currentPhotoTargetId = "";
+    window.currentMonthPaidUsers = new Set();
+    window.userDueInfoMap = {};
 
     // স্টেটমেন্টে রানিং মাস ও বছর অটো সিলেক্ট ফাংশন
     function initRunningMonthSelectors() {
@@ -1581,16 +1698,18 @@
             const curYearStr = now.getFullYear().toString();
             const curDay = now.getDate();
 
-            // চলতি বছরে অনুমোদিত পরিশোধিত মাস সংগ্রহ
+            // মেম্বার যে যে মাসের টাকা পরিশোধ করেছেন
             let paidMonthsList = [];
             if (txs && txs.length > 0) {
                 txs.forEach(t => {
                     if (t.status === "Approved") {
                         const mStr = (t.months || "").toString();
                         const dStr = (t.date || "").toString();
-                        if (dStr.includes(curYearStr) || mStr.includes(curYearStr)) {
+                        if (dStr.includes(curYearStr) || mStr.includes(curYearStr) || !dStr) {
                             bnMonths.forEach(m => {
-                                if (mStr.includes(m)) paidMonthsList.push(m);
+                                if (mStr.includes(m) && !paidMonthsList.includes(m)) {
+                                    paidMonthsList.push(m);
+                                }
                             });
                         }
                     }
@@ -1615,14 +1734,9 @@
                 }
             }
 
+            // যে কয় মাস বাকি ঠিক সেই কয় মাস × ১০০০ টাকা
             let dueCount = dueMonths.length;
-            let totalDues = parseFloat(u?.dues || 0);
-
-            if (totalDues === 0 && dueCount > 0) {
-                totalDues = dueCount * 1000;
-            } else if (totalDues > 0 && dueCount === 0) {
-                dueCount = Math.max(1, Math.round(totalDues / 1000));
-            }
+            let totalDues = dueCount * 1000;
 
             if(u) {
                 document.getElementById('uBal').innerText = "৳ " + parseFloat(u.balance || 0).toLocaleString();
@@ -1748,7 +1862,56 @@
             const curM = bnMonths[curMIdx];
             const curY = d.getFullYear().toString();
 
+            window.currentMonthPaidUsers = new Set();
+            window.userDueInfoMap = {};
+
             if (allUsers) {
+                allUsers.forEach(u => {
+                    const uIdStr = u.id.toString().trim().toLowerCase();
+                    let uPaidMonths = [];
+                    if (txs) {
+                        txs.forEach(t => {
+                            if (t.user_id && t.user_id.toString().trim().toLowerCase() === uIdStr) {
+                                const mStr = (t.months || "").toString();
+                                const dStr = (t.date || "").toString();
+                                if (dStr.includes(curY) || mStr.includes(curY) || !dStr) {
+                                    bnMonths.forEach(m => {
+                                        if (mStr.includes(m) && !uPaidMonths.includes(m)) {
+                                            uPaidMonths.push(m);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+                    if (uPaidMonths.includes(curM)) {
+                        window.currentMonthPaidUsers.add(uIdStr);
+                    }
+
+                    // জুলাই (ইন্ডেক্স 6) থেকে রানিং মাস পর্যন্ত হিসাব
+                    const startMonthIdx = 6;
+                    let uDueMonths = [];
+                    if (curMIdx >= startMonthIdx) {
+                        for (let i = startMonthIdx; i <= curMIdx; i++) {
+                            if (!uPaidMonths.includes(bnMonths[i])) uDueMonths.push(bnMonths[i]);
+                        }
+                    } else {
+                        for (let i = startMonthIdx; i < 12; i++) {
+                            if (!uPaidMonths.includes(bnMonths[i])) uDueMonths.push(bnMonths[i]);
+                        }
+                        for (let i = 0; i <= curMIdx; i++) {
+                            if (!uPaidMonths.includes(bnMonths[i])) uDueMonths.push(bnMonths[i]);
+                        }
+                    }
+
+                    // যত মাস বাকি থাকবে ঠিক তত মাস × ১০০০ টাকা
+                    let dCount = uDueMonths.length;
+                    let uTotalDue = dCount * 1000;
+
+                    window.userDueInfoMap[uIdStr] = { dueCount: dCount, totalDue: uTotalDue, dueMonths: uDueMonths };
+                });
+
                 users = {};
                 allUsers.forEach(u => users[u.id] = u);
                 renderM(); calculateFund(); renderIdKhata(); renderCollectionSection(); updateMonthlySummary(); updateVerifyBadge(); 
@@ -1954,7 +2117,8 @@
                     if (paidUserIds.has(cleanId)) paidCount++;
                     else {
                         unpaidCount++;
-                        totalDuesForMonth += (parseFloat(u.dues || 0) > 0 ? parseFloat(u.dues) : 1000);
+                        const info = window.userDueInfoMap && window.userDueInfoMap[cleanId];
+                        totalDuesForMonth += (info && info.totalDue ? info.totalDue : (parseFloat(u.dues || 0) > 0 ? parseFloat(u.dues) : 1000));
                     }
                 }
             }
@@ -2025,11 +2189,15 @@
         activeId = id;
         const u = users[id];
         if(!u) return;
+
+        const info = (window.userDueInfoMap && window.userDueInfoMap[id.toString().trim().toLowerCase()]) || {};
+        let memberDues = (info.totalDue !== undefined) ? info.totalDue : parseFloat(u.dues || 0);
+
         document.getElementById('detPageName').innerText = u.name;
         document.getElementById('detPageId').innerText = "ID: " + id;
         document.getElementById('detPageBal').innerText = "৳ " + (u.balance || 0);
         document.getElementById('detPageLoan').innerText = "৳ " + (u.loan || 0);
-        document.getElementById('detPageDues').innerText = "৳ " + (u.dues || 0);
+        document.getElementById('detPageDues').innerText = "৳ " + memberDues;
         
         const photoBox = document.getElementById('detMemberPhotoBox');
         photoBox.innerHTML = u.avatar_url ? `<img src="${u.avatar_url}" style="width:100%; height:100%; object-fit:cover;" alt="avatar">` : u.name.charAt(0).toUpperCase();
@@ -2047,6 +2215,7 @@
         showPage('adminMemberDetPage');
     }
 
+    // কালেকশন লিস্ট (মোট টাকার নিচে সঠিক বকেয়া মাস ও টাকা দেখানো)
     function renderCollectionSection() {
         const dropdown = document.getElementById('colUserDropdown');
         const list = document.getElementById('colUserList');
@@ -2075,6 +2244,19 @@
             if(u && (u.status === "Approved" || !u.status)) {
                 hasApproved = true; count++;
                 dropdown.innerHTML += `<option value="${id}">${u.name} (ID: ${id})</option>`;
+                
+                // রানিং বকেয়া হিসাব (যত মাস বাকি থাকবে তত মাসের হিসাব, পরিশোধ করলে সাথে সাথে কমে যাবে)
+                const info = (window.userDueInfoMap && window.userDueInfoMap[id.toString().trim().toLowerCase()]) || {};
+                let dueVal = (info.totalDue !== undefined) ? info.totalDue : 0;
+                let dueMonthsCount = info.dueCount || 0;
+
+                let dueTextHTML = '';
+                if (dueVal > 0) {
+                    dueTextHTML = `<small style="color:var(--orange); font-size:9.5px; font-weight:800;">বকেয়া ৳${dueVal.toLocaleString('bn-BD')} (${dueMonthsCount} মাস)</small>`;
+                } else {
+                    dueTextHTML = `<small style="color:green; font-size:9.5px; font-weight:800;">বকেয়া নেই (পরিশোধিত) ✅</small>`;
+                }
+
                 colTableHTML += `
                     <tr onclick="openCollectionPage('${id}')" style="cursor:pointer;">
                         <td style="text-align: center; color: var(--text-secondary); font-weight:600;">${count}</td>
@@ -2082,7 +2264,7 @@
                         <td style="font-weight:700; color:var(--text-primary);">${u.name}</td>
                         <td style="text-align: right;">
                             <b style="color:var(--primary); font-size:11.5px;">৳${parseFloat(u.balance || 0).toLocaleString('bn-BD')}</b><br>
-                            <small style="color:var(--orange); font-size:9.5px; font-weight:800;">বকেয়া ৳${parseFloat(u.dues || 0).toLocaleString('bn-BD')}</small>
+                            ${dueTextHTML}
                         </td>
                         <td style="text-align: center;">
                             <button class="tbl-btn btn-collect" onclick="event.stopPropagation(); openCollectionPage('${id}')" title="জমা"><i class="fas fa-hand-holding-dollar"></i></button>
@@ -2100,6 +2282,7 @@
         document.querySelectorAll('#colUserList table tbody tr').forEach(r => r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none");
     }
 
+    // কালেকশন পেজ ওপেন (সঠিক লাইভ বকেয়া ইনপুট ও স্ট্যাটাস দেখানো)
     async function openCollectionPage(uid) {
         if(!uid || !users[uid]) return;
         activeCollectionUid = uid;
@@ -2107,20 +2290,24 @@
 
         document.getElementById('colPageUserName').innerText = u.name;
         document.getElementById('colPageUserId').innerText = "ID: " + uid;
-        document.getElementById('colEditDues').value = u.dues || 0;
+
+        // লাইভ বকেয়া হিসাব বসানো
+        const info = (window.userDueInfoMap && window.userDueInfoMap[uid.toString().trim().toLowerCase()]) || {};
+        let liveDue = (info.totalDue !== undefined) ? info.totalDue : 0;
+        let dueMonthsCount = info.dueCount || 0;
+
+        document.getElementById('colEditDues').value = liveDue;
         document.getElementById('colEditBal').value = u.balance || 0;
 
-        const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
-        const d = new Date();
-        const curMonthName = bnMonths[d.getMonth()];
-        const curYearStr = d.getFullYear().toString();
-
-        document.getElementById('colRunningMonthText').innerText = `চেকিং... (${curMonthName} ${curYearStr})`;
-        const { data: txs } = await supabaseClient.from('transactions').select('*').eq('user_id', uid).eq('status', 'Approved');
-        let paidCurrentMonth = txs ? txs.some(t => t.months?.includes(curMonthName) && t.date?.includes(curYearStr)) : false;
-
         const rmText = document.getElementById('colRunningMonthText');
-        if(rmText) rmText.innerHTML = paidCurrentMonth ? `<b style="color:green;">${curMonthName} ${curYearStr} - পরিশোধিত ✅</b>` : `<b style="color:var(--red);">${curMonthName} ${curYearStr} - বকেয়া ⚠️</b>`;
+        if(rmText) {
+            if (dueMonthsCount > 0) {
+                const monthsText = (info.dueMonths && info.dueMonths.length > 0) ? info.dueMonths.join(', ') : `${dueMonthsCount} মাস`;
+                rmText.innerHTML = `<b style="color:var(--red);">${dueMonthsCount} মাসের বকেয়া: ৳${liveDue.toLocaleString('bn-BD')} (${monthsText}) ⚠️</b>`;
+            } else {
+                rmText.innerHTML = `<b style="color:green;">সকল কিস্তি পরিশোধিত (কোনো বকেয়া নেই) ✅</b>`;
+            }
+        }
 
         setTodayDate();
         document.getElementById('colAmt').value = "";
@@ -2243,15 +2430,15 @@
             list.innerHTML = "<center style='padding:20px; color:var(--text-secondary);'>কোনো লেনদেন নেই</center>"; 
         } else {
             let tableHTML = `
-                <div class="table-container">
-                    <table class="statement-table">
+                <div class="table-container" style="overflow-x: auto !important; -webkit-overflow-scrolling: touch; width: 100%;">
+                    <table class="statement-table" style="min-width: 520px; width: 100%; margin-top: 0; table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="text-align: center; white-space: nowrap !important; width: 20%;">তারিখ</th>
-                                <th style="text-align: center; width: 18%;">মাস</th>
-                                <th style="text-align: center; width: 20%;">পরিমাণ</th>
+                                <th style="text-align: center; white-space: nowrap !important; width: 19%;">তারিখ</th>
+                                <th style="text-align: center; width: 19%;">মাস</th>
+                                <th style="text-align: center; width: 18%;">পরিমাণ</th>
                                 <th style="text-align: left; width: 28%;">বিবরণ / Trx ID</th>
-                                <th style="text-align: center; width: 14%;">একশন</th>
+                                <th style="text-align: center; width: 16%; white-space: nowrap !important;">একশন</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -2264,19 +2451,19 @@
                 tableHTML += `
                     <tr>
                         <td style="white-space: nowrap !important; text-align: center; color: var(--text-secondary); font-size: 11px;">${t.date || 'N/A'}</td>
-                        <td style="text-align: center; font-weight: 800; color: var(--text-primary); font-size: 11.5px;">${t.months || 'N/A'}</td>
+                        <td style="text-align: center; font-weight: 800; color: var(--text-primary); font-size: 11.5px; word-break: break-word;">${t.months || 'N/A'}</td>
                         <td style="text-align: center; font-weight: 800; color: var(--primary); font-size: 12.5px;">৳${t.amount}</td>
-                        <td style="text-align: left; font-size: 10.5px;">
+                        <td style="text-align: left; font-size: 10.5px; word-break: break-word;">
                             <b style="display:block; color:var(--text-primary);">${t.method || 'বিকাশ'}</b>
-                            <span style="color:var(--text-secondary); font-size: 10px;">${t.trx || ''}</span>
+                            <span style="color:var(--text-secondary); font-size: 10px; word-break: break-all;">${t.trx || ''}</span>
                         </td>
-                        <td style="text-align: center;">
-                            <div style="display:flex; gap:3px; justify-content:center;">
-                                <button style="background:#f26419; color:white; border:none; width:26px; height:26px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;" onclick="openTxnEdit('${id}', '${t.id}')" title="সংশোধন">
-                                    <i class="fas fa-edit" style="font-size:10px;"></i>
+                        <td style="text-align: center; white-space: nowrap !important;">
+                            <div style="display:flex; gap:4px; justify-content:center; align-items:center;">
+                                <button style="background:#f26419; color:white; border:none; width:28px; height:28px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;" onclick="openTxnEdit('${id}', '${t.id}')" title="সংশোধন">
+                                    <i class="fas fa-edit" style="font-size:11px;"></i>
                                 </button>
-                                <button style="background:#0a5c3a; color:white; border:none; width:26px; height:26px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;" onclick="downloadReceipt('${id}', '${t.id}')" title="রসিদ">
-                                    <i class="fas fa-receipt" style="font-size:10px;"></i>
+                                <button style="background:#0a5c3a; color:white; border:none; width:28px; height:28px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;" onclick="downloadReceipt('${id}', '${t.id}')" title="রসিদ">
+                                    <i class="fas fa-receipt" style="font-size:11px;"></i>
                                 </button>
                             </div>
                         </td>
@@ -2458,6 +2645,7 @@
         }
     }
 
+    // সদস্য অ্যাকাউন্ট স্থায়ী ডিলিট (শুধুমাত্র সুপার অ্যাডমিন)
     async function permanentDeleteUser() { 
         if (curId !== SUPER_ADMIN_ID) {
             return customAlert("সদস্য ডিলিট করার অনুমতি শুধুমাত্র সুপার অ্যাডমিনের আছে!");
@@ -2675,8 +2863,7 @@
                 } else if (isPaymentList) {
                     const statusColor = r.status === 'পরিশোধিত' ? '#0a5c3a' : '#d90429';
                     const amtStr = r.status === 'পরিশোধিত' ? `৳${r.rawAmount || r.amount}` : `বকেয়া: ৳${r.dues || 0} (সঞ্চয়: ৳${r.balance || 0})`;
- 
-const detailStr = r.status === 'পরিশোধিত' ? `${r.method || 'বিকাশ'} (${r.trx || ''})` : 'জমা হয়নি';
+                    const detailStr = r.status === 'পরিশোধিত' ? `${r.method || 'বিকাশ'} (${r.trx || ''})` : 'জমা হয়নি';
 
                     fullHTML += `
                     <tr style="background: ${rowBg}; height: 35px;">
@@ -3431,3 +3618,4 @@ const detailStr = r.status === 'পরিশোধিত' ? `${r.method || 'ব�
 </script>
 </body>
 </html>
+
