@@ -617,7 +617,21 @@
                 <div id="dueRemMsg" style="font-size:12.5px; line-height:1.5;"></div>
             </div>
         </div>
-
+<!-- ✨ প্রিমিয়াম AI সহকারী স্মার্ট কার্ড -->
+        <div class="ai-smart-card" onclick="toggleSopnoAI()">
+            <div class="ai-card-content">
+                <div class="ai-icon-circle">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-text-box">
+                    <b>স্বপ্নযাত্রা AI সহকারী</b>
+                    <small>যেকোনো তথ্য জানতে এখানে প্রশ্ন করুন</small>
+                </div>
+            </div>
+            <div class="ai-card-badge">
+                <span>কথোপকথন</span> <i class="fas fa-comment-dots"></i>
+            </div>
+        </div>
         <h4 style="margin: 12px 0 8px 5px; font-size: 14px; color: var(--primary); font-weight: 700;">ক্যাটাগরি সমূহ</h4>
         
         <div class="grid" style="display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 16px 20px !important;">
@@ -640,7 +654,7 @@
             <div class="menu-item" style="flex: 0 0 72px !important;" onclick="showPage('devPage')">
                 <i class="fas fa-user-gear"></i><span>ডেভেলপার</span>
             </div>
-        </div>
+ </div>
         <div class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগ আউট করুন</div>
     </div>
 
@@ -3616,5 +3630,329 @@
 
     document.addEventListener("DOMContentLoaded", initApp);
 </script>
+<!-- ================== SOPNOJATRA AI ASSISTANT START ================== -->
+<style>
+    /* ✨ প্রিমিয়াম AI সহকারী ব্যানার কার্ড ডিজাইন */
+    .ai-smart-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        border: 1.5px solid #dbeafe;
+        border-radius: 20px;
+        padding: 14px 18px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 8px 22px rgba(37, 99, 235, 0.08);
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+    .ai-smart-card:active {
+        transform: scale(0.98);
+        background: #ebf5ff;
+    }
+    .ai-card-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+    }
+    .ai-icon-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        flex-shrink: 0;
+    }
+    .ai-text-box b {
+        display: block;
+        font-size: 13.5px;
+        color: #1e293b;
+        font-weight: 800;
+        margin-bottom: 2px;
+    }
+    .ai-text-box small {
+        font-size: 11px;
+        color: #64748b;
+        font-weight: 600;
+        display: block;
+    }
+    .ai-card-badge {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* চ্যাট বক্স উইন্ডো */
+    #sopno-ai-window {
+        position: fixed;
+        bottom: 85px;
+        right: 15px;
+        width: 330px;
+        max-width: calc(100vw - 30px);
+        height: 470px;
+        max-height: 72vh;
+        background: #ffffff;
+        border-radius: 22px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999999;
+        border: 1px solid #e2e8f0;
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        animation: sopnoFadeUp 0.3s ease;
+    }
+    @keyframes sopnoFadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* চ্যাট হেডার */
+    .sopno-ai-head {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .sopno-ai-head h4 {
+        margin: 0;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .sopno-ai-close {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    /* মেসেজ হিস্ট্রি */
+    #sopno-ai-msgs {
+        flex: 1;
+        padding: 14px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: #f8fafc;
+    }
+    .sopno-msg {
+        max-width: 82%;
+        padding: 10px 14px;
+        border-radius: 14px;
+        font-size: 13.5px;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+    .sopno-bot {
+        align-self: flex-start;
+        background: #ffffff;
+        color: #1e293b;
+        border: 1px solid #e2e8f0;
+        border-bottom-left-radius: 4px;
+    }
+    .sopno-user {
+        align-self: flex-end;
+        background: #1a73e8;
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    .sopno-typing {
+        font-style: italic;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    /* ইনপুট এরিয়া */
+    .sopno-ai-bottom {
+        display: flex;
+        padding: 10px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        gap: 8px;
+    }
+    #sopno-ai-input {
+        flex: 1;
+        border: 1px solid #cbd5e1;
+        padding: 9px 14px;
+        border-radius: 20px;
+        outline: none;
+        font-size: 13.5px;
+    }
+    #sopno-ai-input:focus {
+        border-color: #1a73e8;
+    }
+    #sopno-ai-send {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    #sopno-ai-send svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+    }
+</style>
+
+<!-- চ্যাট বক্স উইন্ডো -->
+<div id="sopno-ai-window">
+    <div class="sopno-ai-head">
+        <h4>✨ স্বপ্নযাত্রা AI সহকারী</h4>
+        <button class="sopno-ai-close" onclick="toggleSopnoAI()">&times;</button>
+    </div>
+    <div id="sopno-ai-msgs">
+        <div class="sopno-msg sopno-bot">
+            আসসালামু আলাইকুম! আমি <b>স্বপ্নযাত্রা ২০০৫</b>-এর এআই সহকারী। সমিতি সম্পর্কে যেকোনো প্রশ্ন করতে পারেন।
+        </div>
+    </div>
+    <div class="sopno-ai-bottom">
+        <input type="text" id="sopno-ai-input" placeholder="এখানে প্রশ্ন লিখুন..." onkeypress="if(event.key==='Enter') sendSopnoAIMsg()">
+        <button id="sopno-ai-send" onclick="sendSopnoAIMsg()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    // 👉 আপনার আসল Gemini API Key এখানে বসাবেন
+    const SOPNO_AI_KEY = "AQ.Ab8RN6IJpFIqOU-D61yJrl3JmX97HNwTO8mH_OY1P4Z4lvRTcg";
+
+    function toggleSopnoAI() {
+        const win = document.getElementById('sopno-ai-window');
+        win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        if (win.style.display === 'flex') {
+            document.getElementById('sopno-ai-input').focus();
+        }
+    }
+
+    async function sendSopnoAIMsg() {
+        const inp = document.getElementById('sopno-ai-input');
+        const box = document.getElementById('sopno-ai-msgs');
+        const query = inp.value.trim();
+
+        if (!query) return;
+
+        appendSopnoMsg(query, 'user');
+        inp.value = '';
+
+        if (!SOPNO_AI_KEY || SOPNO_AI_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+            appendSopnoMsg("⚠️ আপনার Gemini API Key বসানো হয়নি! অনুগ্রহ করে কোডের ভেতর আসল API Key দিন।", 'bot');
+            return;
+        }
+
+        const loader = document.createElement('div');
+        loader.className = 'sopno-typing';
+        loader.id = 'sopno-loading';
+        loader.innerText = 'উত্তর তৈরি হচ্ছে...';
+        box.appendChild(loader);
+        box.scrollTop = box.scrollHeight;
+
+        const systemPrompt = `তুমি 'স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি' (Shopnojatra 2005)-এর অফিসিয়াল ভার্চুয়াল এআই অ্যাসিস্ট্যান্ট। তোমার দায়িত্ব হলো সদস্যদের সকল প্রশ্নের সঠিক, মার্জিত, শ্রদ্ধাশীল এবং খাঁটি বাংলায় উত্তর দেওয়া।
+
+সমিতির প্রধান নিয়মাবলী ও তথ্যাবলী:
+১. সমিতির নাম: স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি।
+২. মাসিক সঞ্চয়ের পরিমাণ: প্রতি মাসে নির্ধারিত সঞ্চয় ঠিক ১,০০০ (এক হাজার) টাকা।
+৩. জমার সময়সীমা: প্রতি মাসের ১ তারিখ থেকে ১৫ তারিখের মধ্যে চলতি মাসের সঞ্চয় পরিশোধ করতে হবে।
+৪. বকেয়া নিয়ম: চলতি মাসের ১৫ তারিখ পার হয়ে গেলে তা বকেয়া হয় এবং ড্যাশবোর্ডে রেড এলার্ট আসে।
+৫. সদস্যপদ বাতিল সংক্রান্ত কঠোর নিয়ম (খুব গুরুত্বপূর্ণ): যদি কোনো সদস্য পরপর ৩ (তিন) মাস সঞ্চয় জমা না দেয়, তবে সমিতির নিয়ম অনুযায়ী তার 'সদস্যপদ স্থায়ীভাবে বাতিল' করা হবে। সদস্যরা সঞ্চয় বা বকেয়া সম্পর্কে জানতে চাইলে এই বিষয়টি গুরুত্ব সহকারে মনে করিয়ে দেবে।
+৬. টাকা পরিশোধের নিয়ম (পেমেন্ট পদ্ধতি): বিকাশ অথবা নগদ পার্সোনাল নাম্বার: 01675564435 (শাহাবুদ্দিন রাজা)। টাকা পাঠিয়ে অ্যাপের 'অ্যাড ফান্ড' পেজে গিয়ে জমার তারিখ, টাকার পরিমাণ, যে যে মাসের টাকা দিচ্ছেন তা সিলেক্ট করে এবং TrxID দিয়ে রিকোয়েস্ট পাঠাতে হবে। অ্যাডমিন অনুমোদন করলে অ্যাকাউন্টে জমা হবে।
+৭. মানি রসিদ: টাকা অনুমোদিত হলে অ্যাপের 'ইতিহাস' পেজ থেকে ডিজিটাল মানি রসিদ ডাউনলোড করা যাবে।
+৮. পাসওয়ার্ড সমস্যা: পাসওয়ার্ড ভুলে গেলে সুপার অ্যাডমিন বা শাহাবুদ্দিন রাজার সাথে যোগাযোগের পরামর্শ দেবে।
+৯. পরিচালনা পর্ষদ ও যোগাযোগ: সুপার অ্যাডমিন ও ডেভেলপার: মোঃ আজমল হোসেন (ID: 2005013, মোবাইল: 0191262931)। টেকনিক্যাল সাপোর্ট ও ক্যাশিয়ার: শাহাবুদ্দিন রাজা (মোবাইল: 01675564435)।
+
+উত্তর দেওয়ার নিয়ম:
+- সর্বদা অমায়িক, শ্রদ্ধাশীল ও সুন্দর বাংলায় সংক্ষেপে উত্তর দেবে।`;
+
+        // 👉 ট্রাফিক-ফ্রি ও হাই-স্পিড মডেলসমূহ
+        const stableModels = [
+            "gemini-2.5-flash-lite",
+            "gemini-3.5-flash-lite",
+            "gemini-3.6-flash",
+            "gemini-3.8-flash"
+        ];
+
+        let success = false;
+        let lastError = "";
+
+        for (let model of stableModels) {
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${SOPNO_AI_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: query }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
+                    const loadEl = document.getElementById('sopno-loading');
+                    if (loadEl) loadEl.remove();
+
+                    let txt = data.candidates[0].content.parts[0].text;
+                    txt = txt.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                    appendSopnoMsg(txt, 'bot', true);
+                    success = true;
+                    break; // ✅ সফল হলে লুপ শেষ
+                } else if (data.error) {
+                    lastError = data.error.message;
+                    // হাই ডিমান্ড বা কোনো এরর দিলে স্বয়ংক্রিয়ভাবে পরের মডেলে চলে যাবে
+                    continue;
+                }
+            } catch (err) {
+                lastError = err.message;
+                continue;
+            }
+        }
+
+        if (!success) {
+            const loadEl = document.getElementById('sopno-loading');
+            if (loadEl) loadEl.remove();
+            appendSopnoMsg("⚠️ " + (lastError || "সাময়িক সমস্যা, অনুগ্রহ করে পুনরায় প্রশ্নটি পাঠান।"), 'bot');
+        }
+    }
+
+    function appendSopnoMsg(text, type, isHtml = false) {
+        const box = document.getElementById('sopno-ai-msgs');
+        const d = document.createElement('div');
+        d.className = `sopno-msg sopno-${type}`;
+        if (isHtml) d.innerHTML = text; else d.innerText = text;
+        box.appendChild(d);
+        box.scrollTop = box.scrollHeight;
+    }
+</script>
+<!-- ================== SOPNOJATRA AI ASSISTANT END ================== -->
 </body>
 </html>
+
+
