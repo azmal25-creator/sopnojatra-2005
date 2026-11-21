@@ -3385,45 +3385,84 @@
         showToast("কপি করা হয়েছে!");
     }
 
-    /* মানি রসিদ ডাউনলোড */
+    /* লোগো ও ডিজিটাল বারকোডসহ আধুনিক মানি রসিদ ডাউনলোড */
     async function downloadReceipt(uid, txnId) {
         toggleLoader(true);
+        let wrapper = null;
         try {
             let u = users[uid] || { name: "Member" };
             const t = currentKhataTxs[txnId] || Object.values(currentKhataTxs).find(x => String(x.id) === String(txnId));
             if (!t) { toggleLoader(false); return customAlert("লেনদেন পাওয়া যায়নি!"); }
 
-            const qrData = encodeURIComponent(`SHOPNOJATRA 2005\nID: ${uid}\nNAME: ${u.name}\nAMOUNT: BDT ${t.amount}\nSTATUS: PAID`);
+            // 👉 নতুন রাউন্ড লোগোটির আলাদা ImgBB লিংক থাকলে এখানে FINAL_LOGO_URL এর বদলে সেটি বসিয়ে দিতে পারবেন
+            const RECEIPT_LOGO_URL = "https://i.ibb.co.com/gb63ZYs1/20261121-121837.webp";
+
+            // 👉 ডিজিটাল বারকোড (CODE128) তৈরি
+            let barcodeImgHTML = "";
+            try {
+                if (typeof JsBarcode !== "undefined") {
+                    const bcCanvas = document.createElement('canvas');
+                    const bcValue = (`SJ2005-${uid}-${t.id}`).replace(/[^\x20-\x7E]/g, '') || `SJ2005-${t.id}`;
+                    JsBarcode(bcCanvas, bcValue, {
+                        format: "CODE128",
+                        lineColor: "#0f172a",
+                        width: 2,
+                        height: 46,
+                        displayValue: true,
+                        fontSize: 12,
+                        font: "monospace",
+                        margin: 4,
+                        background: "#ffffff"
+                    });
+                    const barcodeDataUrl = bcCanvas.toDataURL("image/png");
+                    barcodeImgHTML = `<img src="${barcodeDataUrl}" style="height: 54px; max-width: 260px; object-fit: contain; display: block;">`;
+                }
+            } catch (bcErr) { console.error(bcErr); }
+
+            const qrData = encodeURIComponent(`SHOPNOJATRA 2005\nRECEIPT: #SJ-${t.id}\nID: ${uid}\nNAME: ${u.name}\nAMOUNT: BDT ${t.amount}\nDATE: ${t.date}\nSTATUS: PAID`);
             const qrCodeImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&margin=2&data=${qrData}`;
 
             const receiptHTML = `
-                <div style="width: 800px; padding: 25px; background: #ffffff; color: #0f172a; border: 2.5px solid #047857; border-radius: 16px; box-sizing: border-box; text-align: left;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #047857; padding-bottom: 12px;">
-                        <div>
-                            <h2 style="margin: 0; color: #047857; font-size: 24px; font-weight: 800;">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</h2>
-                            <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b;">ডিজিটাল অর্থ প্রাপ্তি রসিদ (Money Receipt)</p>
+                <div style="width: 800px; padding: 26px; background: #ffffff; color: #0f172a; border: 2.5px solid #047857; border-radius: 18px; box-sizing: border-box; text-align: left; position: relative; overflow: hidden;">
+                    <img src="${RECEIPT_LOGO_URL}" crossorigin="anonymous" style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 250px; object-fit: contain; opacity: 0.06; pointer-events: none;">
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #047857; padding-bottom: 14px; position: relative; z-index: 1;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <img src="${RECEIPT_LOGO_URL}" crossorigin="anonymous" style="width: 72px; height: 72px; border-radius: 50%; object-fit: contain; border: 2px solid #d1fae5; background: #ffffff; padding: 2px;">
+                            <div>
+                                <h2 style="margin: 0; color: #047857; font-size: 23px; font-weight: 800;">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</h2>
+                                <p style="margin: 2px 0 0 0; font-size: 12px; color: #0284c7; font-weight: 700;">বন্ধুত্ব | সঞ্চয় | প্রবৃত্তি</p>
+                                <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b; font-weight: 600;">ডিজিটাল অর্থ প্রাপ্তি রসিদ (Money Receipt)</p>
+                            </div>
                         </div>
                         <div style="text-align: right;">
-                            <span style="background: #047857; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px;">PAID</span>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;">তারিখ: ${t.date}</div>
+                            <span style="background: #047857; color: white; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; display: inline-block;">✓ VERIFIED PAID</span>
+                            <div style="font-size: 11.5px; color: #0f172a; font-weight: 700; margin-top: 6px;">রসিদ নং: #SJ-${t.id}</div>
+                            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">তারিখ: ${t.date}</div>
                         </div>
                     </div>
 
-                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
-                        <tr><td style="padding: 8px; border: 1px solid #e2e8f0; width: 25%; font-weight:bold;">সদস্য নাম:</td><td style="padding: 8px; border: 1px solid #e2e8f0; font-weight:800;">${u.name}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid #e2e8f0; font-weight:bold;">সদস্য আইডি:</td><td style="padding: 8px; border: 1px solid #e2e8f0; font-weight:800; color:#047857;">${uid}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid #e2e8f0; font-weight:bold;">জমার মাস:</td><td style="padding: 8px; border: 1px solid #e2e8f0;">${t.months}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid #e2e8f0; font-weight:bold;">মাধ্যম ও TrxID:</td><td style="padding: 8px; border: 1px solid #e2e8f0;">${t.method || 'বিকাশ'} (${t.trx || 'N/A'})</td></tr>
-                        <tr style="background:#f0fdf4;"><td style="padding: 10px; border: 1px solid #e2e8f0; font-weight:bold; font-size:16px; color:#047857;">গৃহীত পরিমাণ:</td><td style="padding: 10px; border: 1px solid #e2e8f0; font-weight:900; font-size:20px; color:#047857;">৳${t.amount}/-</td></tr>
+                    <table style="width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; position: relative; z-index: 1;">
+                        <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; width: 28%; font-weight:bold; background: rgba(248,250,252,0.85);">সদস্যের নাম:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:800;">${u.name}</td></tr>
+                        <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(248,250,252,0.85);">সদস্য আইডি:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:800; color:#047857;">${uid}</td></tr>
+                        <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(248,250,252,0.85);">জমার মাসসমূহ:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:600;">${t.months}</td></tr>
+                        <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(248,250,252,0.85);">মাধ্যম ও TrxID:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1;">${t.method || 'বিকাশ'} (${t.trx || 'N/A'})</td></tr>
+                        <tr style="background: rgba(236,253,245,0.92);"><td style="padding: 11px 12px; border: 1px solid #cbd5e1; font-weight:bold; font-size:16px; color:#047857;">গৃহীত পরিমাণ:</td><td style="padding: 11px 12px; border: 1px solid #cbd5e1; font-weight:900; font-size:21px; color:#047857;">৳${parseFloat(t.amount || 0).toLocaleString('bn-BD')}/-</td></tr>
                     </table>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
-                        <span style="font-size: 11px; color: #64748b;">* স্বয়ংক্রিয় ডিজিটাল রসিদ, স্বাক্ষরের প্রয়োজন নেই।</span>
-                        <img src="${qrCodeImgUrl}" crossorigin="anonymous" style="width: 60px; height: 60px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px dashed #cbd5e1; padding-top: 12px; position: relative; z-index: 1;">
+                        <div>
+                            ${barcodeImgHTML}
+                            <span style="font-size: 11px; color: #64748b; display: block; margin-top: 4px;">* স্বয়ংক্রিয় ডিজিটাল রসিদ, আলাদা স্বাক্ষরের প্রয়োজন নেই।</span>
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="${qrCodeImgUrl}" crossorigin="anonymous" style="width: 64px; height: 64px; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px;">
+                            <small style="display: block; font-size: 9px; font-weight: 700; color: #64748b; margin-top: 2px;">SCAN TO VERIFY</small>
+                        </div>
                     </div>
                 </div>`;
 
-            const wrapper = document.createElement('div');
+            wrapper = document.createElement('div');
             wrapper.style.cssText = 'position:fixed; top:0; left:0; width:0; height:0; overflow:hidden;';
             const container = document.createElement('div');
             container.style.cssText = 'width:800px; background:white;';
@@ -3432,7 +3471,7 @@
             document.body.appendChild(wrapper);
 
             await waitForImages(container);
-            const canvas = await html2canvasWithTimeout(container.firstElementChild, { scale: 2 });
+            const canvas = await html2canvasWithTimeout(container.firstElementChild, { scale: 2, useCORS: true });
             const imgData = canvas.toDataURL('image/jpeg', 0.98);
             const filename = `Receipt_${uid}_${t.id}.jpg`;
 
@@ -3446,15 +3485,15 @@
                 document.body.removeChild(link); 
             }
 
-            wrapper.remove(); 
             toggleLoader(false); 
             showToast("রসিদ ডাউনলোড হয়েছে!");
         } catch (e) { 
             toggleLoader(false); 
             customAlert("রসিদ তৈরিতে ত্রুটি!"); 
+        } finally {
+            if (wrapper) wrapper.remove();
         }
     }
-
     async function submitFund() {
         const fDate = document.getElementById('fDate').value;
         const fAmt = parseFloat(document.getElementById('fAmt').value);
