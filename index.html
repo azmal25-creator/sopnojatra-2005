@@ -375,7 +375,43 @@
         .filter-tab { flex: 1; text-align: center; padding: 8px; font-size: 11px; color: var(--sk-text-muted); cursor: pointer; border-radius: 9px; font-weight: 800; transition: 0.2s; white-space: nowrap; }
         .filter-tab.active-tab { background: var(--sk-primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
         .report-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13.5px; }
-        .dot-badge { width: 6px; height: 6px; background: #dc2626; border-radius: 50%; display: none; position: absolute; top: 4px; right: 2px; }
+        ./* ================= সংখ্যাযুক্ত আধুনিক পালসিং ব্যাজ ================= */
+.dot-badge {
+    display: none;
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: #dc2626;
+    color: #ffffff !important;
+    font-size: 9.5px;
+    font-weight: 800;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+    animation: modernPulse 1.8s infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes modernPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+    }
+    70% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 5px rgba(220, 38, 38, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    }
+}
 
         /* ==================== STANDARD MODERN APP LOADER ==================== */
         #globalLoader {
@@ -538,6 +574,24 @@
             height: 17px !important;
             fill: white !important;
         }
+        
+        /* পেমেন্ট ও ভেরিফাই ব্যাজের আসল গোল ডিজাইন ও কালার */
+.admin-tab .dot-badge {
+    display: none;
+    background: #dc2626 !important; /* উজ্জ্বল লাল ব্যাকগ্রাউন্ড */
+    color: #ffffff !important;       /* স্পষ্ট সাদা সংখ্যা */
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    min-width: 15px !important;
+    height: 15px !important;
+    border-radius: 50% !important;
+    padding: 0 3px !important;
+    margin-left: 4px !important;
+    vertical-align: middle !important;
+    box-shadow: 0 2px 5px rgba(220, 38, 38, 0.4) !important;
+    line-height: 15px !important;
+    text-align: center !important;
+}
     </style>
 </head>
 <body>
@@ -1000,7 +1054,39 @@
                     <button class="btn" style="background: #dc2626; flex: 1; margin-top: 0; padding: 9px;" onclick="showPaymentListPage('unpaid')">নন-পেমেন্ট লিস্ট</button>
                 </div>
             </div>
-
+<!-- তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট (DD.MM.YY ফরম্যাট) -->
+            <div class="card" style="text-align: left; padding: 14px; margin-bottom: 14px;">
+                <h3 style="color: var(--sk-primary); font-size: 13.5px; margin-bottom: 10px; justify-content: flex-start;">
+                    <i class="fas fa-calendar-alt"></i> তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট
+                </h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div>
+                        <small style="font-size: 10.5px; font-weight: 700; color: var(--sk-text-muted);">শুরুর তারিখ:</small>
+                        <div style="position: relative; margin-top: 4px; height: 46px; background: #ffffff; border: 1.5px solid var(--sk-border); border-radius: 12px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box;">
+                            <span id="stmtFromDisp" style="font-size: 13px; font-weight: 700; color: var(--sk-text-main);">DD.MM.YY</span>
+                            <i class="fas fa-calendar-alt" style="color: var(--sk-primary); font-size: 14px;"></i>
+                            <input type="date" id="stmtFromDate" onchange="syncStmtDateDisp()" onclick="try{this.showPicker()}catch(e){}" style="position: absolute; inset: 0; width: 100%; height: 100%; min-height: 46px; opacity: 0; margin: 0; padding: 0; cursor: pointer;">
+                        </div>
+                    </div>
+                    <div>
+                        <small style="font-size: 10.5px; font-weight: 700; color: var(--sk-text-muted);">শেষ তারিখ:</small>
+                        <div style="position: relative; margin-top: 4px; height: 46px; background: #ffffff; border: 1.5px solid var(--sk-border); border-radius: 12px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box;">
+                            <span id="stmtToDisp" style="font-size: 13px; font-weight: 700; color: var(--sk-text-main);">DD.MM.YY</span>
+                            <i class="fas fa-calendar-alt" style="color: var(--sk-primary); font-size: 14px;"></i>
+                            <input type="date" id="stmtToDate" onchange="syncStmtDateDisp()" onclick="try{this.showPicker()}catch(e){}" style="position: absolute; inset: 0; width: 100%; height: 100%; min-height: 46px; opacity: 0; margin: 0; padding: 0; cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button class="btn" style="flex: 1; margin-top: 0; padding: 9px; font-size: 12.5px;" onclick="loadDateWiseStatement()">
+                        <i class="fas fa-table"></i> স্টেটমেন্ট দেখুন
+                    </button>
+                    <button class="btn" style="flex: 1; margin-top: 0; padding: 9px; font-size: 12.5px; background: #dc2626;" onclick="downloadDateWiseStatementPDF()">
+                        <i class="fas fa-file-pdf"></i> PDF ডাউনলোড
+                    </button>
+                </div>
+                <div id="dateWiseStmtResult" style="margin-top: 12px;"></div>
+            </div>
             <div class="search-container">
                 <i class="fas fa-search"></i>
                 <input type="text" id="khataSrch" placeholder="আইডি বা নাম দিয়ে খুঁজুন..." onkeyup="filterKhata()">
@@ -2257,7 +2343,10 @@
 
         getSortedUserIds().forEach(id => {
             const u = users[id];
-            if(u.status === "Approved" || !u.status) {
+            if(u.status === "Pending") { 
+                pV++; 
+                vl.innerHTML += `<div class="card"><b>${u.name}</b> (ID: ${id})<div style="display:flex;gap:10px;margin-top:10px;"><button class="btn" style="background:#16a34a;flex:1" onclick="approveMember('${id}')">Approve</button><button class="btn" style="background:#dc2626;flex:1" onclick="rejectMember('${id}')">Reject</button></div></div>`; 
+            } else { 
                 approvedCount++;
                 let avatarHTML = u.avatar_url ? `<img src="${u.avatar_url}" style="width:24px; height:24px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:6px;" alt="avatar">` : '';
                 mTableHTML += `
@@ -2270,9 +2359,6 @@
                             <button class="tbl-btn" onclick="event.stopPropagation(); openMemberDetails('${id}')"><i class="fas fa-eye"></i></button>
                         </td>
                     </tr>`;
-            } else { 
-                pV++; 
-                vl.innerHTML += `<div class="card"><b>${u.name}</b> (ID: ${id})<div style="display:flex;gap:10px;margin-top:10px;"><button class="btn" style="background:#16a34a;flex:1" onclick="approveMember('${id}')">Approve</button><button class="btn" style="background:#dc2626;flex:1" onclick="rejectMember('${id}')">Reject</button></div></div>`; 
             }
         });
 
@@ -2661,12 +2747,29 @@
         const l = document.getElementById('pList'); if(!l) return; l.innerHTML = "";
         let pP = data ? data.length : 0;
         document.getElementById('pBadgeVal').innerText = pP + " টি";
-        const badge = document.getElementById('vBadge'); if(badge) badge.style.display = pP > 0 ? "block" : "none";
+        const badge = document.getElementById('pBadge');
+        if (badge) {
+            const toBn = n => n.toString().replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+            badge.innerText = toBn(pP);
+            if (pP > 0) {
+                badge.style.cssText = "display: inline-flex !important; position: absolute !important; top: 2px !important; right: 2px !important; background: #dc2626 !important; color: #ffffff !important; font-size: 8.5px !important; font-weight: 800 !important; min-width: 14px !important; height: 14px !important; border-radius: 10px !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; padding: 0 2px !important; box-shadow: 0 1px 4px rgba(220, 38, 38, 0.5) !important;";
+            } else {
+                badge.style.display = "none";
+            }
+        }
+
+        if(!data || data.length === 0) {
+            l.innerHTML = "<center><small style='color:var(--sk-text-muted);'>কোনো পেন্ডিং রিকোয়েস্ট নেই</small></center>";
+            return;
+        }
+        // ...বাকি অংশ অপরিবর্তিত থাকবে
+        // ...বাকি অংশ অপরিবর্তিত থাকবে
         
         if(!data || data.length === 0) {
             l.innerHTML = "<center><small style='color:var(--sk-text-muted);'>কোনো পেন্ডিং রিকোয়েস্ট নেই</small></center>";
             return;
         }
+        // ...বাকি অংশ অপরিবর্তিত থাকবে
         
         data.forEach(r => {
             l.innerHTML += `
@@ -2851,19 +2954,36 @@
     
     function updateVerifyBadge() {
         let pV = 0;
-        for (let id in users) { if(users[id].status !== "Approved") pV++; }
+        for (let id in users) { 
+            if(users[id].status === "Pending") pV++; 
+        }
         document.getElementById('vBadgeVal').innerText = pV + " জন";
         const b = document.getElementById('vBadge');
-        if (b) b.style.display = pV > 0 ? "block" : "none";
+        if (b) {
+            const toBn = n => n.toString().replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+            b.innerText = toBn(pV);
+            if (pV > 0) {
+                b.style.cssText = "display: inline-flex !important; position: absolute !important; top: 2px !important; right: 2px !important; background: #dc2626 !important; color: #ffffff !important; font-size: 8.5px !important; font-weight: 800 !important; min-width: 14px !important; height: 14px !important; border-radius: 10px !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; padding: 0 2px !important; box-shadow: 0 1px 4px rgba(220, 38, 38, 0.5) !important;";
+            } else {
+                b.style.display = "none";
+            }
+        }
     }
     
     function updatePaymentBadge(data) {
         let pP = data ? data.length : 0;
         document.getElementById('pBadgeVal').innerText = pP + " টি";
-        const b = document.getElementById('vBadge');
-        if (b) b.style.display = pP > 0 ? "block" : "none";
+        const b = document.getElementById('pBadge');
+        if (b) {
+            const toBn = n => n.toString().replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+            b.innerText = toBn(pP);
+            if (pP > 0) {
+                b.style.cssText = "display: inline-flex !important; position: absolute !important; top: 2px !important; right: 2px !important; background: #dc2626 !important; color: #ffffff !important; font-size: 8.5px !important; font-weight: 800 !important; min-width: 14px !important; height: 14px !important; border-radius: 10px !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; padding: 0 2px !important; box-shadow: 0 1px 4px rgba(220, 38, 38, 0.5) !important;";
+            } else {
+                b.style.display = "none";
+            }
+        }
     }
-
     function showAdminTab(id, el) {
         document.querySelectorAll('.admin-sub-page').forEach(p => p.style.display = 'none');
         document.getElementById(id).style.display = 'block';
@@ -3510,6 +3630,351 @@
         box.appendChild(d);
         box.scrollTop = box.scrollHeight;
     }
+</script>
+<!-- ==================== DATE-WISE STATEMENT & PDF SCRIPT ==================== -->
+<script>
+    function formatToDDMMYY(dateStr) {
+        if (!dateStr) return '---';
+        const bnToEn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
+        const clean = bnToEn(dateStr).trim();
+
+        let m = clean.match(/^(\d{4})[-\/\.](\d{1,2})[-\/\.](\d{1,2})$/);
+        if (m) {
+            return `${m[3].padStart(2, '0')}.${m[2].padStart(2, '0')}.${m[1].slice(-2)}`;
+        }
+        m = clean.match(/^(\d{1,2})[-\/\.](\d{1,2})[-\/\.](\d{2,4})$/);
+        if (m) {
+            return `${m[1].padStart(2, '0')}.${m[2].padStart(2, '0')}.${m[3].slice(-2)}`;
+        }
+        return dateStr;
+    }
+
+    function syncStmtDateDisp() {
+        const fromVal = document.getElementById('stmtFromDate')?.value || '';
+        const toVal = document.getElementById('stmtToDate')?.value || '';
+        const fromDisp = document.getElementById('stmtFromDisp');
+        const toDisp = document.getElementById('stmtToDisp');
+
+        if (fromDisp) {
+            fromDisp.innerText = fromVal ? formatToDDMMYY(fromVal) : 'DD.MM.YY';
+            fromDisp.style.color = fromVal ? 'var(--sk-text-main)' : 'var(--sk-text-muted)';
+        }
+        if (toDisp) {
+            toDisp.innerText = toVal ? formatToDDMMYY(toVal) : 'DD.MM.YY';
+            toDisp.style.color = toVal ? 'var(--sk-text-main)' : 'var(--sk-text-muted)';
+        }
+    }
+
+    function initDateWiseStmtInputs() {
+        const fromEl = document.getElementById('stmtFromDate');
+        const toEl = document.getElementById('stmtToDate');
+        if (!fromEl || !toEl) return;
+
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+        const firstDayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-01`;
+
+        if (!fromEl.value) fromEl.value = firstDayStr;
+        if (!toEl.value) toEl.value = todayStr;
+        syncStmtDateDisp();
+    }
+
+    function parseStmtDateNum(dateStr) {
+        if (!dateStr) return 0;
+        const bnToEn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
+        const clean = bnToEn(dateStr).trim();
+
+        let m = clean.match(/^(\d{4})[-\/\.](\d{1,2})[-\/\.](\d{1,2})$/);
+        if (m) return parseInt(m[1] + m[2].padStart(2, '0') + m[3].padStart(2, '0'), 10);
+
+        m = clean.match(/^(\d{1,2})[-\/\.](\d{1,2})[-\/\.](\d{2,4})$/);
+        if (m) {
+            const yr = m[3].length === 2 ? '20' + m[3] : m[3];
+            return parseInt(yr + m[2].padStart(2, '0') + m[1].padStart(2, '0'), 10);
+        }
+        return 0;
+    }
+
+    function escStmtHtml(str) {
+        return String(str ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    async function fetchDateWiseTransactions() {
+        const fromVal = document.getElementById('stmtFromDate')?.value || '';
+        const toVal = document.getElementById('stmtToDate')?.value || '';
+
+        const fromNum = fromVal ? parseInt(fromVal.replace(/-/g, ''), 10) : 0;
+        const toNum = toVal ? parseInt(toVal.replace(/-/g, ''), 10) : 99999999;
+
+        if (fromVal && toVal && fromNum > toNum) {
+            customAlert("শুরুর তারিখ শেষ তারিখের চেয়ে বড় হতে পারবে না!");
+            return null;
+        }
+
+        const userNameMap = {};
+        if (typeof users === 'object' && users && Object.keys(users).length > 0) {
+            for (const uid in users) {
+                if (users[uid]) {
+                    userNameMap[String(uid).trim().toLowerCase()] = users[uid].name || uid;
+                }
+            }
+        } else {
+            const { data: uList } = await supabaseClient.from('users').select('id, name');
+            if (uList) {
+                uList.forEach(u => {
+                    userNameMap[String(u.id).trim().toLowerCase()] = u.name || u.id;
+                });
+            }
+        }
+
+        const { data: txs, error } = await supabaseClient
+            .from('transactions')
+            .select('*')
+            .eq('status', 'Approved');
+
+        if (error) {
+            customAlert("লেনদেন লোড করতে সমস্যা হয়েছে!");
+            return null;
+        }
+
+        const hasFilter = !!(fromVal || toVal);
+        const filtered = [];
+
+        (txs || []).forEach(t => {
+            const dNum = parseStmtDateNum(t.date);
+            if (hasFilter) {
+                if (dNum === 0 || dNum < fromNum || dNum > toNum) return;
+            }
+            const uidKey = String(t.user_id || '').trim().toLowerCase();
+            filtered.push({
+                ...t,
+                _dNum: dNum,
+                _dispDate: formatToDDMMYY(t.date),
+                _userName: userNameMap[uidKey] || t.user_id || '---'
+            });
+        });
+
+        filtered.sort((a, b) => (a._dNum - b._dNum) || (Number(a.id || 0) - Number(b.id || 0)));
+
+        const totalAmount = filtered.reduce((sum, t) => sum + parseFloat(t.amount || 0), 0);
+
+        return { list: filtered, fromVal, toVal, totalAmount };
+    }
+
+    function renderDateWiseStmtTable(res) {
+        const resultEl = document.getElementById('dateWiseStmtResult');
+        if (!resultEl || !res) return;
+
+        const { list, fromVal, toVal, totalAmount } = res;
+        const toBn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+        const rangeLabel = (fromVal && toVal)
+            ? `${formatToDDMMYY(fromVal)} হতে ${formatToDDMMYY(toVal)}`
+            : (fromVal ? `${formatToDDMMYY(fromVal)} হতে` : (toVal ? `${formatToDDMMYY(toVal)} পর্যন্ত` : 'সকল তারিখ'));
+
+        let headerSummary = `
+            <div style="background: #f8fafc; border: 1px solid var(--sk-border); border-radius: 10px; padding: 9px 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 11px;">
+                <div>
+                    <span style="color: var(--sk-text-muted); font-weight: 700;">সময়কাল:</span>
+                    <b style="color: var(--sk-primary);">${rangeLabel}</b>
+                </div>
+                <div>
+                    <span style="background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 6px; font-weight: 800; margin-right: 3px;">${toBn(list.length)} টি</span>
+                    <span style="background: #dcfce7; color: #047857; padding: 2px 7px; border-radius: 6px; font-weight: 800;">মোট: ৳${totalAmount.toLocaleString('bn-BD')}</span>
+                </div>
+            </div>
+        `;
+
+        if (list.length === 0) {
+            resultEl.innerHTML = headerSummary + `
+                <div style="text-align: center; padding: 18px; background: #f8fafc; border-radius: 12px; color: var(--sk-text-muted); font-size: 12px; border: 1px dashed var(--sk-border);">
+                    নির্বাচিত তারিখে কোনো অনুমোদিত ট্রাঞ্জেকশন পাওয়া যায়নি
+                </div>`;
+            return;
+        }
+
+        let rowsHTML = '';
+        list.forEach((t, idx) => {
+            rowsHTML += `
+                <tr>
+                    <td style="padding: 8px 3px !important; font-size: 9.5px; line-height: 1.25; word-break: break-word;">
+                        <span style="color: var(--sk-text-muted); font-weight: 800; display: block; font-size: 9px;">#${idx + 1}</span>
+                        <b style="color: var(--sk-text-main);">${escStmtHtml(t._dispDate)}</b>
+                    </td>
+                    <td style="padding: 8px 3px !important; text-align: left !important; line-height: 1.25; word-break: break-word;">
+                        <b style="font-size: 10.5px; color: var(--sk-text-main); display: block;">${escStmtHtml(t._userName)}</b>
+                        <span class="id-badge" style="font-size: 8.5px; padding: 1px 5px; margin-top: 2px;">${escStmtHtml(t.user_id || '---')}</span>
+                    </td>
+                    <td style="padding: 8px 3px !important; font-size: 9.5px; line-height: 1.25; word-break: break-word;">
+                        <b style="color: var(--sk-primary); display: block;">${escStmtHtml(t.months || '---')}</b>
+                        <span style="color: var(--sk-text-muted); font-size: 9px;">${escStmtHtml(t.method || 'বিকাশ')}</span>
+                        <small style="color: #64748b; font-family: monospace; font-size: 8.5px; display: block; word-break: break-all;">${escStmtHtml(t.trx || 'N/A')}</small>
+                    </td>
+                    <td style="padding: 8px 3px !important; font-weight: 800; color: #047857; font-size: 11px; word-break: break-word;">
+                        ৳${parseFloat(t.amount || 0).toLocaleString('bn-BD')}
+                    </td>
+                </tr>`;
+        });
+
+        resultEl.innerHTML = headerSummary + `
+            <div class="table-container" style="margin-bottom: 0; overflow-x: hidden !important;">
+                <table class="somiti-table" style="width: 100% !important; table-layout: fixed;">
+                    <thead>
+                        <tr>
+                            <th style="width: 21%; padding: 8px 3px !important; font-size: 10.5px !important;">তারিখ</th>
+                            <th style="width: 31%; padding: 8px 3px !important; font-size: 10.5px !important;">সদস্য</th>
+                            <th style="width: 27%; padding: 8px 3px !important; font-size: 10.5px !important;">মাস ও মাধ্যম</th>
+                            <th style="width: 21%; padding: 8px 3px !important; font-size: 10.5px !important;">পরিমাণ</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rowsHTML}</tbody>
+                    <tfoot>
+                        <tr style="background: #ecfdf5; font-weight: 800;">
+                            <td colspan="3" style="text-align: right !important; padding: 8px 6px !important; color: #065f46; font-size: 10.5px;">সর্বমোট জমা (${toBn(list.length)} টি):</td>
+                            <td style="padding: 8px 3px !important; color: #047857; font-size: 11px; word-break: break-word;">৳${totalAmount.toLocaleString('bn-BD')}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>`;
+    }
+
+    async function loadDateWiseStatement() {
+        toggleLoader(true);
+        try {
+            const res = await fetchDateWiseTransactions();
+            toggleLoader(false);
+            if (res) renderDateWiseStmtTable(res);
+        } catch (e) {
+            toggleLoader(false);
+            customAlert("স্টেটমেন্ট লোড করতে ত্রুটি হয়েছে!");
+        }
+    }
+
+    async function downloadDateWiseStatementPDF() {
+        toggleLoader(true);
+        let container = null;
+        try {
+            const res = await fetchDateWiseTransactions();
+            if (!res) {
+                toggleLoader(false);
+                return;
+            }
+            renderDateWiseStmtTable(res);
+
+            const { list, fromVal, toVal, totalAmount } = res;
+            if (list.length === 0) {
+                toggleLoader(false);
+                return customAlert("ডাউনলোড করার মতো কোনো ট্রাঞ্জেকশন পাওয়া যায়নি!");
+            }
+
+            const rangeLabel = (fromVal && toVal)
+                ? `${formatToDDMMYY(fromVal)} হতে ${formatToDDMMYY(toVal)}`
+                : (fromVal ? `${formatToDDMMYY(fromVal)} হতে` : (toVal ? `${formatToDDMMYY(toVal)} পর্যন্ত` : 'সকল তারিখ'));
+
+            const ROWS_PER_PAGE = 9;
+            const totalPages = Math.ceil(list.length / ROWS_PER_PAGE) || 1;
+            const toBn = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+            let fullHTML = '';
+
+            for (let page = 0; page < totalPages; page++) {
+                const pageRows = list.slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE);
+                const isLastPage = (page === totalPages - 1);
+
+                fullHTML += `
+                <div class="pdf-page-wrapper" style="width: 1000px; height: 620px; padding: 15px 25px; background: #ffffff; color: #000000; box-sizing: border-box; position: relative; overflow: hidden; margin-bottom: 20px;">
+                    <div style="text-align: center; border-bottom: 2px solid #047857; padding-bottom: 5px; margin-bottom: 10px;">
+                        <img src="${FINAL_LOGO_URL}" crossorigin="anonymous" style="width: 38px; height: 38px; object-fit: contain;">
+                        <h2 style="margin: 0; color: #047857; font-size: 16px; font-weight: 800;">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</h2>
+                        <p style="margin: 2px 0 0 0; font-size: 11px; color: #1e293b; font-weight: 700;">তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট (${rangeLabel})</p>
+                    </div>
+
+                    <table class="pdf-table" style="width: 100%; border-collapse: collapse; font-size: 10px; table-layout: fixed;">
+                        <thead>
+                            <tr style="background: #047857 !important; color: #ffffff !important; height: 30px;">
+                                <th style="border:1px solid #000; padding:4px; width: 6%;">ক্রমিক</th>
+                                <th style="border:1px solid #000; padding:4px; width: 12%;">তারিখ</th>
+                                <th style="border:1px solid #000; padding:4px; width: 11%;">আইডি</th>
+                                <th style="border:1px solid #000; padding:4px; width: 22%;">সদস্যের নাম</th>
+                                <th style="border:1px solid #000; padding:4px; width: 16%;">মাস</th>
+                                <th style="border:1px solid #000; padding:4px; width: 11%;">মাধ্যম</th>
+                                <th style="border:1px solid #000; padding:4px; width: 12%;">Trx ID</th>
+                                <th style="border:1px solid #000; padding:4px; width: 10%;">পরিমাণ</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                pageRows.forEach((t, idx) => {
+                    const serial = (page * ROWS_PER_PAGE) + idx + 1;
+                    const rowBg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
+                    fullHTML += `
+                        <tr style="background: ${rowBg}; height: 35px;">
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center;">${serial}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center;">${escStmtHtml(t._dispDate)}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center; font-weight: 800;">${escStmtHtml(t.user_id || '---')}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px 6px; text-align: left;">${escStmtHtml(t._userName)}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center;">${escStmtHtml(t.months || '---')}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center;">${escStmtHtml(t.method || 'বিকাশ')}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center; word-break: break-all;">${escStmtHtml(t.trx || 'N/A')}</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center; font-weight: 800; color: #047857;">৳${parseFloat(t.amount || 0).toLocaleString('bn-BD')}</td>
+                        </tr>`;
+                });
+
+                if (isLastPage) {
+                    fullHTML += `
+                        <tr style="background: #ecfdf5; height: 36px; font-weight: 800;">
+                            <td colspan="7" style="border: 1px solid #64748b; padding: 4px 8px; text-align: right; color: #065f46;">সর্বমোট (${toBn(list.length)} টি লেনদেন):</td>
+                            <td style="border: 1px solid #64748b; padding: 4px; text-align: center; color: #047857; font-size: 11px;">৳${totalAmount.toLocaleString('bn-BD')}</td>
+                        </tr>`;
+                }
+
+                fullHTML += `
+                        </tbody>
+                    </table>
+                    <div style="position: absolute; bottom: 10px; right: 25px; font-size: 9px; color: #64748b;">পৃষ্ঠা ${page + 1} / ${totalPages}</div>
+                </div>`;
+            }
+
+            container = document.createElement('div');
+            container.style.cssText = 'position: absolute; top: -9999px; left: -9999px; width: 1000px; background: #ffffff;';
+            container.innerHTML = fullHTML;
+            document.body.appendChild(container);
+
+            await waitForImages(container);
+            const pageElements = container.querySelectorAll('.pdf-page-wrapper');
+            const jsPDFClass = window.jspdf?.jsPDF || window.jsPDF || (typeof jsPDF !== 'undefined' ? jsPDF : null);
+
+            if (!jsPDFClass) throw new Error("jsPDF not found");
+
+            const pdf = new jsPDFClass({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+            for (let i = 0; i < pageElements.length; i++) {
+                const canvas = await html2canvasWithTimeout(pageElements[i], { scale: 2, useCORS: true, width: 1000, height: 620 });
+                const imgData = canvas.toDataURL('image/jpeg', 0.98);
+                if (i > 0) pdf.addPage('a4', 'landscape');
+                pdf.addImage(imgData, 'JPEG', 0, 0, 297, 210);
+            }
+
+            const filename = `Txn_Statement_${fromVal ? formatToDDMMYY(fromVal) : 'Start'}_to_${toVal ? formatToDDMMYY(toVal) : 'End'}.pdf`;
+            if (typeof Android !== "undefined" && Android.savePDF) {
+                Android.savePDF(pdf.output('datauristring').split(',')[1], filename);
+            } else {
+                pdf.save(filename);
+            }
+
+            toggleLoader(false);
+            showToast("তারিখ অনুযায়ী স্টেটমেন্ট PDF ডাউনলোড সম্পন্ন!");
+        } catch (err) {
+            toggleLoader(false);
+            customAlert("PDF ডাউনলোড ব্যর্থ!");
+        } finally {
+            if (container) container.remove();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initDateWiseStmtInputs);
 </script>
 </body>
 </html>
