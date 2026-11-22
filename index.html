@@ -659,6 +659,7 @@
             <h3 style="margin-top:0; color:var(--sk-primary); justify-content: center;">নতুন মেম্বার রেজিস্ট্রেশন</h3>
             <input type="text" id="rName" placeholder="পুরো নাম ইংরেজিতে">
             <input type="text" id="rId" placeholder="ব্যক্তিগত পরিচিতি নম্বর">
+            <input type="tel" id="rPhone" placeholder="মোবাইল নম্বর (যেমন: 01XXXXXXXXX)">
             <div style="position:relative;">
                 <input type="password" id="rPass" placeholder="পাসওয়ার্ড তৈরি করুন">
                 <span onclick="togglePass('rPass', 'eyeIcon2')" style="position:absolute; right:15px; top:18px; color:var(--sk-text-muted); cursor:pointer; font-size: 16px;"><i id="eyeIcon2" class="fas fa-eye"></i></span>
@@ -691,6 +692,7 @@
             <div>
                 <small id="uRoleText" style="font-size: 10px; color: var(--sk-text-muted); font-weight: 700; text-transform: uppercase;">স্বাগতম, মেম্বার</small>
                 <b id="uNameDisp" style="font-size: 15px; display: block; color: var(--sk-text-main);">লোড হচ্ছে...</b>
+                <small id="uPhoneDisp" style="font-size: 11px; color: var(--sk-text-muted); font-weight: 600; display: block;"></small>
             </div>
             <span id="uIdDisp" class="id-badge" style="font-size: 11px; padding: 4px 10px;">ID: ---</span>
         </div>
@@ -834,6 +836,7 @@
             <h3 style="text-align: center; color: var(--sk-primary); font-size: 16px; margin-top:0;">সঞ্চয় হিসাব স্টেটমেন্ট</h3>
             <div class="report-row"><span>সদস্যের নাম:</span> <b id="repName">---</b></div>
             <div class="report-row"><span>সদস্য আইডি:</span> <b id="repId">---</b></div>
+            <div class="report-row"><span>মোবাইল নম্বর:</span> <b id="repPhone">---</b></div>
             <div class="report-row"><span>মোট সঞ্চয়:</span> <b id="repBal" style="color: var(--sk-primary);">৳ ০</b></div>
             <div class="report-row" style="border-bottom:none;"><span>বকেয়া পাওনা:</span> <b style="color:var(--sk-orange-card);" id="repDue">৳ ০</b></div>
         </div>
@@ -910,12 +913,15 @@
         <div class="card" style="text-align: left; padding: 20px;">
             <h3 style="text-align: center; color: var(--sk-primary); font-size: 16px; margin-top:0;">সদস্য প্রোফাইল</h3>
             <div class="report-row"><span>সদস্যের নাম:</span> <b id="profName">---</b></div>
-            <div class="report-row" style="border-bottom:none;"><span>সদস্য আইডি:</span> <b id="profId">---</b></div>
+            <div class="report-row"><span>সদস্য আইডি:</span> <b id="profId">---</b></div>
+            <div class="report-row" style="border-bottom:none;"><span>মোবাইল নম্বর:</span> <b id="profPhone">---</b></div>
         </div>
         <div class="card" style="text-align: left; padding: 18px; margin-top: 14px;">
             <h3 style="color: var(--sk-text-main); font-size: 14px; margin-top:0; text-align: center;"><i class="fas fa-user-cog" style="color:var(--sk-primary);"></i> প্রোফাইল আপডেট</h3>
             <label style="font-size: 11px; font-weight: bold; display: block; margin-top: 8px;">সদস্যের নাম:</label>
             <input type="text" id="pNameNew" placeholder="আপনার নতুন নাম">
+            <label style="font-size: 11px; font-weight: bold; display: block; margin-top: 8px;">মোবাইল নম্বর:</label>
+            <input type="tel" id="pPhoneNew" placeholder="আপনার নতুন মোবাইল নম্বর">
             <label style="font-size: 11px; font-weight: bold; display: block; margin-top: 8px;">নতুন পাসওয়ার্ড:</label>
             <div style="position:relative;">
                 <input type="password" id="pNew" placeholder="নতুন পাসওয়ার্ড">
@@ -1115,7 +1121,7 @@
 
             <div class="card" style="text-align: left;">
                 <h3 style="justify-content: flex-start;"><i class="fas fa-user-plus"></i> ম্যানুয়াল সদস্য এন্ট্রি</h3>
-                <input type="text" id="newMName" placeholder="নাম ইংরেজিতে"><input type="text" id="newMId" placeholder="পরিচিতি নম্বর"><input type="text" id="newMPass" placeholder="পাসওয়ার্ড"><button class="btn" onclick="manualRegister()">সদস্য যোগ করুন</button>
+                <input type="text" id="newMName" placeholder="নাম ইংরেজিতে"><input type="text" id="newMId" placeholder="পরিচিতি নম্বর"><input type="tel" id="newMPhone" placeholder="মোবাইল নম্বর"><input type="text" id="newMPass" placeholder="পাসওয়ার্ড"><button class="btn" onclick="manualRegister()">সদস্য যোগ করুন</button>
             </div>
             <div class="card" style="text-align: left;">
                 <h3 style="justify-content: flex-start;"><i class="fas fa-wallet"></i> পেমেন্ট নম্বর পরিবর্তন</h3>
@@ -1170,6 +1176,7 @@
                 <h4 style="margin:0 0 8px 0; color:var(--sk-primary); font-size:13px;"><i class="fas fa-user-edit"></i> তথ্য সংশোধন</h4>
                 <small style="color:var(--sk-text-muted); font-size: 11px;">নাম:</small> <input type="text" id="editName" style="padding:8px;">
                 <small style="color:var(--sk-text-muted); font-size: 11px;">আইডি:</small> <input type="text" id="editId" style="padding:8px;">
+                <small style="color:var(--sk-text-muted); font-size: 11px;">মোবাইল নম্বর:</small> <input type="tel" id="editPhone" style="padding:8px;">
                 <small style="color:var(--sk-text-muted); font-size: 11px;">পাসওয়ার্ড:</small> <input type="text" id="editPass" style="padding:8px;">
                 
                 <small style="color:var(--sk-text-muted); font-size: 11px; display:block; margin-top:6px;">প্রোফাইল ছবি পরিবর্তন:</small>
@@ -1806,7 +1813,7 @@
 
     function filterHistory() { renderHistory(); }
     <!-- PART 3 END -->
-    <!-- ==================== PART 4 START ==================== -->
+
     async function login() {
         const id = document.getElementById('lId').value.trim();
         const pass = document.getElementById('lPass').value;
@@ -1852,20 +1859,28 @@
     async function register() {
         const rName = document.getElementById('rName').value.trim();
         const rId = document.getElementById('rId').value.trim();
+        const rPhone = document.getElementById('rPhone').value.trim();
         const rPass = document.getElementById('rPass').value;
         const rAvatar = document.getElementById('rPhotoBase64').value.trim();
 
-        if(!rName || !rId || !rPass) return customAlert("সবগুলো ঘর পূরণ করুন!");
+        if(!rName || !rId || !rPhone || !rPass) return customAlert("সবগুলো ঘর পূরণ করুন!");
 
         toggleLoader(true);
         try {
             const { error } = await supabaseClient.from('users').insert([{ 
-                id: rId, name: rName, pass: rPass, balance: 0, loan: 0, dues: 0, status: 'Pending', avatar_url: rAvatar || "" 
+                id: rId, name: rName, phone: rPhone, pass: rPass, balance: 0, loan: 0, dues: 0, status: 'Pending', avatar_url: rAvatar || "" 
             }]);
             toggleLoader(false);
 
             if (error) customAlert("রেজিস্ট্রেশন ব্যর্থ! আইডিটি ব্যবহৃত হতে পারে।");
-            else { showToast("রেজিস্ট্রেশন সফল!"); showPage('loginPage'); }
+            else {
+                document.getElementById('rName').value = "";
+                document.getElementById('rId').value = "";
+                document.getElementById('rPhone').value = "";
+                document.getElementById('rPass').value = "";
+                showToast("রেজিস্ট্রেশন সফল!");
+                showPage('loginPage');
+            }
         } catch (e) {
             toggleLoader(false);
             customAlert("সার্ভারে সমস্যা হয়েছে!");
@@ -1990,6 +2005,7 @@
                 document.getElementById('uBal').innerText = "৳ " + parseFloat(u.balance || 0).toLocaleString();
                 document.getElementById('uDues').innerText = "৳ " + totalDues.toLocaleString('bn-BD');
                 document.getElementById('uNameDisp').innerText = u.name;
+                document.getElementById('uPhoneDisp').innerText = u.phone ? "📞 " + u.phone : "";
                 document.getElementById('uIdDisp').innerText = "ID: " + curId;
                 
                 if (curId === SUPER_ADMIN_ID) {
@@ -2006,13 +2022,16 @@
                 }
                 
                 document.getElementById('repName').innerText = u.name;
+                document.getElementById('repPhone').innerText = u.phone || "---";
                 document.getElementById('repBal').innerText = "৳ " + parseFloat(u.balance || 0).toLocaleString();
                 document.getElementById('repDue').innerText = "৳ " + totalDues.toLocaleString('bn-BD');
                 document.getElementById('repId').innerText = curId;
 
                 document.getElementById('profName').innerText = u.name;
                 document.getElementById('profId').innerText = curId;
+                document.getElementById('profPhone').innerText = u.phone || "---";
                 document.getElementById('pNameNew').placeholder = u.name;
+                document.getElementById('pPhoneNew').placeholder = u.phone || "আপনার নতুন মোবাইল নম্বর";
             }
 
             const { data: allApprovedUsers } = await supabaseClient.from('users').select('balance').eq('status', 'Approved');
@@ -2321,6 +2340,19 @@
         return Object.keys(users).sort((a, b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'}));
     }
 
+    function callMember(phone) {
+        const cleanPhone = String(phone || '').replace(/[^\d+]/g, '');
+        if (!cleanPhone) return showToast("সঠিক মোবাইল নম্বর নেই!", "error");
+
+        if (typeof AndroidCall !== "undefined" && typeof AndroidCall.callPhone === "function") {
+            AndroidCall.callPhone(cleanPhone);
+        } else if (typeof Android !== "undefined" && typeof Android.callPhone === "function") {
+            Android.callPhone(cleanPhone);
+        } else {
+            window.location.href = "tel:" + cleanPhone;
+        }
+    }
+
     function renderM() {
         const ml = document.getElementById('mList'), vl = document.getElementById('vList'); 
         if(!ml || !vl) return;
@@ -2328,14 +2360,13 @@
         let pV = 0, approvedCount = 0;
         
         let mTableHTML = `
-        <div class="table-container">
-            <table class="somiti-table">
+        <div class="table-container" style="overflow-x: hidden !important;">
+            <table class="somiti-table" style="table-layout: fixed; width: 100% !important;">
                 <thead>
                     <tr>
-                        <th style="width: 8%;">#</th>
-                        <th style="width: 22%;">আইডি</th>
-                        <th style="width: 42%;">সদস্য নাম</th>
-                        <th style="width: 18%;">সঞ্চয় (৳)</th>
+                        <th style="width: 7%;">#</th>
+                        <th style="width: 65%; text-align: left; padding-left: 8px !important;">সদস্যের তথ্য</th>
+                        <th style="width: 18%;">সঞ্চয়</th>
                         <th style="width: 10%;">ভিউ</th>
                     </tr>
                 </thead>
@@ -2345,18 +2376,33 @@
             const u = users[id];
             if(u.status === "Pending") { 
                 pV++; 
-                vl.innerHTML += `<div class="card"><b>${u.name}</b> (ID: ${id})<div style="display:flex;gap:10px;margin-top:10px;"><button class="btn" style="background:#16a34a;flex:1" onclick="approveMember('${id}')">Approve</button><button class="btn" style="background:#dc2626;flex:1" onclick="rejectMember('${id}')">Reject</button></div></div>`; 
+                vl.innerHTML += `<div class="card"><b>${u.name}</b> (ID: ${id}${u.phone ? ' | 📞 ' + u.phone : ''})<div style="display:flex;gap:10px;margin-top:10px;"><button class="btn" style="background:#16a34a;flex:1" onclick="approveMember('${id}')">Approve</button><button class="btn" style="background:#dc2626;flex:1" onclick="rejectMember('${id}')">Reject</button></div></div>`; 
             } else { 
                 approvedCount++;
-                let avatarHTML = u.avatar_url ? `<img src="${u.avatar_url}" style="width:24px; height:24px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:6px;" alt="avatar">` : '';
+                let avatarHTML = u.avatar_url 
+                    ? `<img src="${u.avatar_url}" style="width:32px; height:32px; min-width:32px; border-radius:50%; object-fit:cover; border:1.5px solid #a7f3d0;" alt="avatar">` 
+                    : `<div style="width:32px; height:32px; min-width:32px; border-radius:50%; background:#ecfdf5; color:var(--sk-primary); font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; border:1px solid #a7f3d0;">${(u.name || 'U').charAt(0).toUpperCase()}</div>`;
+                let phoneHTML = u.phone 
+                    ? `<button type="button" onclick="event.stopPropagation(); callMember('${u.phone}')" style="background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; border-radius:6px; padding:1px 7px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; gap:4px; cursor:pointer; white-space:nowrap;"><i class="fas fa-phone-alt" style="font-size:8.5px;"></i>${u.phone}</button>` 
+                    : '';
                 mTableHTML += `
-                    <tr onclick="openMemberDetails('${id}')" style="cursor:pointer;">
-                        <td style="color:var(--sk-text-muted); font-weight:600;">${approvedCount}</td>
-                        <td><span class="id-badge">${id}</span></td>
-                        <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${avatarHTML}${u.name}</td>
-                        <td style="font-weight:800; color:var(--sk-primary);">৳${parseFloat(u.balance || 0).toLocaleString('bn-BD')}</td>
+                    <tr>
+                        <td style="color:var(--sk-text-muted); font-weight:600; font-size:11px;">${approvedCount}</td>
+                        <td style="text-align:left; padding:9px 5px !important;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                ${avatarHTML}
+                                <div style="flex:1; min-width:0;">
+                                    <div style="font-weight:700; color:var(--sk-text-main); font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${u.name}</div>
+                                    <div style="display:flex; align-items:center; gap:6px; margin-top:3px; flex-wrap:wrap;">
+                                        <span class="id-badge" style="font-size:9.5px; padding:1px 6px;">${id}</span>
+                                        ${phoneHTML}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-weight:800; color:var(--sk-primary); font-size:11.5px; white-space:nowrap;">৳${parseFloat(u.balance || 0).toLocaleString('bn-BD')}</td>
                         <td>
-                            <button class="tbl-btn" onclick="event.stopPropagation(); openMemberDetails('${id}')"><i class="fas fa-eye"></i></button>
+                            <button class="tbl-btn" onclick="openMemberDetails('${id}')"><i class="fas fa-eye"></i></button>
                         </td>
                     </tr>`;
             }
@@ -2379,7 +2425,7 @@
         let memberDues = (info.totalDue !== undefined) ? info.totalDue : parseFloat(u.dues || 0);
 
         document.getElementById('detPageName').innerText = u.name;
-        document.getElementById('detPageId').innerText = "ID: " + id;
+        document.getElementById('detPageId').innerText = "ID: " + id + (u.phone ? " | 📞 " + u.phone : "");
         document.getElementById('detPageBal').innerText = "৳ " + (u.balance || 0);
         document.getElementById('detPageLoan').innerText = "৳ " + (u.loan || 0);
         document.getElementById('detPageDues').innerText = "৳ " + memberDues;
@@ -2389,6 +2435,7 @@
 
         document.getElementById('editName').value = u.name;
         document.getElementById('editId').value = id;
+        document.getElementById('editPhone').value = u.phone || "";
         document.getElementById('editPass').value = u.pass || "";
         document.getElementById('editPhotoBase64').value = u.avatar_url || "";
         
@@ -2425,7 +2472,7 @@
             const u = users[id];
             if(u && (u.status === "Approved" || !u.status)) {
                 hasApproved = true; count++;
-                dropdown.innerHTML += `<option value="${id}">${u.name} (ID: ${id})</option>`;
+                dropdown.innerHTML += `<option value="${id}">${u.name} (ID: ${id}${u.phone ? ' - ' + u.phone : ''})</option>`;
                 
                 const info = (window.userDueInfoMap && window.userDueInfoMap[id.toString().trim().toLowerCase()]) || {};
                 let dueVal = (info.totalDue !== undefined) ? info.totalDue : 0;
@@ -2437,7 +2484,7 @@
                     <tr onclick="openCollectionPage('${id}')" style="cursor:pointer;">
                         <td style="color:var(--sk-text-muted); font-weight:600;">${count}</td>
                         <td><span class="id-badge">${id}</span></td>
-                        <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${u.name}</td>
+                        <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${u.name}${u.phone ? `<br><small style="color:var(--sk-text-muted); font-size:10px; font-weight:600;">📞 ${u.phone}</small>` : ''}</td>
                         <td>
                             <b style="color:var(--sk-primary); font-size:11.5px;">৳${parseFloat(u.balance || 0).toLocaleString('bn-BD')}</b><br>
                             ${dueTextHTML}
@@ -2464,7 +2511,7 @@
         const u = users[uid];
 
         document.getElementById('colPageUserName').innerText = u.name;
-        document.getElementById('colPageUserId').innerText = "ID: " + uid;
+        document.getElementById('colPageUserId').innerText = "ID: " + uid + (u.phone ? " | 📞 " + u.phone : "");
 
         const info = (window.userDueInfoMap && window.userDueInfoMap[uid.toString().trim().toLowerCase()]) || {};
         let liveDue = (info.totalDue !== undefined) ? info.totalDue : 0;
@@ -2569,7 +2616,7 @@
                     <tr onclick="openKhata('${id}')" style="cursor:pointer;">
                         <td style="color:var(--sk-text-muted); font-weight:600;">${count}</td>
                         <td><span class="id-badge">${id}</span></td>
-                        <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${u.name}</td>
+                        <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${u.name}${u.phone ? `<br><small style="color:var(--sk-text-muted); font-size:10px; font-weight:600;">📞 ${u.phone}</small>` : ''}</td>
                         <td>
                             <button class="tbl-btn" onclick="event.stopPropagation(); openKhata('${id}')"><i class="fas fa-file-invoice"></i> খাতা</button>
                         </td>
@@ -2586,7 +2633,7 @@
         currentKhataUid = id;
         const u = users[id] || { name: 'মেম্বার', balance: 0 }; 
         document.getElementById('khataPageName').innerText = u.name; 
-        document.getElementById('khataPageId').innerText = "ID: " + id;
+        document.getElementById('khataPageId').innerText = "ID: " + id + (u.phone ? " | 📞 " + u.phone : "");
         
         toggleLoader(true);
         const { data: txs } = await supabaseClient.from('transactions').select('*').eq('user_id', id).order('id', { ascending: false });
@@ -2840,16 +2887,17 @@
     async function manualRegister() { 
         const n = document.getElementById('newMName').value.trim();
         const i = document.getElementById('newMId').value.trim();
+        const ph = document.getElementById('newMPhone').value.trim();
         const p = document.getElementById('newMPass').value.trim(); 
         
         if(!n || !i || !p) return customAlert("সব তথ্য দিন!");
         toggleLoader(true);
-        const { error } = await supabaseClient.from('users').insert([{ id: i, name: n, pass: p, balance: 0, loan: 0, dues: 0, status: 'Approved' }]);
+        const { error } = await supabaseClient.from('users').insert([{ id: i, name: n, phone: ph, pass: p, balance: 0, loan: 0, dues: 0, status: 'Approved' }]);
         toggleLoader(false);
         if(error) customAlert("সদস্য যোগ ব্যর্থ!");
         else {
             showToast("সদস্য যোগ হয়েছে!");
-            document.getElementById('newMName').value = ""; document.getElementById('newMId').value = ""; document.getElementById('newMPass').value = "";
+            document.getElementById('newMName').value = ""; document.getElementById('newMId').value = ""; document.getElementById('newMPhone').value = ""; document.getElementById('newMPass').value = "";
             refreshAdminData();
         }
     }
@@ -2913,6 +2961,7 @@
 
     async function updateProfile() {
         const newName = document.getElementById('pNameNew').value.trim();
+        const newPhone = document.getElementById('pPhoneNew').value.trim();
         const newPass = document.getElementById('pNew').value;
         const oldPass = document.getElementById('pOld').value;
         if(!oldPass) return customAlert("বর্তমান পাসওয়ার্ড দিন!");
@@ -2923,25 +2972,27 @@
 
         let updateObj = {};
         if(newName) updateObj['name'] = newName;
+        if(newPhone) updateObj['phone'] = newPhone;
         if(newPass) updateObj['pass'] = newPass;
 
         await supabaseClient.from('users').update(updateObj).eq('id', curId);
         toggleLoader(false);
         showToast("প্রোফাইল আপডেট হয়েছে!");
-        document.getElementById('pNameNew').value = ""; document.getElementById('pNew').value = ""; document.getElementById('pOld').value = "";
+        document.getElementById('pNameNew').value = ""; document.getElementById('pPhoneNew').value = ""; document.getElementById('pNew').value = ""; document.getElementById('pOld').value = "";
         refreshUserData();
     }
 
     async function updateProfileAdmin() {
         const editName = document.getElementById('editName').value.trim();
         const editId = document.getElementById('editId').value.trim();
+        const editPhone = document.getElementById('editPhone').value.trim();
         const editPass = document.getElementById('editPass').value.trim();
         const editAvatar = document.getElementById('editPhotoBase64').value.trim();
 
         if(!editName || !editId || !editPass) return customAlert("সব তথ্য দিন!");
 
         toggleLoader(true);
-        let updateData = { id: editId, name: editName, pass: editPass };
+        let updateData = { id: editId, name: editName, phone: editPhone, pass: editPass };
         if(editAvatar) updateData.avatar_url = editAvatar;
 
         await supabaseClient.from('users').update(updateData).eq('id', activeId);
@@ -3285,6 +3336,7 @@
                     <div style="font-size: 13px; line-height: 1.8;">
                         <div><b>সদস্য নাম:</b> <span style="font-size: 15px; font-weight: 800; color: #047857;">${u.name}</span></div>
                         <div><b>সদস্য আইডি:</b> <span style="background: #e0f2fe; padding: 2px 8px; border-radius: 4px; color: #0284c7; font-weight: bold;">${targetUid}</span></div>
+                        <div><b>মোবাইল নম্বর:</b> <span>${u.phone || '---'}</span></div>
                         <div><b>মোট সঞ্চয়:</b> <b style="color: #047857;">৳ ${parseFloat(u.balance || 0).toLocaleString('bn-BD')}</b></div>
                     </div>
                 </div>
@@ -3385,7 +3437,7 @@
         showToast("কপি করা হয়েছে!");
     }
 
-     /* লোগো ও ডিজিটাল বারকোডসহ আধুনিক মানি রসিদ ডাউনলোড */
+    /* লোগো ও ডিজিটাল বারকোডসহ আধুনিক মানি রসিদ ডাউনলোড */
     async function downloadReceipt(uid, txnId) {
         toggleLoader(true);
         let wrapper = null;
@@ -3494,7 +3546,6 @@
             if (wrapper) wrapper.remove();
         }
     }
-
     async function submitFund() {
         const fDate = document.getElementById('fDate').value;
         const fAmt = parseFloat(document.getElementById('fAmt').value);
@@ -4018,5 +4069,4 @@
 </script>
 </body>
 </html>
-<!-- ==================== COMPLETE ==================== -->
-    
+<!-- ==================== PART 4 COMPLETE ==================== -->
