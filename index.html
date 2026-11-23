@@ -2194,7 +2194,10 @@
         if (currentPage === 'adminCollectionPage') {
             showAdminTab('colPage', document.getElementById('tabColAdmin')); 
             showPage('adminDashboardPage');
-        } else if (currentPage === 'adminMemberDetPage' || currentPage === 'adminKhataPage' || currentPage === 'adminPaymentListPage' || currentPage === 'adminReportPreviewPage' || currentPage === 'adminTxnEditPage') {
+        } else if (currentPage === 'adminMemberDetPage') {
+            showAdminTab('mPage', document.getElementById('tabMAdmin')); 
+            showPage('adminDashboardPage');
+        } else if (currentPage === 'adminKhataPage' || currentPage === 'adminPaymentListPage' || currentPage === 'adminReportPreviewPage' || currentPage === 'adminTxnEditPage') {
             showAdminTab('kPage', document.getElementById('tabKAdmin')); 
             showPage('adminDashboardPage');
         } else if (currentPage === 'adminDashboardPage') {
@@ -2903,12 +2906,12 @@
             if(u.status === "Approved" || !u.status) {
                 hasApproved = true; count++;
                 khataTableHTML += `
-                    <tr onclick="openKhata('${id}')" style="cursor:pointer;">
+                    <tr>
                         <td style="color:var(--sk-text-muted); font-weight:600;">${count}</td>
                         <td><span class="id-badge">${id}</span></td>
                         <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${u.name}${u.phone ? `<br><small style="color:var(--sk-text-muted); font-size:10px; font-weight:600;">📞 ${u.phone}</small>` : ''}</td>
                         <td>
-                            <button class="tbl-btn" onclick="event.stopPropagation(); openKhata('${id}')"><i class="fas fa-file-invoice"></i> খাতা</button>
+                            <button class="tbl-btn" onclick="openKhata('${id}')"><i class="fas fa-file-invoice"></i> খাতা</button>
                         </td>
                     </tr>`;
             }
