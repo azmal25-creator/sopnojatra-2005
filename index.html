@@ -375,43 +375,35 @@
         .filter-tab { flex: 1; text-align: center; padding: 8px; font-size: 11px; color: var(--sk-text-muted); cursor: pointer; border-radius: 9px; font-weight: 800; transition: 0.2s; white-space: nowrap; }
         .filter-tab.active-tab { background: var(--sk-primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
         .report-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13.5px; }
-        ./* ================= সংখ্যাযুক্ত আধুনিক পালসিং ব্যাজ ================= */
-.dot-badge {
-    display: none;
-    position: absolute;
-    top: 1px;
-    right: 2px;
-    min-width: 16px;
-    height: 16px;
-    padding: 0 4px;
-    background: #dc2626;
-    color: #ffffff !important;
-    font-size: 9.5px;
-    font-weight: 800;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
-    animation: modernPulse 1.8s infinite;
-    pointer-events: none;
-    z-index: 10;
-}
 
-@keyframes modernPulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
-    }
-    70% {
-        transform: scale(1.08);
-        box-shadow: 0 0 0 5px rgba(220, 38, 38, 0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
-    }
-}
+        /* ================= সংখ্যাযুক্ত আধুনিক পালসিং ব্যাজ ================= */
+        .dot-badge {
+            display: none;
+            position: absolute;
+            top: 1px;
+            right: 2px;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
+            background: #dc2626;
+            color: #ffffff !important;
+            font-size: 9.5px;
+            font-weight: 800;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+            animation: modernPulse 1.8s infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes modernPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 5px rgba(220, 38, 38, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
 
         /* ==================== STANDARD MODERN APP LOADER ==================== */
         #globalLoader {
@@ -576,22 +568,152 @@
         }
         
         /* পেমেন্ট ও ভেরিফাই ব্যাজের আসল গোল ডিজাইন ও কালার */
-.admin-tab .dot-badge {
-    display: none;
-    background: #dc2626 !important; /* উজ্জ্বল লাল ব্যাকগ্রাউন্ড */
-    color: #ffffff !important;       /* স্পষ্ট সাদা সংখ্যা */
-    font-size: 9px !important;
-    font-weight: 800 !important;
-    min-width: 15px !important;
-    height: 15px !important;
-    border-radius: 50% !important;
-    padding: 0 3px !important;
-    margin-left: 4px !important;
-    vertical-align: middle !important;
-    box-shadow: 0 2px 5px rgba(220, 38, 38, 0.4) !important;
-    line-height: 15px !important;
-    text-align: center !important;
-}
+        .admin-tab .dot-badge {
+            display: none;
+            background: #dc2626 !important;
+            color: #ffffff !important;
+            font-size: 9px !important;
+            font-weight: 800 !important;
+            min-width: 15px !important;
+            height: 15px !important;
+            border-radius: 50% !important;
+            padding: 0 3px !important;
+            margin-left: 4px !important;
+            vertical-align: middle !important;
+            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.4) !important;
+            line-height: 15px !important;
+            text-align: center !important;
+        }
+
+        /* ==================== GOOGLE / CHROME PASSWORD MANAGER UI ==================== */
+        .g-avatar-circle {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #047857, #10b981);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1.5px solid #a7f3d0;
+        }
+        .g-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+        .g-sheet-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.52);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 99990;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+        }
+        .g-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+
+        .g-sheet {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-width: 520px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            padding: 10px 18px 22px;
+            z-index: 99991;
+            box-shadow: 0 -10px 35px rgba(15, 23, 42, 0.22);
+            transform: translateY(105%);
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+            max-height: 75vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .g-sheet.open { transform: translateY(0); }
+
+        .g-sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 4px;
+            margin: 2px auto 12px;
+        }
+        .g-sheet-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--sk-border);
+        }
+        .g-sheet-body {
+            overflow-y: auto;
+            padding: 12px 0 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .g-acc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1.5px solid var(--sk-border);
+            background: #ffffff;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .g-acc-item:active { background: #f0fdf4; border-color: var(--sk-primary); }
+
+        .g-save-prompt {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 410px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1.5px solid #cbd5e1;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.22);
+            padding: 16px;
+            z-index: 99995;
+            animation: skFadeIn 0.25s ease-out;
+        }
+        .g-save-prompt.show { display: block; }
+        .g-save-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .g-btn-ghost {
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .g-btn-primary {
+            background: var(--sk-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(4, 120, 87, 0.25);
+        }
     </style>
 </head>
 <body>
@@ -621,21 +743,23 @@
         <center><img src="https://i.ibb.co.com/qL1pzwXD/ei-1780837828216-removebg-preview.webp" style="width: 85px; margin: 15px 0;" alt="logo"></center>
         <div class="card">
             <h3 style="margin-top:0; color:var(--sk-primary); justify-content: center;"><i class="fas fa-lock"></i> সদস্য লগইন পোর্টাল</h3>
-            <div style="position:relative;">
-                <input type="text" id="lId" placeholder="সদস্য পরিচিতি নম্বর" style="padding-right: 40px !important;">
-                <span onclick="showSavedAccountsModal()" style="position:absolute; right:12px; top:16px; color:var(--sk-primary); cursor:pointer; font-size: 16px;" title="সংরক্ষিত অ্যাকাউন্টসমূহ"><i class="fas fa-history"></i></span>
-            </div>
-            <div style="position:relative;">
-                <input type="password" id="lPass" placeholder="পাসওয়ার্ড" style="padding-right: 40px !important;">
-                <span onclick="togglePass('lPass', 'eyeIcon1')" style="position:absolute; right:15px; top:18px; color:var(--sk-text-muted); cursor:pointer; font-size: 16px;"><i id="eyeIcon1" class="fas fa-eye"></i></span>
-            </div>
-            
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
-                <button class="btn" style="flex: 1; margin-top: 0;" onclick="login()">লগইন করুন</button>
-                <button onclick="triggerBiometric()" style="width: 46px; height: 46px; min-width: 46px; border-radius: 12px; border: none; background: #e0f2fe; color: #0284c7; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="বায়োমেট্রিক">
-                    <i class="fas fa-fingerprint"></i>
-                </button>
-            </div>
+            <form id="loginForm" onsubmit="event.preventDefault(); login();" autocomplete="on">
+                <div style="position:relative;">
+                    <input type="text" id="lId" name="username" autocomplete="username" placeholder="সদস্য পরিচিতি নম্বর" onclick="handleLoginInputTap()" style="padding-right: 42px !important;">
+                    <span onclick="event.stopPropagation(); showSavedAccountsModal()" style="position:absolute; right:12px; top:16px; color:var(--sk-primary); cursor:pointer; font-size: 16px;" title="সংরক্ষিত পাসওয়ার্ড ও অ্যাকাউন্ট"><i class="fas fa-key"></i></span>
+                </div>
+                <div style="position:relative;">
+                    <input type="password" id="lPass" name="password" autocomplete="current-password" placeholder="পাসওয়ার্ড" onclick="handlePassInputTap()" style="padding-right: 42px !important;">
+                    <span onclick="togglePass('lPass', 'eyeIcon1')" style="position:absolute; right:15px; top:18px; color:var(--sk-text-muted); cursor:pointer; font-size: 16px;"><i id="eyeIcon1" class="fas fa-eye"></i></span>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                    <button type="submit" class="btn" style="flex: 1; margin-top: 0;">লগইন করুন</button>
+                    <button type="button" onclick="triggerBiometric()" style="width: 46px; height: 46px; min-width: 46px; border-radius: 12px; border: none; background: #e0f2fe; color: #0284c7; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="বায়োমেট্রিক">
+                        <i class="fas fa-fingerprint"></i>
+                    </button>
+                </div>
+            </form>
 
             <center>
                 <p style="font-size:12px; color: var(--sk-text-muted); margin-top: 16px;">পাসওয়ার্ড ভুলে গেছেন? <span onclick="forgotPass()" style="color:#dc2626; cursor:pointer; font-weight: bold; text-decoration: underline;">যোগাযোগ করুন</span></p>
@@ -678,7 +802,7 @@
         </div>
     </div>
 
-    <!-- ==================== HOME PAGE (ছবি ২ ও ৩ এর মতো হুবহু) ==================== -->
+    <!-- ==================== HOME PAGE ==================== -->
     <div id="homePage" class="page">
         <!-- পুশ মেসেজ ব্যানার -->
         <div id="pushBannerBox" style="display:none; background: #064e3b; color: #ffffff; padding: 14px; border-radius: 14px; margin-bottom: 14px;">
@@ -687,7 +811,7 @@
             <button class="btn" style="background: #f59e0b; padding: 8px; margin-top: 8px; font-size: 12px;" onclick="dismissPushBanner()">ঠিক আছে</button>
         </div>
 
-        <!-- মেম্বার প্রোফাইল স্ট্রিপ (ছবি ২) -->
+        <!-- মেম্বার প্রোফাইল স্ট্রিপ -->
         <div class="user-profile-strip">
             <div>
                 <small id="uRoleText" style="font-size: 10px; color: var(--sk-text-muted); font-weight: 700; text-transform: uppercase;">স্বাগতম, মেম্বার</small>
@@ -696,31 +820,26 @@
             </div>
             <span id="uIdDisp" class="id-badge" style="font-size: 11px; padding: 4px 10px;">ID: ---</span>
         </div>
-        <!-- ================= শুরুর মাস, রানিং মাস ও চলমান কিস্তি কার্ড ================= -->
-<div style="background: #ffffff; border: 1.5px solid var(--sk-border); padding: 12px 14px; border-radius: 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);">
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
-        
-        <!-- ১. শুরুর মাস -->
-        <div style="background: #f8fafc; padding: 10px 4px; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <small style="font-size: 10px; color: var(--sk-text-muted); font-weight: 700; display: block; margin-bottom: 2px;">শুরুর মাস</small>
-            <b style="font-size: 12.5px; color: #0f172a; display: block; font-weight: 800;">জুলাই ২০২৬</b>
+
+        <!-- শুরুর মাস, রানিং মাস ও চলমান কিস্তি কার্ড -->
+        <div style="background: #ffffff; border: 1.5px solid var(--sk-border); padding: 12px 14px; border-radius: 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
+                <div style="background: #f8fafc; padding: 10px 4px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                    <small style="font-size: 10px; color: var(--sk-text-muted); font-weight: 700; display: block; margin-bottom: 2px;">শুরুর মাস</small>
+                    <b style="font-size: 12.5px; color: #0f172a; display: block; font-weight: 800;">জুলাই ২০২৬</b>
+                </div>
+                <div style="background: #ecfdf5; padding: 10px 4px; border-radius: 12px; border: 1px solid #a7f3d0;">
+                    <small style="font-size: 10px; color: #047857; font-weight: 700; display: block; margin-bottom: 2px;">চলতি মাস</small>
+                    <b id="runningMonthDisp" style="font-size: 12.5px; color: #047857; display: block; font-weight: 800;">লোড হচ্ছে...</b>
+                </div>
+                <div style="background: #eff6ff; padding: 10px 4px; border-radius: 12px; border: 1px solid #bfdbfe;">
+                    <small style="font-size: 10px; color: #0284c7; font-weight: 700; display: block; margin-bottom: 2px;">চলমান কিস্তি</small>
+                    <b id="totalMonthsDisp" style="font-size: 12.5px; color: #0284c7; display: block; font-weight: 800;">০ মাস</b>
+                </div>
+            </div>
         </div>
 
-        <!-- ২. রানিং মাস -->
-        <div style="background: #ecfdf5; padding: 10px 4px; border-radius: 12px; border: 1px solid #a7f3d0;">
-            <small style="font-size: 10px; color: #047857; font-weight: 700; display: block; margin-bottom: 2px;">চলতি মাস</small>
-            <b id="runningMonthDisp" style="font-size: 12.5px; color: #047857; display: block; font-weight: 800;">লোড হচ্ছে...</b>
-        </div>
-
-        <!-- ৩. চলমান কিস্তি (৫ মাস) -->
-        <div style="background: #eff6ff; padding: 10px 4px; border-radius: 12px; border: 1px solid #bfdbfe;">
-            <small style="font-size: 10px; color: #0284c7; font-weight: 700; display: block; margin-bottom: 2px;">চলমান কিস্তি</small>
-            <b id="totalMonthsDisp" style="font-size: 12.5px; color: #0284c7; display: block; font-weight: 800;">০ মাস</b>
-        </div>
-
-    </div>
-</div>
-        <!-- ৩টি স্ট্যাটাস কার্ড (ছবি ২) -->
+        <!-- ৩টি স্ট্যাটাস কার্ড -->
         <div class="sk-dashboard-banner">
             <div class="sk-banner-card sk-card-green">
                 <small><i class="fas fa-wallet"></i> আপনার সঞ্চয়</small>
@@ -744,7 +863,7 @@
             </div>
         </div>
 
-        <!-- স্মার্ট AI সহকারী স্লিম ব্যানার (ছবি ২) -->
+        <!-- স্মার্ট AI সহকারী স্লিম ব্যানার -->
         <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 16px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: var(--shadow-card);" onclick="toggleSopnoAI()">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="width: 40px; height: 40px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 18px;">
@@ -758,11 +877,10 @@
             <span style="background: #0284c7; color: white; padding: 4px 12px; border-radius: 14px; font-size: 10.5px; font-weight: 800;">জিজ্ঞাসা</span>
         </div>
 
-        <!-- মেনু সেকশন (ছবি ২ ও ৩) -->
+        <!-- মেনু সেকশন -->
         <div class="sk-menu-title"><i class="fas fa-th-large"></i> সফটওয়্যার ফিচার ও মেনু</div>
 
         <div class="sk-option-grid">
-            <!-- সঞ্চয় জমা -->
             <div class="sk-option-card opt-green" onclick="showPage('fundPage')">
                 <div class="sk-opt-icon"><i class="fas fa-plus-circle"></i></div>
                 <div>
@@ -770,8 +888,6 @@
                     <div class="sk-opt-sub">অনলাইনে ফান্ড যোগ করুন</div>
                 </div>
             </div>
-
-            <!-- সঞ্চয় রিপোর্ট -->
             <div class="sk-option-card opt-blue" onclick="showPage('reportPage')">
                 <div class="sk-opt-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                 <div>
@@ -779,8 +895,6 @@
                     <div class="sk-opt-sub">ব্যক্তিগত হিসাব দেখুন</div>
                 </div>
             </div>
-
-            <!-- লেনদেন ইতিহাস -->
             <div class="sk-option-card opt-purple" onclick="showPage('historyPage')">
                 <div class="sk-opt-icon"><i class="fas fa-receipt"></i></div>
                 <div>
@@ -788,8 +902,6 @@
                     <div class="sk-opt-sub">রসিদ ও জমার হিস্ট্রি</div>
                 </div>
             </div>
-
-            <!-- বিজ্ঞপ্তি / নোটিশ -->
             <div class="sk-option-card opt-orange" onclick="showPage('noticePage')">
                 <div class="sk-opt-icon"><i class="fas fa-bell"></i></div>
                 <div>
@@ -797,8 +909,6 @@
                     <div class="sk-opt-sub">সমিতির গুরুত্বপূর্ণ তথ্য</div>
                 </div>
             </div>
-
-            <!-- অ্যাডমিন খাতা -->
             <div id="adminMenuBtn" class="sk-option-card opt-amber" style="display: none;" onclick="showPage('adminDashboardPage')">
                 <div class="sk-opt-icon"><i class="fas fa-user-shield"></i></div>
                 <div>
@@ -806,8 +916,6 @@
                     <div class="sk-opt-sub">সার্বিক প্রশাসন ও হিসাব</div>
                 </div>
             </div>
-
-            <!-- কারিগরি সহায়তা -->
             <div class="sk-option-card opt-teal" onclick="showPage('devPage')">
                 <div class="sk-opt-icon"><i class="fas fa-headset"></i></div>
                 <div>
@@ -819,8 +927,6 @@
 
         <div class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগ আউট করুন</div>
     </div>
-    <!-- PART 1 END -->
-    <!-- ==================== PART 2 START ==================== -->
 
     <!-- Notice Page -->
     <div id="noticePage" class="page">
@@ -952,9 +1058,8 @@
         <button class="btn" style="background:#64748b !important; box-shadow:none;" onclick="handleBackPress()">ফিরে যান</button>
     </div>
 
-    <!-- ==================== ADMIN DASHBOARD PAGE (ছবি ১ এর মতো হুবহু) ==================== -->
+    <!-- ==================== ADMIN DASHBOARD PAGE ==================== -->
     <div id="adminDashboardPage" class="page">
-        <!-- ৩টি স্ট্যাটাস কার্ড (ছবি ১) -->
         <div class="sk-dashboard-banner">
             <div class="sk-banner-card sk-card-green" onclick="showAdminTab('mPage', document.getElementById('tabMAdmin'))" style="cursor:pointer;">
                 <small>মোট সদস্য</small>
@@ -970,13 +1075,11 @@
             </div>
         </div>
 
-        <!-- সমিতির মোট ফান্ড কালেকশন ব্যানার (ছবি ১) -->
         <div style="background: #047857; color: #ffffff; padding: 22px 16px; border-radius: 18px; text-align: center; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(4, 120, 87, 0.15);">
             <div style="font-size: 13.5px; font-weight: 600; opacity: 0.95; margin-bottom: 6px;">সমিতির মোট ফান্ড কালেকশন</div>
             <h1 id="totalSum" style="margin: 0; color: #fde047; font-size: 32px; font-weight: 800; letter-spacing: -0.5px;">৳ ০</h1>
         </div>
 
-        <!-- সাব-ট্যাব বার (ছবি ১) -->
         <div class="admin-tabs">
             <div id="tabMAdmin" class="admin-tab active" onclick="showAdminTab('mPage', this)">সদস্য</div>
             <div id="tabColAdmin" class="admin-tab" style="color: var(--sk-orange-card);" onclick="showAdminTab('colPage', this)">কালেকশন</div>
@@ -986,7 +1089,6 @@
             <div id="tabSAdmin" class="admin-tab" onclick="showAdminTab('sPage', this)">সেটিংস</div>
         </div>
 
-        <!-- Member List Sub-page (ছবি ১ এর মেম্বার লিস্ট টেবিল) -->
         <div id="mPage" class="admin-sub-page" style="display: block;">
             <div class="search-container">
                 <i class="fas fa-search"></i>
@@ -995,7 +1097,6 @@
             <div id="mList">লোড হচ্ছে...</div>
         </div>
 
-        <!-- Collection Sub-page -->
         <div id="colPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 12px;">
                 <h3 style="color: var(--sk-primary); font-size: 14px; margin-bottom: 8px; justify-content: flex-start;"><i class="fas fa-hand-holding-dollar"></i> মাই কালেকশন (ফান্ড জমা ও কারেকশন)</h3>
@@ -1010,7 +1111,6 @@
             <div id="colUserList"></div>
         </div>
 
-        <!-- Statement Sub-page -->
         <div id="kPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 12px;">
                 <h3 style="color: var(--sk-primary); font-size: 14px; margin-bottom: 10px; justify-content: flex-start;"><i class="fas fa-chart-pie"></i> মাসিক সামারি</h3>
@@ -1060,7 +1160,7 @@
                     <button class="btn" style="background: #dc2626; flex: 1; margin-top: 0; padding: 9px;" onclick="showPaymentListPage('unpaid')">নন-পেমেন্ট লিস্ট</button>
                 </div>
             </div>
-<!-- তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট (DD.MM.YY ফরম্যাট) -->
+
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 14px;">
                 <h3 style="color: var(--sk-primary); font-size: 13.5px; margin-bottom: 10px; justify-content: flex-start;">
                     <i class="fas fa-calendar-alt"></i> তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট
@@ -1103,7 +1203,6 @@
         <div id="vPage" class="admin-sub-page" style="display: none;"><div id="vList"></div></div>
         <div id="pPage" class="admin-sub-page" style="display: none;"><div id="pList"></div></div>
 
-        <!-- Settings Sub-page -->
         <div id="sPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 16px; margin-bottom: 14px;">
                 <h3 id="addAdminHeaderTitle" style="color: var(--sk-primary); font-size: 14px; margin-top: 0; justify-content: flex-start;">
@@ -1148,8 +1247,6 @@
             <i class="fas fa-arrow-left"></i> হোমপেজে ফিরে যান
         </div>
     </div>
-    <!-- PART 2 END -->
-    <!-- ==================== PART 3 START ==================== -->
 
     <!-- Full-page Member Details -->
     <div id="adminMemberDetPage" class="page">
@@ -1224,7 +1321,6 @@
                 </button>
             </div>
         </div>
-
         <div id="khataPageItems"></div>
     </div>
 
@@ -1302,16 +1398,13 @@
     <div id="adminReportPreviewPage" class="page">
         <div class="card" style="text-align: left; padding: 18px;">
             <h3 id="prevPageTitle" style="color: var(--sk-primary); margin: 0 0 10px 0; font-size: 16px;">Report Preview</h3>
-            
             <div id="previewKpiContainer" class="preview-kpi-grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;"></div>
             <div id="prevPageContent" style="max-height: 380px; overflow-y: auto;"></div>
-            
             <div style="display: flex; gap: 8px; margin-top: 14px;">
                 <button class="btn" style="background: #dc2626; flex: 1; padding: 10px; font-size: 12px; margin-top:0;" onclick="confirmDownloadPDF()"><i class="fas fa-download"></i> PDF</button>
                 <button class="btn" style="background: #0d9488; flex: 1; padding: 10px; font-size: 12px; margin-top:0;" onclick="confirmDownloadExcel()"><i class="fas fa-file-excel"></i> Excel</button>
                 <button class="btn" style="background: var(--sk-primary); flex: 1; padding: 10px; font-size: 12px; margin-top:0;" onclick="copyPreviewText()"><i class="fas fa-copy"></i> কপি</button>
             </div>
-            
             <button class="btn" style="background:#64748b !important; box-shadow:none; margin-top: 10px;" onclick="showAdminTab('kPage', document.getElementById('tabKAdmin')); showPage('adminDashboardPage');">ফিরে যান</button>
         </div>
     </div>
@@ -1320,22 +1413,16 @@
     <div id="adminTxnEditPage" class="page">
         <div class="card" style="text-align: left; padding: 18px;">
             <h3 style="margin-top:0; color: var(--sk-primary); font-size: 16px;"><i class="fas fa-edit"></i> লেনদেন সংশোধন</h3>
-            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">মাসসমূহ:</small>
             <input type="text" id="etMonths">
-            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">টাকার পরিমাণ (৳):</small>
             <input type="number" id="etAmount">
-            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">মাধ্যম:</small>
             <input type="text" id="etMethod">
-            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">তারিখ:</small>
             <input type="text" id="etDate">
-
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">Trx ID / সেন্ডার বিবরণ:</small>
             <input type="text" id="etTrx">
-            
             <div style="display: flex; gap: 8px; margin-top: 12px;">
                 <button class="btn" style="flex: 1; margin-top:0;" onclick="saveTxnEdit()">সংরক্ষণ</button>
                 <button class="btn" style="background: #64748b; flex: 1; box-shadow: none; margin-top:0;" onclick="openKhata(editingUid)">বাতিল</button>
@@ -1345,7 +1432,7 @@
 
 </div>
 
-<!-- Bottom Navigation Bar (ছবি ৩ এর মতো আধুনিক ফ্ল্যাট বার) -->
+<!-- Bottom Navigation Bar -->
 <div id="bottomNav" class="bottom-nav">
     <div id="nav-homePage" class="nav-item" onclick="showPage('homePage')"><i class="fas fa-home"></i><span>হোম</span></div>
     <div id="nav-fundPage" class="nav-item" onclick="showPage('fundPage')"><i class="fas fa-plus-circle"></i><span>জমা দিন</span></div>
@@ -1354,7 +1441,7 @@
     <div id="nav-noticePage" class="nav-item" onclick="showPage('noticePage')"><i class="fas fa-bell"></i><span>নোটিশ</span></div>
 </div>
 
-<!-- চ্যাট বক্স উইন্ডো (AI Assistant - ডিফল্টভাবে নিখুঁতভাবে লুকানো থাকবে) -->
+<!-- চ্যাট বক্স উইন্ডো (AI Assistant) -->
 <div id="sopno-ai-window" style="display: none;">
     <div class="sopno-ai-head">
         <h4>✨ স্বপ্নযাত্রা AI সহকারী</h4>
@@ -1373,13 +1460,72 @@
     </div>
 </div>
 
+<!-- Google/Chrome Style Saved Accounts Bottom Sheet -->
+<div id="gAccountsBackdrop" class="g-sheet-backdrop" onclick="closeSavedAccountsSheet()"></div>
+<div id="gAccountsSheet" class="g-sheet">
+    <div class="g-sheet-handle"></div>
+    <div class="g-sheet-head">
+        <div style="display:flex; align-items:center; gap:9px;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#ecfdf5; color:var(--sk-primary); display:flex; align-items:center; justify-content:center; font-size:14px;">
+                <i class="fas fa-key"></i>
+            </div>
+            <div>
+                <b style="font-size:14px; color:var(--sk-text-main); display:block;">সংরক্ষিত অ্যাকাউন্টসমূহ</b>
+                <small style="font-size:10.5px; color:var(--sk-text-muted);">১ ক্লিকে দ্রুত লগইন করুন</small>
+            </div>
+        </div>
+        <button type="button" onclick="closeSavedAccountsSheet()" style="border:none; background:#f1f5f9; color:#475569; width:30px; height:30px; border-radius:50%; font-size:18px; cursor:pointer;">&times;</button>
+    </div>
+    <div id="gAccountsSheetList" class="g-sheet-body"></div>
+    <button type="button" class="btn" style="background:#f1f5f9; color:var(--sk-text-main) !important; box-shadow:none; margin-top:6px;" onclick="useAnotherAccount()">
+        <i class="fas fa-user-plus"></i> অন্য অ্যাকাউন্ট ব্যবহার করুন
+    </button>
+</div>
+
+<!-- Google/Chrome Style Save/Update Password Floating Prompt -->
+<div id="gSavePassPrompt" class="g-save-prompt" style="display: none;">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:36px; height:36px; min-width:36px; border-radius:12px; background:#ecfdf5; color:var(--sk-primary); display:flex; align-items:center; justify-content:center; font-size:16px; border:1px solid #a7f3d0;">
+                <i class="fas fa-key"></i>
+            </div>
+            <div>
+                <b id="gSaveTitle" style="font-size:14px; color:var(--sk-text-main); display:block;">পাসওয়ার্ড সেভ করবেন?</b>
+                <small style="font-size:11px; color:var(--sk-text-muted);">স্বপ্নযাত্রা ২০০৫ পাসওয়ার্ড ম্যানেজার</small>
+            </div>
+        </div>
+        <button type="button" onclick="dismissSavePassPrompt()" style="border:none; background:transparent; color:#94a3b8; font-size:20px; cursor:pointer; line-height:1;">&times;</button>
+    </div>
+
+    <div style="margin-top:12px; background:#f8fafc; border:1px solid var(--sk-border); border-radius:12px; padding:10px 12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <div id="gSaveAvatar" class="g-avatar-circle" style="width:28px; height:28px; min-width:28px; font-size:11px;">U</div>
+            <div style="min-width:0;">
+                <b id="gSaveName" style="font-size:12.5px; color:var(--sk-text-main); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">মেম্বার</b>
+                <small id="gSaveId" style="font-size:10.5px; color:var(--sk-primary); font-weight:700;">ID: ---</small>
+            </div>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; background:#ffffff; border:1px solid var(--sk-border); border-radius:8px; padding:6px 10px;">
+            <span id="gSavePassDisp" style="font-family:monospace; font-size:13px; font-weight:700; color:var(--sk-text-main); letter-spacing:1.5px;">••••••••</span>
+            <i id="gSaveEyeIcon" class="fas fa-eye" onclick="toggleSavePromptPass()" style="color:var(--sk-text-muted); cursor:pointer; font-size:14px;"></i>
+        </div>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:12px;">
+        <span onclick="neverSaveThisPass()" style="font-size:11px; color:#64748b; font-weight:700; cursor:pointer; text-decoration:underline;">আর জিজ্ঞাসা করবেন না</span>
+        <div class="g-save-actions" style="margin-top:0;">
+            <button type="button" class="g-btn-ghost" onclick="dismissSavePassPrompt()">এখন নয়</button>
+            <button type="button" id="gSaveConfirmBtn" class="g-btn-primary" onclick="confirmSavePassword()">সেভ করুন</button>
+        </div>
+    </div>
+</div>
+
 <!-- ==================== LOGIC AND APIS SCRIPT ==================== -->
 <script>
     const SUPABASE_URL = "https://bzoltdbzowebkdnhoqvc.supabase.co";
     const SUPABASE_KEY = "sb_publishable_HIkEuo9fEau6kGwCpaEY4g_WjrIROKw";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
-    // সুপার অ্যাডমিন আইডি কনফিগারেশন
     const SUPER_ADMIN_ID = "2005013";
 
     let currentPage = "loginPage", curId = "";
@@ -1586,42 +1732,183 @@
         if(loader) loader.style.display = show ? 'flex' : 'none'; 
     }
 
-    function getSavedAccounts() {
-        try { return JSON.parse(localStorage.getItem('saved_accounts')) || []; } catch (e) { return []; }
+    function encodeSavedPass(str) {
+        try { return "enc:" + btoa(unescape(encodeURIComponent(String(str || "")))); } catch (e) { return String(str || ""); }
+    }
+    function decodeSavedPass(str) {
+        try {
+            const s = String(str || "");
+            if (s.startsWith("enc:")) return decodeURIComponent(escape(atob(s.slice(4))));
+            return s;
+        } catch (e) { return String(str || ""); }
     }
 
-    function saveAccount(id, pass, name) {
-        let accounts = getSavedAccounts().filter(acc => acc.id !== id);
-        accounts.unshift({ id: id, pass: pass, name: name });
-        localStorage.setItem('saved_accounts', JSON.stringify(accounts));
+    function getSavedAccounts() {
+        try {
+            const list = JSON.parse(localStorage.getItem('saved_accounts')) || [];
+            return list.map(acc => ({ ...acc, pass: decodeSavedPass(acc.pass) }));
+        } catch (e) { return []; }
+    }
+
+    function saveAccount(id, pass, name, avatar = "") {
+        let raw = [];
+        try { raw = JSON.parse(localStorage.getItem('saved_accounts')) || []; } catch (e) { raw = []; }
+        raw = raw.filter(acc => acc.id !== id);
+        raw.unshift({ id: id, pass: encodeSavedPass(pass), name: name, avatar: avatar || "" });
+        localStorage.setItem('saved_accounts', JSON.stringify(raw));
     }
 
     function deleteSavedAccount(id, event) {
         if (event) event.stopPropagation();
-        localStorage.setItem('saved_accounts', JSON.stringify(getSavedAccounts().filter(acc => acc.id !== id)));
-        showSavedAccountsModal(); 
+        let raw = [];
+        try { raw = JSON.parse(localStorage.getItem('saved_accounts')) || []; } catch (e) { raw = []; }
+        const updated = raw.filter(acc => acc.id !== id);
+        localStorage.setItem('saved_accounts', JSON.stringify(updated));
+        if (document.getElementById('lId')?.value.trim() === id) {
+            document.getElementById('lId').value = "";
+            document.getElementById('lPass').value = "";
+        }
+        renderSavedAccountsSheet();
+        if (updated.length === 0) closeSavedAccountsSheet();
+    }
+
+    let suppressAccountSheet = false;
+
+    function handleLoginInputTap() {
+        if (suppressAccountSheet) return;
+        const accounts = getSavedAccounts();
+        if (accounts.length > 0 && !document.getElementById('gAccountsSheet')?.classList.contains('open')) {
+            showSavedAccountsModal();
+        }
+    }
+
+    function handlePassInputTap() {
+        if (suppressAccountSheet) return;
+        const passVal = document.getElementById('lPass')?.value || "";
+        const accounts = getSavedAccounts();
+        if (!passVal && accounts.length > 0 && !document.getElementById('gAccountsSheet')?.classList.contains('open')) {
+            showSavedAccountsModal();
+        }
+    }
+
+    function renderSavedAccountsSheet() {
+        const listEl = document.getElementById('gAccountsSheetList');
+        if (!listEl) return;
+        const accounts = getSavedAccounts();
+        if (accounts.length === 0) {
+            listEl.innerHTML = `<center style="color: var(--sk-text-muted); font-size: 13px; padding: 24px 0;">কোনো সংরক্ষিত অ্যাকাউন্ট নেই</center>`;
+            return;
+        }
+        listEl.innerHTML = accounts.map(acc => {
+            const avatarHTML = acc.avatar ? `<img src="${acc.avatar}" alt="u">` : (acc.name || 'U').charAt(0).toUpperCase();
+            return `
+                <div class="g-acc-item" onclick="selectSavedAccount('${acc.id}', true)">
+                    <div style="display:flex; align-items:center; gap:10px; min-width:0; flex:1;">
+                        <div class="g-avatar-circle">${avatarHTML}</div>
+                        <div style="min-width:0;">
+                            <b style="font-size:13.5px; color:var(--sk-text-main); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${acc.name}</b>
+                            <small style="color:var(--sk-text-muted); font-size:11px; font-weight:700;">ID: ${acc.id} • ••••••</small>
+                        </div>
+                    </div>
+                    <div onclick="deleteSavedAccount('${acc.id}', event)" style="color:#dc2626; background:#fee2e2; width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;" title="মুছুন">
+                        <i class="fas fa-trash-alt" style="font-size:12px;"></i>
+                    </div>
+                </div>`;
+        }).join('');
     }
 
     function showSavedAccountsModal() {
-        const accounts = getSavedAccounts();
-        const listEl = document.getElementById('savedAccountsList');
-        if (!listEl) return;
-        listEl.innerHTML = accounts.length === 0 ? `<center style="color: var(--sk-text-muted); font-size: 13px; padding: 25px 0;">কোনো সংরক্ষিত অ্যাকাউন্ট নেই</center>` :
-            accounts.map(acc => `
-                <div class="item-row" onclick="selectSavedAccount('${acc.id}', '${acc.pass}')">
-                    <div style="text-align: left; flex: 1;">
-                        <b style="font-size: 13px; color: var(--sk-text-main);">${acc.name}</b><br>
-                        <small style="color: var(--sk-text-muted); font-size: 10.5px;">ID: ${acc.id}</small>
-                    </div>
-                    <div style="color: #dc2626; padding: 5px 10px; cursor: pointer;" onclick="deleteSavedAccount('${acc.id}', event)"><i class="fas fa-trash-alt"></i></div>
-                </div>`).join('');
-        showPage('savedAccountsPage');
+        suppressAccountSheet = false;
+        renderSavedAccountsSheet();
+        document.getElementById('gAccountsBackdrop')?.classList.add('open');
+        document.getElementById('gAccountsSheet')?.classList.add('open');
     }
 
-    function selectSavedAccount(id, pass) {
-        document.getElementById('lId').value = id;
-        document.getElementById('lPass').value = pass;
-        showPage('loginPage');
+    function closeSavedAccountsSheet() {
+        suppressAccountSheet = true;
+        document.getElementById('gAccountsBackdrop')?.classList.remove('open');
+        document.getElementById('gAccountsSheet')?.classList.remove('open');
+    }
+
+    function useAnotherAccount() {
+        closeSavedAccountsSheet();
+        document.getElementById('lId').value = '';
+        document.getElementById('lPass').value = '';
+        document.getElementById('lId').focus();
+    }
+
+    function selectSavedAccount(id, autoLogin = false) {
+        const acc = getSavedAccounts().find(a => a.id === id);
+        if (!acc) return;
+        document.getElementById('lId').value = acc.id;
+        document.getElementById('lPass').value = acc.pass;
+        closeSavedAccountsSheet();
+        if (autoLogin) login();
+    }
+
+    let gPendingSaveData = null;
+    let gPromptPassVisible = false;
+
+    function checkAndPromptSavePassword(id, pass, name, avatar) {
+        const existing = getSavedAccounts().find(a => a.id === id);
+        if (existing && String(existing.pass) === String(pass)) {
+            saveAccount(id, pass, name, avatar);
+            return;
+        }
+        let neverList = [];
+        try { neverList = JSON.parse(localStorage.getItem('never_save_ids')) || []; } catch (e) {}
+        if (!existing && neverList.includes(id)) return;
+
+        gPendingSaveData = { id, pass, name, avatar };
+        gPromptPassVisible = false;
+
+        document.getElementById('gSaveTitle').innerText = existing ? "পাসওয়ার্ড আপডেট করবেন?" : "পাসওয়ার্ড সেভ করবেন?";
+        document.getElementById('gSaveConfirmBtn').innerText = existing ? "আপডেট" : "সেভ করুন";
+        document.getElementById('gSaveName').innerText = name || "মেম্বার";
+        document.getElementById('gSaveId').innerText = "ID: " + id;
+        document.getElementById('gSaveAvatar').innerHTML = avatar ? `<img src="${avatar}" alt="u">` : (name || 'U').charAt(0).toUpperCase();
+        document.getElementById('gSavePassDisp').innerText = "•".repeat(Math.min(Math.max(String(pass).length, 6), 12));
+        document.getElementById('gSaveEyeIcon').className = "fas fa-eye";
+
+        const promptEl = document.getElementById('gSavePassPrompt');
+        if (promptEl) { promptEl.style.display = 'block'; promptEl.classList.add('show'); }
+    }
+
+    function toggleSavePromptPass() {
+        if (!gPendingSaveData) return;
+        gPromptPassVisible = !gPromptPassVisible;
+        document.getElementById('gSavePassDisp').innerText = gPromptPassVisible
+            ? gPendingSaveData.pass
+            : "•".repeat(Math.min(Math.max(String(gPendingSaveData.pass).length, 6), 12));
+        document.getElementById('gSaveEyeIcon').className = gPromptPassVisible ? "fas fa-eye-slash" : "fas fa-eye";
+    }
+
+    function confirmSavePassword() {
+        if (!gPendingSaveData) return;
+        let neverList = [];
+        try { neverList = JSON.parse(localStorage.getItem('never_save_ids')) || []; } catch (e) {}
+        neverList = neverList.filter(x => x !== gPendingSaveData.id);
+        localStorage.setItem('never_save_ids', JSON.stringify(neverList));
+
+        saveAccount(gPendingSaveData.id, gPendingSaveData.pass, gPendingSaveData.name, gPendingSaveData.avatar);
+        dismissSavePassPrompt();
+        showToast("পাসওয়ার্ড নিরাপদে সেভ হয়েছে!");
+    }
+
+    function neverSaveThisPass() {
+        if (gPendingSaveData) {
+            let neverList = [];
+            try { neverList = JSON.parse(localStorage.getItem('never_save_ids')) || []; } catch (e) {}
+            if (!neverList.includes(gPendingSaveData.id)) neverList.push(gPendingSaveData.id);
+            localStorage.setItem('never_save_ids', JSON.stringify(neverList));
+        }
+        dismissSavePassPrompt();
+    }
+
+    function dismissSavePassPrompt() {
+        const promptEl = document.getElementById('gSavePassPrompt');
+        if (promptEl) { promptEl.classList.remove('show'); promptEl.style.display = 'none'; }
+        gPendingSaveData = null;
     }
 
     async function initApp() {
@@ -1630,6 +1917,7 @@
         const accounts = getSavedAccounts();
 
         initRunningMonthSelectors();
+        suppressAccountSheet = false;
 
         if (loggedIn !== 'true' && accounts.length > 0) {
             document.getElementById('lId').value = accounts[0].id;
@@ -1812,7 +2100,8 @@
     }
 
     function filterHistory() { renderHistory(); }
-    <!-- PART 3 END -->
+
+
 
     async function login() {
         const id = document.getElementById('lId').value.trim();
@@ -1830,7 +2119,6 @@
                 if(u.status === "Approved") {
                     localStorage.setItem('isLoggedIn', 'true'); 
                     localStorage.setItem('user_id', id); 
-                    saveAccount(id, pass, u.name || "মেম্বার");
                     
                     const { data: adminData } = await supabaseClient.from('admins').select('id').eq('id', id).single();
                     isAdminMode = !!(adminData || id === SUPER_ADMIN_ID);
@@ -1844,6 +2132,10 @@
                     showPage('homePage'); 
                     refreshUserData(); 
                     if(isAdminMode) refreshAdminData();
+
+                    setTimeout(() => {
+                        checkAndPromptSavePassword(id, pass, u.name || "মেম্বার", u.avatar_url || "");
+                    }, 350);
                 } else {
                     customAlert("আপনার একাউন্টটি এখনও অনুমোদনের অপেক্ষায় আছে!");
                 }
@@ -1891,6 +2183,8 @@
         if (await customConfirm("আপনি কি নিশ্চিতভাবে লগ আউট করতে চান?")) { 
             localStorage.setItem('isLoggedIn', 'false');
             isAdminMode = false; curId = "";
+            suppressAccountSheet = false;
+            dismissSavePassPrompt();
             document.getElementById('adminMenuBtn').style.display = 'none';
             showPage('loginPage'); initApp(); 
         } 
@@ -1924,28 +2218,24 @@
     async function refreshUserData() {
         if(!curId) return;
         try {
-        // ===== জুলাই ২০২৬ থেকে রানিং মাস ও মোট মাস হিসাব =====
-    const bnMonthsList = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
-    const dNow = new Date();
-    const cYear = dNow.getFullYear();
-    const cMonth = dNow.getMonth() + 1; // বর্তমান মাস (১-১২ হিসেবে)
+            const bnMonthsList = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const dNow = new Date();
+            const cYear = dNow.getFullYear();
+            const cMonth = dNow.getMonth() + 1;
 
-    // সমিতি শুরুর সময়: জুলাই ২০২৬ (৭ম মাস)
-    const sYear = 2026;
-    const sMonth = 7; 
+            const sYear = 2026;
+            const sMonth = 7; 
 
-    // মোট মাস হিসাব (জুলাই ২০২৬ এবং বর্তমান মাস সহ)
-    let totalMonthsCount = ((cYear - sYear) * 12) + (cMonth - sMonth) + 1;
-    if (totalMonthsCount < 1) totalMonthsCount = 1;
+            let totalMonthsCount = ((cYear - sYear) * 12) + (cMonth - sMonth) + 1;
+            if (totalMonthsCount < 1) totalMonthsCount = 1;
 
-    // সংখ্যা বাংলায় রূপান্তর
-    const toBnDigits = n => n.toString().replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+            const toBnDigits = n => n.toString().replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
 
-    const rMonthEl = document.getElementById('runningMonthDisp');
-    const tMonthEl = document.getElementById('totalMonthsDisp');
+            const rMonthEl = document.getElementById('runningMonthDisp');
+            const tMonthEl = document.getElementById('totalMonthsDisp');
 
-    if (rMonthEl) rMonthEl.innerText = `${bnMonthsList[cMonth - 1]} ${toBnDigits(cYear)}`;
-    if (tMonthEl) tMonthEl.innerText = `${toBnDigits(totalMonthsCount)} মাস`; // অথবা `${toBnDigits(totalMonthsCount)}ম কিস্তি`
+            if (rMonthEl) rMonthEl.innerText = `${bnMonthsList[cMonth - 1]} ${toBnDigits(cYear)}`;
+            if (tMonthEl) tMonthEl.innerText = `${toBnDigits(totalMonthsCount)} মাস`;
             const { data: u } = await supabaseClient.from('users').select('*').eq('id', curId).single();
             const { data: txs } = await supabaseClient.from('transactions').select('*').eq('user_id', curId).order('id', { ascending: false });
             
@@ -2628,7 +2918,6 @@
         list.innerHTML = hasApproved ? khataTableHTML : "<center><small style='color:var(--sk-text-muted);'>কোনো রেকর্ড নেই</small></center>";
     }
 
-    /* লেটেস্ট ও আকর্ষণীয় আধুনিক অ্যাডমিন খাতা স্টেটমেন্ট টেবিল ভিউ */
     async function openKhata(id) { 
         currentKhataUid = id;
         const u = users[id] || { name: 'মেম্বার', balance: 0 }; 
@@ -2809,14 +3098,6 @@
             l.innerHTML = "<center><small style='color:var(--sk-text-muted);'>কোনো পেন্ডিং রিকোয়েস্ট নেই</small></center>";
             return;
         }
-        // ...বাকি অংশ অপরিবর্তিত থাকবে
-        // ...বাকি অংশ অপরিবর্তিত থাকবে
-        
-        if(!data || data.length === 0) {
-            l.innerHTML = "<center><small style='color:var(--sk-text-muted);'>কোনো পেন্ডিং রিকোয়েস্ট নেই</small></center>";
-            return;
-        }
-        // ...বাকি অংশ অপরিবর্তিত থাকবে
         
         data.forEach(r => {
             l.innerHTML += `
@@ -3446,10 +3727,8 @@
             const t = currentKhataTxs[txnId] || Object.values(currentKhataTxs).find(x => String(x.id) === String(txnId));
             if (!t) { toggleLoader(false); return customAlert("লেনদেন পাওয়া যায়নি!"); }
 
-            // 👉 নতুন রাউন্ড লোগোটির আলাদা ImgBB লিংক থাকলে এখানে FINAL_LOGO_URL এর বদলে সেটি বসিয়ে দিতে পারবেন
             const RECEIPT_LOGO_URL = "https://i.ibb.co.com/gb63ZYs1/20261121-121837.webp";
 
-            // 👉 ডিজিটাল বারকোড (CODE128) তৈরি
             let barcodeImgHTML = "";
             try {
                 if (typeof JsBarcode !== "undefined") {
@@ -3546,6 +3825,7 @@
             if (wrapper) wrapper.remove();
         }
     }
+
     async function submitFund() {
         const fDate = document.getElementById('fDate').value;
         const fAmt = parseFloat(document.getElementById('fAmt').value);
@@ -3658,7 +3938,6 @@
 - রসিদ: অনুমোদিত হলে 'ইতিহাস' পেজে পাওয়া যায়।
 - অ্যাডমিন ও ডেভেলপার: মোঃ আজমল হোসেন (0191262931)। ক্যাশিয়ার: শাহাবুদ্দিন রাজা (01675564435)।`;
 
-        // আপনার পূর্বের সফল ও কার্যকরী মডেলসমূহ
         const modernModels = [
             "gemini-3.5-flash-lite",
             "gemini-3.8-flash",
@@ -4069,4 +4348,4 @@
 </script>
 </body>
 </html>
-<!-- ==================== PART 4 COMPLETE ==================== -->
+
