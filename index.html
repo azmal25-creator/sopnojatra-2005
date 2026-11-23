@@ -2361,19 +2361,22 @@
                 } else {
                     alertBox.style.display = "block";
                     const isGreenPeriod = (curDay >= 1 && curDay <= 15);
+                    const dueChipsHTML = dueMonths.map(m =>
+                        `<span style="display:inline-block; background:${isGreenPeriod ? '#d1fae5' : '#fee2e2'}; color:${isGreenPeriod ? '#065f46' : '#991b1b'}; border:1px solid ${isGreenPeriod ? '#6ee7b7' : '#fca5a5'}; padding:2px 8px; border-radius:6px; font-size:10.5px; font-weight:800; margin:3px 4px 1px 0;">${m}</span>`
+                    ).join('');
 
                     if (isGreenPeriod) {
                         alertInner.style.cssText = "background: #ecfdf5; border: 1.5px solid #a7f3d0; padding: 12px 14px; border-radius: 12px; border-left: 4px solid #10b981;";
-                        remTitle.style.cssText = "color: #065f46; font-weight: 800; font-size: 12px; display: block; margin-bottom: 2px;";
-                        remMsg.style.cssText = "font-size: 12px; color: #022c22; line-height: 1.45; font-weight: 600;";
+                        remTitle.style.cssText = "color: #065f46; font-weight: 800; font-size: 12px; display: block; margin-bottom: 3px;";
+                        remMsg.style.cssText = "font-size: 12px; color: #022c22; line-height: 1.5; font-weight: 600;";
                         remTitle.innerHTML = `<i class="fas fa-calendar-check" style="color: #10b981;"></i> সঞ্চয় রিমাইন্ডার (${dueCount} মাসের বকেয়া):`;
-                        remMsg.innerHTML = `আপনার বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। আগামী ১৫ তারিখের মধ্যে পরিশোধ করুন।`;
+                        remMsg.innerHTML = `আপনার বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। আগামী ১৫ তারিখের মধ্যে পরিশোধ করুন।<div style="margin-top:5px;"><small style="font-weight:700; display:block; margin-bottom:2px;">বকেয়া মাসসমূহ:</small>${dueChipsHTML}</div>`;
                     } else {
                         alertInner.style.cssText = "background: #fef2f2; border: 1.5px solid #fecaca; padding: 12px 14px; border-radius: 12px; border-left: 4px solid #dc2626;";
-                        remTitle.style.cssText = "color: #dc2626; font-weight: 800; font-size: 12px; display: block; margin-bottom: 2px;";
-                        remMsg.style.cssText = "font-size: 12px; color: #991b1b; line-height: 1.45; font-weight: 700;";
+                        remTitle.style.cssText = "color: #dc2626; font-weight: 800; font-size: 12px; display: block; margin-bottom: 3px;";
+                        remMsg.style.cssText = "font-size: 12px; color: #991b1b; line-height: 1.5; font-weight: 700;";
                         remTitle.innerHTML = `<i class="fas fa-radiation-alt"></i> রেড এলার্ট - সঞ্চয় বকেয়া!`;
-                        remMsg.innerHTML = `নির্ধারিত ১৫ তারিখ অতিক্রম হয়েছে! বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। দ্রুত পরিশোধ করুন।`;
+                        remMsg.innerHTML = `নির্ধারিত ১৫ তারিখ অতিক্রম হয়েছে! বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। দ্রুত পরিশোধ করুন।<div style="margin-top:5px;"><small style="font-weight:800; display:block; margin-bottom:2px;">বকেয়া মাসসমূহ:</small>${dueChipsHTML}</div>`;
                     }
                 }
             }
@@ -4351,4 +4354,3 @@
 </script>
 </body>
 </html>
-
