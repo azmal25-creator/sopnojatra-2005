@@ -2818,9 +2818,9 @@
 
         const rmText = document.getElementById('colRunningMonthText');
         if(rmText) {
-            rmText.innerHTML = (dueMonthsCount > 0) ? `<b style="color:#dc2626;">${dueMonthsCount} মাসের বকেয়া: ৳${liveDue} ⚠️</b>` : `<b style="color:#16a34a;">সকল কিস্তি পরিশোধিত ✅</b>`;
+            const dMonthsList = (info.dueMonths && info.dueMonths.length > 0) ? ` (${info.dueMonths.join(', ')})` : '';
+            rmText.innerHTML = (dueMonthsCount > 0) ? `<b style="color:#dc2626;">${dueMonthsCount} মাসের বকেয়া: ৳${liveDue}${dMonthsList} ⚠️</b>` : `<b style="color:#16a34a;">সকল কিস্তি পরিশোধিত ✅</b>`;
         }
-
         setTodayDate();
         document.getElementById('colAmt').value = "";
         document.getElementById('colTrx').value = "";
@@ -2864,6 +2864,9 @@
             await supabaseClient.from('users').update({ balance: updatedBalance, dues: newDues }).eq('id', uid);
             toggleLoader(false);
             showToast("কালেকশন সফলভাবে আপডেট হয়েছে!");
+            if (colAmt > 0 && users[uid]?.phone) {
+                sendBulkDepositSMS(users[uid].phone, users[uid].name, uid, colAmt, updatedBalance);
+            }
             showAdminTab('colPage', document.getElementById('tabColAdmin'));
             showPage('adminDashboardPage');
             refreshAdminData();
@@ -3119,17 +3122,53 @@
         });
     }
 
+    async function sendBulkDepositSMS(phone, name, userId, depositAmt, totalAmt) {
+        const cleanPhone = String(phone || '').replace(/[^\d]/g, '');
+        if (!cleanPhone) {
+            showToast("সদস্যের মোবাইল নম্বর নেই, তাই SMS যায়নি।", "error");
+            return;
+        }
+
+        const depStr = parseFloat(depositAmt || 0).toLocaleString('en-US');
+        const totStr = parseFloat(totalAmt || 0).toLocaleString('en-US');
+        const cleanName = String(name || 'Member').trim();
+        const msg = `Shopnojatra 2005: Dear ${cleanName} (ID: ${userId}), Tk ${depStr} deposited. Total Savings: Tk ${totStr}. Thank you.`;
+
+        try {
+            const { data, error } = await supabaseClient.functions.invoke('send-sms', {
+                body: { number: cleanPhone, message: msg, adminId: curId }
+            });
+
+            if (error || !data?.success) {
+                console.error("SMS Error:", error || data);
+                showToast("টাকা অ্যাপ্রুভ হয়েছে, তবে SMS পাঠানো যায়নি!", "error");
+            } else {
+                showToast("সদস্যের মোবাইলে অটো SMS পাঠানো হয়েছে!");
+            }
+        } catch (e) {
+            console.error("SMS Exception:", e);
+            showToast("SMS সার্ভারে সংযোগ পাওয়া যায়নি!", "error");
+        }
+    }
+
     async function appP(txnId, userId, amount) { 
         toggleLoader(true);
-        const { data: u } = await supabaseClient.from('users').select('balance').eq('id', userId).single();
+        const { data: u } = await supabaseClient.from('users').select('balance, name, phone').eq('id', userId).single();
+        let newVal = 0;
         if(u) {
-            let newVal = parseFloat(u.balance || 0) + parseFloat(amount); 
+            newVal = parseFloat(u.balance || 0) + parseFloat(amount); 
             await supabaseClient.from('users').update({ balance: newVal }).eq('id', userId);
             await supabaseClient.from('transactions').update({ status: 'Approved' }).eq('id', txnId);
         }
         toggleLoader(false);
         showToast("অ্যাপ্রুভ সম্পন্ন!"); 
         refreshAdminData();
+
+        if (u && u.phone) {
+            sendBulkDepositSMS(u.phone, u.name, userId, amount, newVal);
+        } else {
+            showToast("সদস্যের মোবাইল নম্বর সেট করা নেই, তাই SMS যায়নি।", "error");
+        }
     }
 
     async function rejectP(txnId) {
@@ -4354,3 +4393,4 @@
 </script>
 </body>
 </html>
+
