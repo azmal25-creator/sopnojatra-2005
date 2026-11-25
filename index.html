@@ -3126,7 +3126,7 @@
         const cleanPhone = String(phone || '').replace(/[^\d]/g, '');
         if (!cleanPhone) {
             showToast("সদস্যের মোবাইল নম্বর নেই, তাই SMS যায়নি।", "error");
-            return;
+            return false;
         }
 
         const depStr = parseFloat(depositAmt || 0).toLocaleString('en-US');
@@ -3135,19 +3135,29 @@
         const msg = `Shopnojatra 2005: Dear ${cleanName} (ID: ${userId}), Tk ${depStr} deposited. Total Savings: Tk ${totStr}. Thank you.`;
 
         try {
-            const { data, error } = await supabaseClient.functions.invoke('send-sms', {
+            // Use the configured Supabase client for Edge Function requests.
+            const { data: result, error } = await supabaseClient.functions.invoke('send-sms', {
                 body: { number: cleanPhone, message: msg, adminId: curId }
             });
 
-            if (error || !data?.success) {
-                console.error("SMS Error:", error || data);
-                showToast("টাকা অ্যাপ্রুভ হয়েছে, তবে SMS পাঠানো যায়নি!", "error");
-            } else {
-                showToast("সদস্যের মোবাইলে অটো SMS পাঠানো হয়েছে!");
+            if (error) {
+                console.error('send-sms function error:', error);
+                showToast("SMS সার্ভার সংযোগ ব্যর্থ: " + (error.message || "Function request failed"), "error");
+                return false;
             }
+
+            if (!result || result.success !== true) {
+                const errDetail = result?.data?.error_message || result?.data?.response_code || result?.error || result?.msg || "SMS পাঠানো যায়নি";
+                showToast("SMS যায়নি: " + errDetail, "error");
+                return false;
+            }
+
+            showToast("সদস্যের মোবাইলে অটো SMS পাঠানো হয়েছে!");
+            return true;
         } catch (e) {
-            console.error("SMS Exception:", e);
-            showToast("SMS সার্ভারে সংযোগ পাওয়া যায়নি!", "error");
+            console.error('send-sms request failed:', e);
+            showToast("SMS সার্ভার এরর: " + (e?.message || "Connection error"), "error");
+            return false;
         }
     }
 
@@ -3165,7 +3175,7 @@
         refreshAdminData();
 
         if (u && u.phone) {
-            sendBulkDepositSMS(u.phone, u.name, userId, amount, newVal);
+            await sendBulkDepositSMS(u.phone, u.name, userId, amount, newVal);
         } else {
             showToast("সদস্যের মোবাইল নম্বর সেট করা নেই, তাই SMS যায়নি।", "error");
         }
