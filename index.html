@@ -3136,7 +3136,7 @@
 
         try {
             // Use the configured Supabase client for Edge Function requests.
-            const { data: result, error } = await supabaseClient.functions.invoke('send-sms', {
+            const { data: result, error } = await supabaseClient.functions.invoke('send-sns', {
                 body: { number: cleanPhone, message: msg, adminId: curId }
             });
 
@@ -4403,4 +4403,4 @@
 </script>
 </body>
 </html>
-
+                                                                                  </html>
