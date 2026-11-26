@@ -1100,7 +1100,7 @@
         <div id="colPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 12px;">
                 <h3 style="color: var(--sk-primary); font-size: 14px; margin-bottom: 8px; justify-content: flex-start;"><i class="fas fa-hand-holding-dollar"></i> মাই কালেকশন (ফান্ড জমা ও কারেকশন)</h3>
-                <select id="colUserDropdown" onchange="if(this.value) openCollectionPage(this.value)">
+                <select id="colUserDropdown" onfocus="window.colDropdownBusyUntil = Date.now() + 20000" ontouchstart="window.colDropdownBusyUntil = Date.now() + 20000" onmousedown="window.colDropdownBusyUntil = Date.now() + 20000" onblur="window.colDropdownBusyUntil = 0" onchange="window.colDropdownBusyUntil = 0; if(this.value) openCollectionPage(this.value)">
                     <option value="">-- মেম্বার নির্বাচন করুন (নাম বা আইডি) --</option>
                 </select>
             </div>
@@ -1537,6 +1537,7 @@
     let users = {}; 
     let activeId = ""; 
     let currentKhataTxs = {};
+    let historyTxsMap = {};
     let currentKhataUid = "";
     let activeCollectionUid = "";
 
@@ -2038,12 +2039,12 @@
         }
         
         const searchQuery = document.getElementById('histSearch')?.value.toLowerCase() || "";
-        let filteredTxs = [];
-        currentKhataTxs = {}; 
+       let filteredTxs = [];
+        historyTxsMap = {}; 
 
         transactionHistoryData.forEach(t => {
             const status = t.status || "Approved";
-            currentKhataTxs[t.id] = t;
+            historyTxsMap[t.id] = t;
             
             const matchFilter = (currentFilter === 'all' || status === currentFilter);
             const contentString = `${t.date} ${t.amount} ${t.months}`.toLowerCase();
@@ -2741,12 +2742,15 @@
         showPage('adminMemberDetPage');
     }
 
+    let lastColDropdownHTML = "";
+    let lastColListHTML = "";
+
     function renderCollectionSection() {
         const dropdown = document.getElementById('colUserDropdown');
         const list = document.getElementById('colUserList');
         if(!dropdown || !list) return;
 
-        dropdown.innerHTML = `<option value="">-- মেম্বার নির্বাচন করুন (নাম বা আইডি) --</option>`;
+        let dropdownHTML = `<option value="">-- মেম্বার নির্বাচন করুন (নাম বা আইডি) --</option>`;
         
         let colTableHTML = `
         <div class="table-container">
@@ -2768,7 +2772,7 @@
             const u = users[id];
             if(u && (u.status === "Approved" || !u.status)) {
                 hasApproved = true; count++;
-                dropdown.innerHTML += `<option value="${id}">${u.name} (ID: ${id}${u.phone ? ' - ' + u.phone : ''})</option>`;
+                dropdownHTML += `<option value="${id}">${u.name} (ID: ${id}${u.phone ? ' - ' + u.phone : ''})</option>`;
                 
                 const info = (window.userDueInfoMap && window.userDueInfoMap[id.toString().trim().toLowerCase()]) || {};
                 let dueVal = (info.totalDue !== undefined) ? info.totalDue : 0;
@@ -2793,7 +2797,25 @@
         });
 
         colTableHTML += `</tbody></table></div>`;
-        list.innerHTML = hasApproved ? colTableHTML : "<center><small style='color:var(--sk-text-muted);'>সদস্য নেই</small></center>";
+        const finalListHTML = hasApproved ? colTableHTML : "<center><small style='color:var(--sk-text-muted);'>সদস্য নেই</small></center>";
+
+        const isDropdownBusy = (document.activeElement === dropdown) || (window.colDropdownBusyUntil && Date.now() < window.colDropdownBusyUntil);
+        if (!isDropdownBusy && dropdownHTML !== lastColDropdownHTML) {
+            const prevVal = dropdown.value;
+            dropdown.innerHTML = dropdownHTML;
+            lastColDropdownHTML = dropdownHTML;
+            if (prevVal && [...dropdown.options].some(o => o.value === prevVal)) {
+                dropdown.value = prevVal;
+            }
+        }
+
+        if (finalListHTML !== lastColListHTML) {
+            list.innerHTML = finalListHTML;
+            lastColListHTML = finalListHTML;
+            if (document.getElementById('colSrch')?.value) {
+                filterCollectionList();
+            }
+        }
     }
 
     function filterCollectionList() {
@@ -3778,8 +3800,18 @@
         toggleLoader(true);
         let wrapper = null;
         try {
-            let u = users[uid] || { name: "Member" };
-            const t = currentKhataTxs[txnId] || Object.values(currentKhataTxs).find(x => String(x.id) === String(txnId));
+            let u = users[uid] || { name: (String(uid) === String(curId) && document.getElementById('uNameDisp')?.innerText) ? document.getElementById('uNameDisp').innerText : "Member" };
+            let t = (currentPage === 'historyPage')
+                ? (historyTxsMap[txnId] || Object.values(historyTxsMap).find(x => String(x.id) === String(txnId)))
+                : (currentKhataTxs[txnId] || Object.values(currentKhataTxs).find(x => String(x.id) === String(txnId)));
+            if (!t) {
+                t = historyTxsMap[txnId] || Object.values(historyTxsMap).find(x => String(x.id) === String(txnId))
+                    || currentKhataTxs[txnId] || Object.values(currentKhataTxs).find(x => String(x.id) === String(txnId));
+            }
+            if (!t) {
+                const { data: fetchedTx } = await supabaseClient.from('transactions').select('*').eq('id', txnId).maybeSingle();
+                t = fetchedTx;
+            }
             if (!t) { toggleLoader(false); return customAlert("লেনদেন পাওয়া যায়নি!"); }
 
             const RECEIPT_LOGO_URL = "https://i.ibb.co.com/gb63ZYs1/20261121-121837.webp";
@@ -4403,4 +4435,3 @@
 </script>
 </body>
 </html>
-                                                                                  </html>
