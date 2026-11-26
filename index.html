@@ -19,54 +19,152 @@
     
     <style>
         :root { 
-            --sk-primary: #047857;          /* মূল গাঢ় সবুজ */
-            --sk-dark: #064e3b;             /* সাইডবার ও অ্যাকসেন্ট */
-            --sk-bg: #f8fafc;               /* সফট ধূসর ফ্রেশ ব্যাকগ্রাউন্ড */
+            --sk-primary: #0b2545;          /* অফিশিয়াল ডিপ নেভি ব্লু */
+            --sk-dark: #071930;             /* গাঢ় মিডনাইট নেভি */
+            --sk-gold: #d97706;             /* হেরিটেজ গোল্ড */
+            --sk-bg: #eef2f6;               /* সফট ব্যাংকিং লেজার ব্যাকগ্রাউন্ড */
             --sk-card-bg: #ffffff;
-            --sk-text-main: #0f172a;        /* গাঢ় বোল্ড টেক্সট */
-            --sk-text-muted: #64748b;       /* সাবটেক্সট */
-            --sk-border: #e2e8f0;
+            --sk-text-main: #0f172a;
+            --sk-text-muted: #64748b;
+            --sk-border: #dbe3ed;
 
-            /* ছবির রঙের কার্ড কালার */
-            --sk-green-card: #10b981;
-            --sk-blue-card: #0ea5e9;
-            --sk-purple-card: #8b5cf6;
-            --sk-orange-card: #f97316;
+            --sk-green-card: #047857;
+            --sk-blue-card: #1d4ed8;
+            --sk-purple-card: #b91c1c;
+            --sk-orange-card: #d97706;
             
-            --radius-lg: 16px;
+            --radius-lg: 18px;
             --radius-md: 12px;
-            --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.04);
-            --shadow-float: 0 8px 20px rgba(4, 120, 87, 0.25);
+            --shadow-card: 0 4px 16px rgba(11, 37, 69, 0.06);
+            --shadow-float: 0 10px 26px rgba(11, 37, 69, 0.22);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Hind Siliguri', 'Segoe UI', Arial, sans-serif; }
-        body { margin: 0; background: var(--sk-bg); color: var(--sk-text-main); padding-bottom: 90px; user-select: none; }
-        
-        /* ছবির মতো সাদা হেডার */
-        header { 
-            background: #ffffff; 
+        body { 
+            margin: 0; 
+            background: var(--sk-bg); 
             color: var(--sk-text-main); 
+            padding-bottom: 96px; 
+            user-select: none; 
+        }
+        
+        /* ==================== অফিশিয়াল সমবায় সমিতি হেডার ==================== */
+        header { 
+            background: linear-gradient(135deg, #071930 0%, #0b2545 65%, #163a6b 100%); 
+            color: #ffffff; 
             height: 64px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            padding: 0 16px; 
+            padding: 0 14px; 
             position: sticky; 
             top: 0; 
             z-index: 1000; 
-            border-bottom: 1.5px solid var(--sk-border);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border-bottom: 2.5px solid #d97706;
+            box-shadow: 0 4px 16px rgba(7, 25, 48, 0.24);
         }
-        header .brand { font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 10px; color: var(--sk-primary); }
-        header .brand img { width: 38px; height: 38px; border-radius: 10px; object-fit: contain; }
+        .drawer-toggle-btn {
+            width: 38px; height: 38px; min-width: 38px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fbbf24;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; cursor: pointer;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            transition: 0.2s;
+        }
+        .drawer-toggle-btn:active { transform: scale(0.92); }
+
+        header .brand { font-size: 14.5px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: #ffffff; min-width: 0; }
+        header .brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        header .brand img { width: 36px; height: 36px; border-radius: 50%; object-fit: contain; background: #ffffff; padding: 2px; border: 1.5px solid #fbbf24; flex-shrink: 0; }
         header .avatar { 
-            width: 40px; height: 40px; background: #e0f2fe; border-radius: 12px; 
+            width: 38px; height: 38px; min-width: 38px; background: linear-gradient(135deg, #f59e0b, #b45309); border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; font-weight: 800; 
-            font-size: 14px; color: #0284c7; border: 1.5px solid #bae6fd; 
+            font-size: 14px; color: #ffffff; border: 2px solid #fde68a; 
             cursor: pointer; overflow: hidden;
         }
         header .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        
+
+        /* ==================== স্লাইড-আউট নেভিগেশন ড্রয়ার ==================== */
+        .app-drawer-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(7, 25, 48, 0.6);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 9998;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .app-drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+
+        .app-drawer {
+            position: fixed; top: 0; left: 0; bottom: 0;
+            width: 280px; max-width: 82vw;
+            background: #ffffff;
+            z-index: 9999;
+            transform: translateX(-105%);
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex; flex-direction: column;
+            box-shadow: 10px 0 32px rgba(7, 25, 48, 0.3);
+            border-right: 1px solid var(--sk-border);
+        }
+        .app-drawer.open { transform: translateX(0); }
+
+        .drawer-header {
+            background: linear-gradient(145deg, #071930 0%, #0b2545 70%, #1e40af 100%);
+            padding: 22px 16px 18px;
+            color: #ffffff;
+            border-bottom: 3px solid #d97706;
+            position: relative;
+        }
+        .drawer-close {
+            position: absolute; top: 12px; right: 12px;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: rgba(255,255,255,0.15); color: #fff;
+            border: none; font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .drawer-user-row { display: flex; align-items: center; gap: 12px; }
+        .drawer-avatar {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            color: #fff; font-weight: 800; font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border: 2px solid #fde68a; flex-shrink: 0;
+        }
+        .drawer-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .drawer-bal-pill {
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            border-radius: 10px;
+            padding: 8px 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 12px;
+        }
+        .drawer-bal-pill b { color: #fbbf24; font-size: 15px; font-weight: 800; }
+
+        .drawer-menu {
+            flex: 1; overflow-y: auto; padding: 12px 10px;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .drawer-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; border-radius: 10px;
+            color: var(--sk-text-main); font-size: 13.5px; font-weight: 700;
+            cursor: pointer; transition: 0.18s;
+        }
+        .drawer-item:hover, .drawer-item:active { background: #eff6ff; color: var(--sk-primary); }
+        .drawer-item i {
+            width: 30px; height: 30px; border-radius: 8px;
+            background: #f1f5f9; color: var(--sk-primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+        }
+        .drawer-item.drawer-admin i { background: #fef3c7; color: #b45309; }
+        .drawer-footer { padding: 12px; border-top: 1px solid var(--sk-border); background: #f8fafc; }
+
         .container { width: 100%; max-width: 650px; margin: 0 auto; padding: 12px; }
         .page { display: none; animation: skFadeIn 0.2s ease-out; min-height: calc(100vh - 70px); box-sizing: border-box; }
         .active { display: block !important; }
@@ -77,6 +175,7 @@
             padding: 18px; 
             border-radius: var(--radius-lg); 
             border: 1px solid var(--sk-border); 
+            border-top: 3px solid var(--sk-primary);
             box-shadow: var(--shadow-card); 
             margin-bottom: 14px; 
             text-align: center; 
@@ -84,285 +183,314 @@
         }
         .card h3 { margin-top: 0; color: var(--sk-primary); font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; justify-content: center; }
         
-        /* ৩টি রঙিন কার্ড (ড্যাশবোর্ড ব্যানার) */
+        /* ==================== ডিজিটাল পাসবুক ও মেম্বার প্রোফাইল ==================== */
+        .user-profile-strip {
+            background: #ffffff;
+            border: 1px solid var(--sk-border);
+            border-left: 5px solid #d97706;
+            padding: 12px 16px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-card);
+        }
+
+        /* পাসবুক লেজার স্ট্রিপ (শুরুর মাস / চলতি মাস / চলমান কিস্তি) */
+        #homePage > div:nth-child(3) {
+            background: #ffffff !important;
+            border: 1px solid var(--sk-border) !important;
+            border-radius: 14px !important;
+            padding: 8px 4px !important;
+            margin-bottom: 12px !important;
+            box-shadow: var(--shadow-card) !important;
+        }
+        #homePage > div:nth-child(3) > div { gap: 0 !important; }
+        #homePage > div:nth-child(3) > div > div {
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 6px 4px !important;
+            border-right: 1px dashed #cbd5e1 !important;
+        }
+        #homePage > div:nth-child(3) > div > div:last-child { border-right: none !important; }
+        #homePage > div:nth-child(3) > div > div:nth-child(2) small,
+        #homePage > div:nth-child(3) > div > div:nth-child(2) b { color: #0b2545 !important; }
+        #homePage > div:nth-child(3) > div > div:nth-child(3) small,
+        #homePage > div:nth-child(3) > div > div:nth-child(3) b { color: #b45309 !important; }
+
+        /* সমবায় পাসবুক সঞ্চয় ও তহবিল কার্ড */
         .sk-dashboard-banner {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
             margin-bottom: 14px;
         }
+        #homePage .sk-dashboard-banner {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
         .sk-banner-card {
-            padding: 14px 10px;
-            border-radius: 16px;
+            padding: 14px 12px;
+            border-radius: 14px;
             color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
             text-align: left;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-        .sk-banner-card small {
-            font-size: 11px;
-            font-weight: 700;
-            opacity: 0.95;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
-        .sk-banner-card b {
-            font-size: 17px;
-            font-weight: 800;
-            letter-spacing: -0.2px;
-            line-height: 1.1;
-        }
-        .sk-card-green { background: #10b981; }
-        .sk-card-blue { background: #0ea5e9; }
-        .sk-card-purple { background: #8b5cf6; }
-
-        /* ইউজার প্রোফাইল স্ট্রিপ (ছবি ২) */
-        .user-profile-strip {
-            background: #ffffff;
-            border: 1.5px solid var(--sk-border);
-            padding: 12px 16px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
             box-shadow: var(--shadow-card);
         }
-
-        /* মেনু টাইটেল (ছবি ২ ও ৩) */
-        .sk-menu-title {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: var(--sk-text-muted);
-            margin: 16px 0 12px 2px;
-            display: flex;
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child {
+            grid-column: span 2;
+            flex-direction: row;
             align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            justify-content: space-between;
+            padding: 20px 18px;
+            background: linear-gradient(135deg, #071930 0%, #0b2545 55%, #1d4ed8 100%);
+            border: 1.5px solid rgba(251, 191, 36, 0.45);
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(11, 37, 69, 0.22);
+        }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child::after {
+            content: '';
+            position: absolute; right: -20px; bottom: -25px;
+            width: 90px; height: 90px; border-radius: 50%;
+            background: rgba(251, 191, 36, 0.12);
+        }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child small { font-size: 13px; color: #e2e8f0; margin-bottom: 0; }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child b { font-size: 25px; color: #fbbf24; }
+
+        #homePage .sk-dashboard-banner .sk-card-blue {
+            background: #ffffff !important;
+            color: var(--sk-text-main) !important;
+            border: 1px solid var(--sk-border);
+            border-left: 4px solid #1d4ed8;
+        }
+        #homePage .sk-dashboard-banner .sk-card-blue small { color: #1d4ed8; }
+        #homePage .sk-dashboard-banner .sk-card-purple {
+            background: #ffffff !important;
+            color: var(--sk-text-main) !important;
+            border: 1px solid var(--sk-border);
+            border-left: 4px solid #dc2626;
+        }
+        #homePage .sk-dashboard-banner .sk-card-purple small { color: #dc2626; }
+
+        .sk-banner-card small {
+            font-size: 11px; font-weight: 700; opacity: 0.95;
+            display: flex; align-items: center; gap: 5px; margin-bottom: 4px;
+        }
+        .sk-banner-card b { font-size: 17px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.1; }
+        .sk-card-green { background: #047857; }
+        .sk-card-blue { background: #1d4ed8; }
+        .sk-card-purple { background: #b91c1c; }
+
+        /* অ্যাডমিন ড্যাশবোর্ড ফান্ড ব্যানার */
+        #adminDashboardPage > div:nth-child(2) {
+            background: linear-gradient(135deg, #071930 0%, #0b2545 65%, #1e3a8a 100%) !important;
+            border: 1.5px solid #d97706 !important;
+            border-radius: 18px !important;
         }
 
-        /* চারকোনা ২-কলাম অপশন গ্রিড (ছবি ২ ও ৩) */
+        /* স্মার্ট AI ব্যানার */
+        #homePage > div:nth-child(6) {
+            background: linear-gradient(90deg, #eff6ff 0%, #ffffff 100%) !important;
+            border: 1.5px solid #bfdbfe !important;
+            border-radius: 16px !important;
+        }
+        #homePage > div:nth-child(6) > div > div:first-child {
+            background: #0b2545 !important;
+            color: #fbbf24 !important;
+        }
+        #homePage > div:nth-child(6) > span {
+            background: #d97706 !important;
+            color: #ffffff !important;
+        }
+
+        /* মেনু টাইটেল */
+        .sk-menu-title {
+            font-size: 13px; font-weight: 800; color: var(--sk-primary);
+            margin: 14px 0 10px 4px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        /* ==================== ৩-কলাম ব্যাংকিং সার্ভিস ম্যাট্রিক্স কার্ড ==================== */
         .sk-option-grid {
+            background: #ffffff;
+            border: 1px solid var(--sk-border);
+            border-radius: 18px;
+            padding: 14px 8px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px 4px;
             margin-bottom: 16px;
+            box-shadow: var(--shadow-card);
         }
         .sk-option-card {
-            background: #ffffff;
-            border: 1.5px solid var(--sk-border);
-            border-radius: 18px;
-            padding: 16px 14px;
+            background: transparent;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 4px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            justify-content: space-between;
-            min-height: 98px;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            min-height: auto;
             cursor: pointer;
-            box-shadow: var(--shadow-card);
-            transition: all 0.2s ease;
+            box-shadow: none;
+            transition: background 0.18s, transform 0.15s;
         }
-        .sk-option-card:hover {
-            border-color: var(--sk-primary);
-            transform: translateY(-2px);
-        }
-        .sk-option-card:active { transform: scale(0.97); }
+        .sk-option-card:hover { background: #f8fafc; }
+        .sk-option-card:active { transform: scale(0.95); background: #eff6ff; }
 
         .sk-opt-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 10px;
+            width: 48px; height: 48px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 19px;
+            margin-bottom: 7px;
+            box-shadow: 0 4px 10px rgba(11, 37, 69, 0.08);
         }
-        .sk-opt-title {
-            font-size: 14.5px;
-            font-weight: 800;
-            color: var(--sk-text-main);
-            line-height: 1.2;
-        }
-        .sk-opt-sub {
-            font-size: 11px;
-            color: var(--sk-text-muted);
-            font-weight: 600;
-            margin-top: 3px;
-        }
+        .sk-opt-title { font-size: 12px; font-weight: 800; color: var(--sk-primary); line-height: 1.25; }
+        .sk-opt-sub { display: none; }
 
         .opt-green .sk-opt-icon { background: #dcfce7; color: #15803d; }
-        .opt-blue .sk-opt-icon { background: #e0f2fe; color: #0284c7; }
+        .opt-blue .sk-opt-icon { background: #dbeafe; color: #1d4ed8; }
         .opt-purple .sk-opt-icon { background: #f3e8ff; color: #7e22ce; }
         .opt-orange .sk-opt-icon { background: #ffedd5; color: #c2410c; }
         .opt-amber .sk-opt-icon { background: #fef3c7; color: #b45309; }
-        .opt-teal .sk-opt-icon { background: #ccfbf1; color: #0f766e; }
+        .opt-teal .sk-opt-icon { background: #e0f2fe; color: #0369a1; }
 
         /* সার্চ বক্স */
-        .search-container {
-            position: relative;
-            margin-bottom: 14px;
-        }
+        .search-container { position: relative; margin-bottom: 14px; }
         .search-container input {
-            width: 100%;
-            height: 48px;
-            padding: 12px 14px 12px 42px !important;
+            width: 100%; height: 46px;
+            padding: 10px 14px 10px 42px !important;
             border: 1.5px solid var(--sk-border);
-            border-radius: 14px;
-            outline: none;
-            background: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--sk-text-main);
-            box-shadow: var(--shadow-card);
+            border-radius: 12px; outline: none;
+            background: #ffffff; font-size: 14px; font-weight: 600;
+            color: var(--sk-text-main); box-shadow: var(--shadow-card);
         }
-        .search-container input:focus {
-            border-color: var(--sk-primary);
-        }
-        .search-container i {
-            position: absolute;
-            left: 14px;
-            top: 16px;
-            color: #64748b;
-            font-size: 16px;
-        }
+        .search-container input:focus { border-color: var(--sk-primary); }
+        .search-container i { position: absolute; left: 14px; top: 15px; color: var(--sk-primary); font-size: 15px; }
 
-        /* এক লাইনে ৬টি ট্যাব (ছবি ১) */
+        /* অ্যাডমিন ট্যাব */
         .admin-tabs {
             display: grid !important;
             grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
             gap: 4px !important;
             width: 100% !important;
-            background: #f1f5f9;
+            background: #dbe3ed;
             padding: 4px !important;
             border-radius: 12px;
             margin-bottom: 14px;
         }
         .admin-tab {
-            padding: 8px 1px !important;
-            font-size: 11px !important;
-            font-weight: 800;
-            color: var(--sk-text-muted);
-            cursor: pointer;
-            border-radius: 9px;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-            transition: 0.2s;
+            padding: 8px 1px !important; font-size: 11px !important; font-weight: 800;
+            color: #334155; cursor: pointer; border-radius: 9px;
+            text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            position: relative; transition: 0.2s;
         }
         .admin-tab.active {
             background: var(--sk-primary);
-            color: #ffffff !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            color: #fbbf24 !important;
+            box-shadow: 0 2px 8px rgba(11, 37, 69, 0.25);
         }
 
-        /* ছবির মতো টেবিল স্টাইল */
+        /* অফিশিয়াল লেজার টেবিল স্টাইল */
         .table-container {
-            width: 100% !important;
-            background: #ffffff;
-            border-radius: 14px;
-            border: 1px solid var(--sk-border);
-            overflow-x: auto !important;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 14px;
+            width: 100% !important; background: #ffffff; border-radius: 14px;
+            border: 1px solid var(--sk-border); overflow-x: auto !important;
+            box-shadow: var(--shadow-card); margin-bottom: 14px;
         }
-        .somiti-table, .statement-table {
-            width: 100% !important;
-            border-collapse: collapse !important;
-            font-size: 11.5px !important;
-        }
+        .somiti-table, .statement-table { width: 100% !important; border-collapse: collapse !important; font-size: 11.5px !important; }
         .somiti-table th, .statement-table th {
-            background: #f8fafc;
-            color: #334155 !important;
-            font-weight: 800;
-            padding: 10px 4px !important;
-            border-bottom: 2px solid var(--sk-border);
-            text-align: center;
+            background: var(--sk-primary) !important; color: #ffffff !important;
+            font-weight: 800; padding: 10px 4px !important; border-bottom: 2px solid #d97706; text-align: center;
         }
         .somiti-table td, .statement-table td {
-            padding: 10px 4px !important;
-            border-bottom: 1px solid var(--sk-border);
-            text-align: center;
-            vertical-align: middle !important;
+            padding: 10px 4px !important; border-bottom: 1px solid var(--sk-border);
+            text-align: center; vertical-align: middle !important;
         }
         .id-badge {
-            background: #e0f2fe;
-            color: #0284c7;
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 10.5px;
-            display: inline-block;
+            background: #eff6ff; color: #1d4ed8; padding: 2px 7px; border-radius: 6px;
+            border: 1px solid #bfdbfe; font-weight: 800; font-size: 10.5px; display: inline-block;
         }
         .tbl-btn {
-            background: var(--sk-primary);
-            color: white;
-            border: none;
-            padding: 4px 7px;
-            border-radius: 6px;
-            font-size: 10.5px;
-            font-weight: 700;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--sk-primary); color: white; border: none; padding: 4px 8px;
+            border-radius: 6px; font-size: 10.5px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
         }
-        .btn-collect { background: var(--sk-orange-card); }
+        .btn-collect { background: #d97706; }
 
-        /* ফর্ম ইনপুট ও বাটন */
+        .item-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #ffffff; border: 1px solid var(--sk-border); border-radius: 12px;
+            padding: 12px 14px; margin-bottom: 8px; box-shadow: var(--shadow-card); cursor: pointer;
+        }
+
         input, select, textarea { 
             width: 100%; min-height: 46px; padding: 11px 14px; margin: 6px 0; 
             border: 1.5px solid var(--sk-border); border-radius: 12px; outline: none; 
-            background: #ffffff; font-size: 14px; color: var(--sk-text-main); 
-            transition: 0.2s; 
+            background: #ffffff; font-size: 14px; color: var(--sk-text-main); transition: 0.2s; 
         }
-        input:focus, select:focus, textarea:focus { 
-            border-color: var(--sk-primary); 
-            box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15); 
-        }
+        input:focus, select:focus, textarea:focus { border-color: var(--sk-primary); box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.14); }
 
         .btn { 
             width: 100%; min-height: 46px; padding: 12px 16px; 
-            background: var(--sk-primary); color: #ffffff !important; 
+            background: linear-gradient(135deg, #0b2545 0%, #1e40af 100%); color: #ffffff !important; 
             border: none; border-radius: 12px; font-weight: 800; font-size: 13.5px; 
-            cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2); 
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
-            transition: 0.2s;
+            cursor: pointer; margin-top: 10px; box-shadow: 0 4px 14px rgba(11, 37, 69, 0.22); 
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
         }
         .btn:active { transform: scale(0.98); }
 
-        /* ছবির মতো আধুনিক বটম বার (ছবি ৩) */
+        /* ==================== নতুন ROYAL NAVY & GOLD FLOATING BOTTOM BAR ==================== */
         .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; right: 0; height: 68px; 
-            background: #ffffff; display: none; justify-content: space-around; 
-            align-items: center; border-top: 1.5px solid var(--sk-border); 
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 999; 
+            position: fixed; bottom: 10px; left: 12px; right: 12px;
+            max-width: 626px; margin: 0 auto; height: 64px; 
+            background: #0b2545;
+            display: none; justify-content: space-around; align-items: center; 
+            border-radius: 20px;
+            border: 1px solid rgba(251, 191, 36, 0.35); 
+            box-shadow: var(--shadow-float); 
+            z-index: 999; 
+            padding: 0 6px;
         }
         .nav-item { 
-            display: flex; flex-direction: column; align-items: center; 
-            font-size: 10.5px; color: var(--sk-text-muted); cursor: pointer; 
-            font-weight: 700; flex: 1; padding: 6px 0; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 10px; color: #cbd5e1; cursor: pointer; 
+            font-weight: 700; flex: 1; height: 48px; border-radius: 14px; margin: 0 2px;
+            transition: all 0.22s ease;
         }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
-        .nav-item.active-nav { color: var(--sk-primary); font-weight: 800; }
+        .nav-item i { font-size: 17px; margin-bottom: 3px; }
+        .nav-item.active-nav { 
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #071930 !important; 
+            font-weight: 800; 
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+        }
+        .nav-item.active-nav i { color: #071930; }
         
+        /* মাঝখানের বাটন অন্য সবার মতো সমান */
         #nav-historyPage { 
-            background: var(--sk-primary) !important; color: #ffffff !important; 
-            width: 52px !important; height: 52px !important; 
-            border-radius: 50% !important; display: flex !important; 
-            flex-direction: column !important; justify-content: center !important; 
-            align-items: center !important; position: relative !important; top: -14px !important; 
-            box-shadow: var(--shadow-float) !important; border: 3px solid #ffffff !important; 
+            background: transparent; color: #cbd5e1; 
+            width: auto !important; height: 48px !important; 
+            border-radius: 14px !important; display: flex !important; 
+            flex-direction: column !important; justify-content: center !important; align-items: center !important; 
+            position: relative !important; top: 0 !important; 
+            box-shadow: none !important; border: none !important; 
         }
-        #nav-historyPage i { color: #ffffff !important; font-size: 20px !important; margin: 0 !important; }
-        #nav-historyPage span { display: none !important; }
+        #nav-historyPage.active-nav {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+            color: #071930 !important;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4) !important;
+        }
+        #nav-historyPage i { color: inherit !important; font-size: 17px !important; margin: 0 0 3px 0 !important; }
+        #nav-historyPage span { display: block !important; }
 
         .logout-btn { 
             background: #fee2e2; border: 1px solid #fecaca; padding: 12px; 
@@ -371,348 +499,143 @@
             justify-content: center; gap: 8px; margin-top: 14px; 
         }
 
-        .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; background: #e2e8f0; padding: 4px; border-radius: 12px; }
-        .filter-tab { flex: 1; text-align: center; padding: 8px; font-size: 11px; color: var(--sk-text-muted); cursor: pointer; border-radius: 9px; font-weight: 800; transition: 0.2s; white-space: nowrap; }
-        .filter-tab.active-tab { background: var(--sk-primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+        .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; background: #dbe3ed; padding: 4px; border-radius: 12px; }
+        .filter-tab { flex: 1; text-align: center; padding: 8px; font-size: 11px; color: #334155; cursor: pointer; border-radius: 9px; font-weight: 800; transition: 0.2s; white-space: nowrap; }
+        .filter-tab.active-tab { background: var(--sk-primary); color: #fbbf24; }
         .report-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13.5px; }
 
-        /* ================= সংখ্যাযুক্ত আধুনিক পালসিং ব্যাজ ================= */
         .dot-badge {
-            display: none;
-            position: absolute;
-            top: 1px;
-            right: 2px;
-            min-width: 16px;
-            height: 16px;
-            padding: 0 4px;
-            background: #dc2626;
-            color: #ffffff !important;
-            font-size: 9.5px;
-            font-weight: 800;
-            border-radius: 10px;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
+            display: none; position: absolute; top: 1px; right: 2px;
+            min-width: 16px; height: 16px; padding: 0 4px;
+            background: #dc2626; color: #ffffff !important; font-size: 9.5px; font-weight: 800;
+            border-radius: 10px; align-items: center; justify-content: center; line-height: 1;
             box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
-            animation: modernPulse 1.8s infinite;
-            pointer-events: none;
-            z-index: 10;
+            animation: modernPulse 1.8s infinite; pointer-events: none; z-index: 10;
         }
-
         @keyframes modernPulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
             70% { transform: scale(1.08); box-shadow: 0 0 0 5px rgba(220, 38, 38, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
         }
 
-        /* ==================== STANDARD MODERN APP LOADER ==================== */
         #globalLoader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(238, 242, 246, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center; z-index: 100000;
         }
         .standard-loader {
-            background: #ffffff;
-            padding: 22px 28px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--sk-border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
+            background: #ffffff; padding: 22px 28px; border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(11, 37, 69, 0.14); border: 1px solid var(--sk-border);
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
         }
         .loader-spinner {
-            width: 42px;
-            height: 42px;
-            border: 3.5px solid #d1fae5;
-            border-top: 3.5px solid var(--sk-primary);
-            border-radius: 50%;
+            width: 42px; height: 42px; border: 3.5px solid #dbeafe;
+            border-top: 3.5px solid var(--sk-primary); border-radius: 50%;
             animation: skSpin 0.75s linear infinite;
         }
-        .loader-dots {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .loader-dots span {
-            width: 6.5px;
-            height: 6.5px;
-            background: var(--sk-primary);
-            border-radius: 50%;
-            animation: skDotPulse 1.2s infinite ease-in-out both;
-        }
+        .loader-dots { display: flex; align-items: center; gap: 5px; }
+        .loader-dots span { width: 6.5px; height: 6.5px; background: var(--sk-primary); border-radius: 50%; animation: skDotPulse 1.2s infinite ease-in-out both; }
         .loader-dots span:nth-child(1) { animation-delay: -0.32s; }
         .loader-dots span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes skSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes skDotPulse { 0%, 80%, 100% { transform: scale(0.4); opacity: 0.3; } 40% { transform: scale(1.1); opacity: 1; } }
 
-        /* ==================== AI ASSISTANT POPUP CSS ==================== */
         #sopno-ai-window {
-            position: fixed !important;
-            bottom: 85px !important;
-            right: 15px !important;
-            width: 330px !important;
-            max-width: calc(100vw - 30px) !important;
-            height: 470px !important;
-            max-height: 72vh !important;
-            background: #ffffff !important;
-            border-radius: 22px !important;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25) !important;
-            display: none;
-            flex-direction: column !important;
-            overflow: hidden !important;
-            z-index: 999999 !important;
-            border: 1.5px solid var(--sk-border) !important;
+            position: fixed !important; bottom: 86px !important; right: 15px !important;
+            width: 330px !important; max-width: calc(100vw - 30px) !important;
+            height: 470px !important; max-height: 72vh !important;
+            background: #ffffff !important; border-radius: 20px !important;
+            box-shadow: 0 15px 40px rgba(7, 25, 48, 0.28) !important;
+            display: none; flex-direction: column !important; overflow: hidden !important;
+            z-index: 999999 !important; border: 1.5px solid var(--sk-border) !important;
         }
-        .sopno-ai-head {
-            background: var(--sk-primary) !important;
-            color: white !important;
-            padding: 12px 16px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-        }
-        .sopno-ai-head h4 {
-            margin: 0 !important;
-            font-size: 15px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-            color: white !important;
-        }
-        .sopno-ai-close {
-            background: transparent !important;
-            border: none !important;
-            color: white !important;
-            font-size: 24px !important;
-            cursor: pointer !important;
-            line-height: 1 !important;
-        }
-        #sopno-ai-msgs {
-            flex: 1 !important;
-            padding: 14px !important;
-            overflow-y: auto !important;
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 10px !important;
-            background: #f8fafc !important;
-        }
-        .sopno-msg {
-            max-width: 82% !important;
-            padding: 9px 13px !important;
-            border-radius: 14px !important;
-            font-size: 13px !important;
-            line-height: 1.45 !important;
-            word-wrap: break-word !important;
-        }
-        .sopno-bot {
-            align-self: flex-start !important;
-            background: #ffffff !important;
-            color: var(--sk-text-main) !important;
-            border: 1px solid var(--sk-border) !important;
-            border-bottom-left-radius: 4px !important;
-        }
-        .sopno-user {
-            align-self: flex-end !important;
-            background: var(--sk-primary) !important;
-            color: white !important;
-            border-bottom-right-radius: 4px !important;
-        }
-        .sopno-ai-bottom {
-            display: flex !important;
-            padding: 10px !important;
-            background: #ffffff !important;
-            border-top: 1px solid var(--sk-border) !important;
-            gap: 8px !important;
-        }
-        #sopno-ai-input {
-            flex: 1 !important;
-            border: 1.5px solid var(--sk-border) !important;
-            padding: 9px 14px !important;
-            border-radius: 20px !important;
-            outline: none !important;
-            font-size: 13px !important;
-            min-height: 38px !important;
-            margin: 0 !important;
-        }
-        #sopno-ai-input:focus {
-            border-color: var(--sk-primary) !important;
-        }
-        #sopno-ai-send {
-            background: var(--sk-primary) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 50% !important;
-            width: 38px !important;
-            height: 38px !important;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            cursor: pointer !important;
-            flex-shrink: 0 !important;
-        }
-        #sopno-ai-send svg {
-            width: 17px !important;
-            height: 17px !important;
-            fill: white !important;
-        }
+        .sopno-ai-head { background: var(--sk-primary) !important; color: white !important; padding: 12px 16px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; border-bottom: 2px solid #d97706 !important; }
+        .sopno-ai-head h4 { margin: 0 !important; font-size: 15px !important; display: flex !important; align-items: center !important; gap: 6px !important; color: #fbbf24 !important; }
+        .sopno-ai-close { background: transparent !important; border: none !important; color: white !important; font-size: 24px !important; cursor: pointer !important; line-height: 1 !important; }
+        #sopno-ai-msgs { flex: 1 !important; padding: 14px !important; overflow-y: auto !important; display: flex !important; flex-direction: column !important; gap: 10px !important; background: #f8fafc !important; }
+        .sopno-msg { max-width: 82% !important; padding: 9px 13px !important; border-radius: 14px !important; font-size: 13px !important; line-height: 1.45 !important; word-wrap: break-word !important; }
+        .sopno-bot { align-self: flex-start !important; background: #ffffff !important; color: var(--sk-text-main) !important; border: 1px solid var(--sk-border) !important; border-bottom-left-radius: 4px !important; }
+        .sopno-user { align-self: flex-end !important; background: var(--sk-primary) !important; color: white !important; border-bottom-right-radius: 4px !important; }
+        .sopno-ai-bottom { display: flex !important; padding: 10px !important; background: #ffffff !important; border-top: 1px solid var(--sk-border) !important; gap: 8px !important; }
+        #sopno-ai-input { flex: 1 !important; border: 1.5px solid var(--sk-border) !important; padding: 9px 14px !important; border-radius: 20px !important; outline: none !important; font-size: 13px !important; min-height: 38px !important; margin: 0 !important; }
+        #sopno-ai-input:focus { border-color: var(--sk-primary) !important; }
+        #sopno-ai-send { background: var(--sk-primary) !important; color: white !important; border: none !important; border-radius: 50% !important; width: 38px !important; height: 38px !important; display: flex !important; justify-content: center !important; align-items: center !important; cursor: pointer !important; flex-shrink: 0 !important; }
+        #sopno-ai-send svg { width: 17px !important; height: 17px !important; fill: #fbbf24 !important; }
         
-        /* পেমেন্ট ও ভেরিফাই ব্যাজের আসল গোল ডিজাইন ও কালার */
         .admin-tab .dot-badge {
-            display: none;
-            background: #dc2626 !important;
-            color: #ffffff !important;
-            font-size: 9px !important;
-            font-weight: 800 !important;
-            min-width: 15px !important;
-            height: 15px !important;
-            border-radius: 50% !important;
-            padding: 0 3px !important;
-            margin-left: 4px !important;
-            vertical-align: middle !important;
-            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.4) !important;
-            line-height: 15px !important;
-            text-align: center !important;
+            display: none; background: #dc2626 !important; color: #ffffff !important;
+            font-size: 9px !important; font-weight: 800 !important; min-width: 15px !important;
+            height: 15px !important; border-radius: 50% !important; padding: 0 3px !important;
+            margin-left: 4px !important; vertical-align: middle !important;
+            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.4) !important; line-height: 15px !important; text-align: center !important;
         }
-
-        /* ==================== GOOGLE / CHROME PASSWORD MANAGER UI ==================== */
+        /* ==================== LATEST CHROME PASSWORD MANAGER UI ==================== */
         .g-avatar-circle {
-            width: 34px;
-            height: 34px;
-            min-width: 34px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #047857, #10b981);
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1.5px solid #a7f3d0;
+            width: 36px; height: 36px; min-width: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #0b2545, #1e40af);
+            color: #fbbf24; font-weight: 800; font-size: 13.5px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border: 1.5px solid #fbbf24;
         }
         .g-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
 
         .g-sheet-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.52);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            z-index: 99990;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.22s ease;
+            position: fixed; inset: 0;
+            background: rgba(7, 25, 48, 0.56);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            z-index: 99990; opacity: 0; pointer-events: none; transition: opacity 0.22s ease;
         }
         .g-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
 
         .g-sheet {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            max-width: 520px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 24px 24px 0 0;
-            padding: 10px 18px 22px;
-            z-index: 99991;
-            box-shadow: 0 -10px 35px rgba(15, 23, 42, 0.22);
-            transform: translateY(105%);
-            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-            max-height: 75vh;
-            display: flex;
-            flex-direction: column;
+            position: fixed; left: 0; right: 0; bottom: 0; max-width: 520px; margin: 0 auto;
+            background: #ffffff; border-radius: 26px 26px 0 0;
+            padding: 10px 18px 22px; z-index: 99991;
+            border-top: 3px solid #d97706;
+            box-shadow: 0 -12px 38px rgba(7, 25, 48, 0.28);
+            transform: translateY(105%); transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+            max-height: 75vh; display: flex; flex-direction: column;
         }
         .g-sheet.open { transform: translateY(0); }
 
-        .g-sheet-handle {
-            width: 40px;
-            height: 4px;
-            background: #cbd5e1;
-            border-radius: 4px;
-            margin: 2px auto 12px;
-        }
-        .g-sheet-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--sk-border);
-        }
-        .g-sheet-body {
-            overflow-y: auto;
-            padding: 12px 0 6px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .g-sheet-handle { width: 44px; height: 4px; background: #cbd5e1; border-radius: 4px; margin: 2px auto 12px; }
+        .g-sheet-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--sk-border); }
+        .g-sheet-body { overflow-y: auto; padding: 12px 0 6px; display: flex; flex-direction: column; gap: 8px; }
+
         .g-acc-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            border-radius: 14px;
-            border: 1.5px solid var(--sk-border);
-            background: #ffffff;
-            cursor: pointer;
-            transition: 0.15s;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; border-radius: 14px;
+            border: 1.5px solid var(--sk-border); background: #ffffff;
+            cursor: pointer; transition: 0.18s;
+            box-shadow: 0 2px 8px rgba(11, 37, 69, 0.04);
         }
-        .g-acc-item:active { background: #f0fdf4; border-color: var(--sk-primary); }
+        .g-acc-item:active { background: #eff6ff; border-color: var(--sk-primary); transform: scale(0.99); }
 
         .g-save-prompt {
-            display: none;
-            position: fixed;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 24px);
-            max-width: 410px;
-            background: #ffffff;
-            border-radius: 20px;
-            border: 1.5px solid #cbd5e1;
-            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.22);
-            padding: 16px;
-            z-index: 99995;
-            animation: skFadeIn 0.25s ease-out;
+            display: none; position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 24px); max-width: 410px;
+            background: #ffffff; border-radius: 22px;
+            border: 1.5px solid #dbe3ed;
+            box-shadow: 0 20px 50px rgba(7, 25, 48, 0.28);
+            overflow: hidden; z-index: 99995; animation: skFadeIn 0.25s ease-out;
         }
         .g-save-prompt.show { display: block; }
-        .g-save-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            margin-top: 12px;
+        .g-save-top-bar {
+            background: linear-gradient(135deg, #071930 0%, #0b2545 65%, #1e40af 100%);
+            padding: 12px 16px; color: #ffffff;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 2.5px solid #d97706;
         }
+        .g-save-actions { display: flex; justify-content: flex-end; gap: 8px; }
         .g-btn-ghost {
-            background: #f1f5f9;
-            color: #475569;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 16px;
-            font-size: 12.5px;
-            font-weight: 700;
-            cursor: pointer;
+            background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0;
+            border-radius: 20px; padding: 8px 15px; font-size: 12px; font-weight: 700; cursor: pointer;
         }
         .g-btn-primary {
-            background: var(--sk-primary);
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 18px;
-            font-size: 12.5px;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(4, 120, 87, 0.25);
+            background: linear-gradient(135deg, #0b2545 0%, #1e40af 100%);
+            color: #fbbf24; border: none; border-radius: 20px;
+            padding: 8px 18px; font-size: 12.5px; font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(11, 37, 69, 0.25);
         }
     </style>
 </head>
@@ -729,16 +652,57 @@
 
 <!-- হেডার -->
 <header>
-    <div class="brand">
-        <img src="https://i.ibb.co.com/qL1pzwXD/ei-1780837828216-removebg-preview.webp" alt="logo">
-        <span id="hTitleText">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</span>
+    <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <div id="drawerToggleBtn" class="drawer-toggle-btn" onclick="openAppDrawer()" style="display:none;" title="মেনু">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="brand">
+            <img src="https://i.ibb.co.com/qL1pzwXD/ei-1780837828216-removebg-preview.webp" alt="logo">
+            <span id="hTitleText">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</span>
+        </div>
     </div>
     <div id="userBadge" class="avatar" style="display: none; cursor: pointer;" onclick="showPage('profilePage')" title="প্রোফাইল">U</div>
 </header>
 
+<!-- স্লাইড-আউট নেভিগেশন ড্রয়ার -->
+<div id="appDrawerBackdrop" class="app-drawer-backdrop" onclick="closeAppDrawer()"></div>
+<aside id="appDrawer" class="app-drawer">
+    <div class="drawer-header">
+        <button class="drawer-close" onclick="closeAppDrawer()">&times;</button>
+        <div class="drawer-user-row">
+            <div id="drawerAvatar" class="drawer-avatar">U</div>
+            <div style="min-width:0;">
+                <b id="drawerUserName" style="font-size:15px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">লোড হচ্ছে...</b>
+                <small id="drawerUserId" style="font-size:11px; color:#fde68a; font-weight:700;">ID: ---</small>
+                <small id="drawerUserPhone" style="font-size:10.5px; color:#e2e8f0; font-weight:600; display:block;"></small>
+            </div>
+        </div>
+        <div class="drawer-bal-pill">
+            <span>মোট সঞ্চয় স্থিতি</span>
+            <b id="drawerUserBal">৳ ০</b>
+        </div>
+    </div>
+
+    <div class="drawer-menu">
+        <div class="drawer-item" onclick="drawerGo('homePage')"><i class="fas fa-home"></i><span>হোম পাসবুক</span></div>
+        <div class="drawer-item" onclick="drawerGo('fundPage')"><i class="fas fa-plus-circle"></i><span>সঞ্চয় জমা দিন</span></div>
+        <div class="drawer-item" onclick="drawerGo('historyPage')"><i class="fas fa-receipt"></i><span>লেনদেন ইতিহাস ও রসিদ</span></div>
+        <div class="drawer-item" onclick="drawerGo('reportPage')"><i class="fas fa-file-invoice-dollar"></i><span>সঞ্চয় স্টেটমেন্ট</span></div>
+        <div class="drawer-item" onclick="drawerGo('noticePage')"><i class="fas fa-bell"></i><span>সমিতির নোটিশ বোর্ড</span></div>
+        <div class="drawer-item" onclick="drawerGo('profilePage')"><i class="fas fa-user-cog"></i><span>প্রোফাইল ও পাসওয়ার্ড</span></div>
+        <div id="drawerAdminBtn" class="drawer-item drawer-admin" style="display:none;" onclick="drawerGo('adminDashboardPage')"><i class="fas fa-user-shield"></i><span>অ্যাডমিন প্যানেল</span></div>
+        <div class="drawer-item" onclick="closeAppDrawer(); toggleSopnoAI();"><i class="fas fa-robot"></i><span>AI সহায়তা ডেস্ক</span></div>
+        <div class="drawer-item" onclick="drawerGo('devPage')"><i class="fas fa-headset"></i><span>কারিগরি যোগাযোগ</span></div>
+    </div>
+
+    <div class="drawer-footer">
+        <div class="logout-btn" style="margin-top:0;" onclick="closeAppDrawer(); logout();"><i class="fas fa-sign-out-alt"></i> লগ আউট করুন</div>
+    </div>
+</aside>
+
 <div class="container">
 
-    <!-- Login Page -->
+   <!-- Login Page -->
     <div id="loginPage" class="page">
         <center><img src="https://i.ibb.co.com/qL1pzwXD/ei-1780837828216-removebg-preview.webp" style="width: 85px; margin: 15px 0;" alt="logo"></center>
         <div class="card">
@@ -746,7 +710,7 @@
             <form id="loginForm" onsubmit="event.preventDefault(); login();" autocomplete="on">
                 <div style="position:relative;">
                     <input type="text" id="lId" name="username" autocomplete="username" placeholder="সদস্য পরিচিতি নম্বর" onclick="handleLoginInputTap()" style="padding-right: 42px !important;">
-                    <span onclick="event.stopPropagation(); showSavedAccountsModal()" style="position:absolute; right:12px; top:16px; color:var(--sk-primary); cursor:pointer; font-size: 16px;" title="সংরক্ষিত পাসওয়ার্ড ও অ্যাকাউন্ট"><i class="fas fa-key"></i></span>
+                    <span onclick="event.stopPropagation(); showSavedAccountsModal()" style="position:absolute; right:12px; top:16px; color:var(--sk-primary); cursor:pointer; font-size: 16px;" title="সংরক্ষিত অ্যাকাউন্টসমূহ"><i class="fas fa-history"></i></span>
                 </div>
                 <div style="position:relative;">
                     <input type="password" id="lPass" name="password" autocomplete="current-password" placeholder="পাসওয়ার্ড" onclick="handlePassInputTap()" style="padding-right: 42px !important;">
@@ -824,18 +788,25 @@
         <!-- শুরুর মাস, রানিং মাস ও চলমান কিস্তি কার্ড -->
         <div style="background: #ffffff; border: 1.5px solid var(--sk-border); padding: 12px 14px; border-radius: 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);">
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
+                
+                <!-- ১. শুরুর মাস -->
                 <div style="background: #f8fafc; padding: 10px 4px; border-radius: 12px; border: 1px solid #e2e8f0;">
                     <small style="font-size: 10px; color: var(--sk-text-muted); font-weight: 700; display: block; margin-bottom: 2px;">শুরুর মাস</small>
                     <b style="font-size: 12.5px; color: #0f172a; display: block; font-weight: 800;">জুলাই ২০২৬</b>
                 </div>
+
+                <!-- ২. রানিং মাস -->
                 <div style="background: #ecfdf5; padding: 10px 4px; border-radius: 12px; border: 1px solid #a7f3d0;">
                     <small style="font-size: 10px; color: #047857; font-weight: 700; display: block; margin-bottom: 2px;">চলতি মাস</small>
                     <b id="runningMonthDisp" style="font-size: 12.5px; color: #047857; display: block; font-weight: 800;">লোড হচ্ছে...</b>
                 </div>
+
+                <!-- ৩. চলমান কিস্তি -->
                 <div style="background: #eff6ff; padding: 10px 4px; border-radius: 12px; border: 1px solid #bfdbfe;">
                     <small style="font-size: 10px; color: #0284c7; font-weight: 700; display: block; margin-bottom: 2px;">চলমান কিস্তি</small>
                     <b id="totalMonthsDisp" style="font-size: 12.5px; color: #0284c7; display: block; font-weight: 800;">০ মাস</b>
                 </div>
+
             </div>
         </div>
 
@@ -881,6 +852,7 @@
         <div class="sk-menu-title"><i class="fas fa-th-large"></i> সফটওয়্যার ফিচার ও মেনু</div>
 
         <div class="sk-option-grid">
+            <!-- সঞ্চয় জমা -->
             <div class="sk-option-card opt-green" onclick="showPage('fundPage')">
                 <div class="sk-opt-icon"><i class="fas fa-plus-circle"></i></div>
                 <div>
@@ -888,6 +860,8 @@
                     <div class="sk-opt-sub">অনলাইনে ফান্ড যোগ করুন</div>
                 </div>
             </div>
+
+            <!-- সঞ্চয় রিপোর্ট -->
             <div class="sk-option-card opt-blue" onclick="showPage('reportPage')">
                 <div class="sk-opt-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                 <div>
@@ -895,6 +869,8 @@
                     <div class="sk-opt-sub">ব্যক্তিগত হিসাব দেখুন</div>
                 </div>
             </div>
+
+            <!-- লেনদেন ইতিহাস -->
             <div class="sk-option-card opt-purple" onclick="showPage('historyPage')">
                 <div class="sk-opt-icon"><i class="fas fa-receipt"></i></div>
                 <div>
@@ -902,6 +878,8 @@
                     <div class="sk-opt-sub">রসিদ ও জমার হিস্ট্রি</div>
                 </div>
             </div>
+
+            <!-- বিজ্ঞপ্তি / নোটিশ -->
             <div class="sk-option-card opt-orange" onclick="showPage('noticePage')">
                 <div class="sk-opt-icon"><i class="fas fa-bell"></i></div>
                 <div>
@@ -909,6 +887,8 @@
                     <div class="sk-opt-sub">সমিতির গুরুত্বপূর্ণ তথ্য</div>
                 </div>
             </div>
+
+            <!-- অ্যাডমিন খাতা -->
             <div id="adminMenuBtn" class="sk-option-card opt-amber" style="display: none;" onclick="showPage('adminDashboardPage')">
                 <div class="sk-opt-icon"><i class="fas fa-user-shield"></i></div>
                 <div>
@@ -916,6 +896,8 @@
                     <div class="sk-opt-sub">সার্বিক প্রশাসন ও হিসাব</div>
                 </div>
             </div>
+
+            <!-- কারিগরি সহায়তা -->
             <div class="sk-option-card opt-teal" onclick="showPage('devPage')">
                 <div class="sk-opt-icon"><i class="fas fa-headset"></i></div>
                 <div>
@@ -1060,6 +1042,7 @@
 
     <!-- ==================== ADMIN DASHBOARD PAGE ==================== -->
     <div id="adminDashboardPage" class="page">
+        <!-- ৩টি স্ট্যাটাস কার্ড -->
         <div class="sk-dashboard-banner">
             <div class="sk-banner-card sk-card-green" onclick="showAdminTab('mPage', document.getElementById('tabMAdmin'))" style="cursor:pointer;">
                 <small>মোট সদস্য</small>
@@ -1075,11 +1058,13 @@
             </div>
         </div>
 
+        <!-- সমিতির মোট ফান্ড কালেকশন ব্যানার -->
         <div style="background: #047857; color: #ffffff; padding: 22px 16px; border-radius: 18px; text-align: center; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(4, 120, 87, 0.15);">
             <div style="font-size: 13.5px; font-weight: 600; opacity: 0.95; margin-bottom: 6px;">সমিতির মোট ফান্ড কালেকশন</div>
             <h1 id="totalSum" style="margin: 0; color: #fde047; font-size: 32px; font-weight: 800; letter-spacing: -0.5px;">৳ ০</h1>
         </div>
 
+        <!-- সাব-ট্যাব বার -->
         <div class="admin-tabs">
             <div id="tabMAdmin" class="admin-tab active" onclick="showAdminTab('mPage', this)">সদস্য</div>
             <div id="tabColAdmin" class="admin-tab" style="color: var(--sk-orange-card);" onclick="showAdminTab('colPage', this)">কালেকশন</div>
@@ -1089,6 +1074,7 @@
             <div id="tabSAdmin" class="admin-tab" onclick="showAdminTab('sPage', this)">সেটিংস</div>
         </div>
 
+        <!-- Member List Sub-page -->
         <div id="mPage" class="admin-sub-page" style="display: block;">
             <div class="search-container">
                 <i class="fas fa-search"></i>
@@ -1097,6 +1083,7 @@
             <div id="mList">লোড হচ্ছে...</div>
         </div>
 
+        <!-- Collection Sub-page -->
         <div id="colPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 12px;">
                 <h3 style="color: var(--sk-primary); font-size: 14px; margin-bottom: 8px; justify-content: flex-start;"><i class="fas fa-hand-holding-dollar"></i> মাই কালেকশন (ফান্ড জমা ও কারেকশন)</h3>
@@ -1111,6 +1098,7 @@
             <div id="colUserList"></div>
         </div>
 
+        <!-- Statement Sub-page -->
         <div id="kPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 12px;">
                 <h3 style="color: var(--sk-primary); font-size: 14px; margin-bottom: 10px; justify-content: flex-start;"><i class="fas fa-chart-pie"></i> মাসিক সামারি</h3>
@@ -1154,13 +1142,36 @@
             </div>
             
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 14px;">
-                <h3 style="color: var(--sk-primary); font-size: 13.5px; margin-bottom: 10px; justify-content: flex-start;"><i class="fas fa-list-check"></i> মাসিক পেমেন্ট ও নন-পেমেন্ট লিস্ট</h3>
+                <h3 style="color: var(--sk-primary); font-size: 13.5px; margin-bottom: 8px; justify-content: flex-start;"><i class="fas fa-list-check"></i> মাসিক পেমেন্ট ও নন-পেমেন্ট লিস্ট</h3>
+                <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 8px; flex-wrap: wrap;">
+                    <select id="plYear" style="width: 90px; min-height: 36px; padding: 6px 8px; margin: 0; font-size: 12px; font-weight: 700;">
+                        <option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option>
+                    </select>
+                    <button type="button" onclick="quickSelectPlMonths('julyToNow')" style="flex: 1; min-height: 36px; padding: 6px 8px; border-radius: 10px; border: 1px solid #a7f3d0; background: #ecfdf5; color: #047857; font-size: 11px; font-weight: 800; cursor: pointer;">জুলাই–চলতি</button>
+                    <button type="button" onclick="quickSelectPlMonths('all')" style="min-height: 36px; padding: 6px 10px; border-radius: 10px; border: 1px solid #bfdbfe; background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: 800; cursor: pointer;">সব</button>
+                    <button type="button" onclick="quickSelectPlMonths('clear')" style="min-height: 36px; padding: 6px 10px; border-radius: 10px; border: 1px solid #fecaca; background: #fef2f2; color: #dc2626; font-size: 11px; font-weight: 800; cursor: pointer;">মুছুন</button>
+                </div>
+                <div id="plMonthContainer" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px;">
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="জানুয়ারি" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">জানুয়ারি</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="ফেব্রুয়ারি" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">ফেব্রুয়ারি</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="মার্চ" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">মার্চ</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="এপ্রিল" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">এপ্রিল</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="মে" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">মে</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="জুন" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">জুন</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="জুলাই" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">জুলাই</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="আগস্ট" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">আগস্ট</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="সেপ্টেম্বর" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">সেপ্টেম্বর</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="অক্টোবর" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">অক্টোবর</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="নভেম্বর" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">নভেম্বর</div>
+                    <div class="pl-month-chip" onclick="togglePlMonthChip(this)" data-month="ডিসেম্বর" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 2px; text-align:center; font-size:10.5px; font-weight:700; cursor:pointer;">ডিসেম্বর</div>
+                </div>
+                <div id="plSelectedInfo" style="font-size: 11px; color: var(--sk-text-muted); font-weight: 700; margin-bottom: 10px;">নির্বাচিত মাস: কোনোটি নয়</div>
                 <div style="display: flex; gap: 8px;">
                     <button class="btn" style="flex: 1; background: var(--sk-primary); margin-top: 0; padding: 9px;" onclick="showPaymentListPage('paid')">পেমেন্ট লিস্ট</button>
                     <button class="btn" style="background: #dc2626; flex: 1; margin-top: 0; padding: 9px;" onclick="showPaymentListPage('unpaid')">নন-পেমেন্ট লিস্ট</button>
                 </div>
             </div>
-
+<!-- তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট (DD.MM.YY ফরম্যাট) -->
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 14px;">
                 <h3 style="color: var(--sk-primary); font-size: 13.5px; margin-bottom: 10px; justify-content: flex-start;">
                     <i class="fas fa-calendar-alt"></i> তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট
@@ -1203,6 +1214,7 @@
         <div id="vPage" class="admin-sub-page" style="display: none;"><div id="vList"></div></div>
         <div id="pPage" class="admin-sub-page" style="display: none;"><div id="pList"></div></div>
 
+        <!-- Settings Sub-page -->
         <div id="sPage" class="admin-sub-page" style="display: none;">
             <div class="card" style="text-align: left; padding: 16px; margin-bottom: 14px;">
                 <h3 id="addAdminHeaderTitle" style="color: var(--sk-primary); font-size: 14px; margin-top: 0; justify-content: flex-start;">
@@ -1321,6 +1333,7 @@
                 </button>
             </div>
         </div>
+
         <div id="khataPageItems"></div>
     </div>
 
@@ -1398,13 +1411,16 @@
     <div id="adminReportPreviewPage" class="page">
         <div class="card" style="text-align: left; padding: 18px;">
             <h3 id="prevPageTitle" style="color: var(--sk-primary); margin: 0 0 10px 0; font-size: 16px;">Report Preview</h3>
+            
             <div id="previewKpiContainer" class="preview-kpi-grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;"></div>
             <div id="prevPageContent" style="max-height: 380px; overflow-y: auto;"></div>
+            
             <div style="display: flex; gap: 8px; margin-top: 14px;">
                 <button class="btn" style="background: #dc2626; flex: 1; padding: 10px; font-size: 12px; margin-top:0;" onclick="confirmDownloadPDF()"><i class="fas fa-download"></i> PDF</button>
                 <button class="btn" style="background: #0d9488; flex: 1; padding: 10px; font-size: 12px; margin-top:0;" onclick="confirmDownloadExcel()"><i class="fas fa-file-excel"></i> Excel</button>
                 <button class="btn" style="background: var(--sk-primary); flex: 1; padding: 10px; font-size: 12px; margin-top:0;" onclick="copyPreviewText()"><i class="fas fa-copy"></i> কপি</button>
             </div>
+            
             <button class="btn" style="background:#64748b !important; box-shadow:none; margin-top: 10px;" onclick="showAdminTab('kPage', document.getElementById('tabKAdmin')); showPage('adminDashboardPage');">ফিরে যান</button>
         </div>
     </div>
@@ -1413,16 +1429,22 @@
     <div id="adminTxnEditPage" class="page">
         <div class="card" style="text-align: left; padding: 18px;">
             <h3 style="margin-top:0; color: var(--sk-primary); font-size: 16px;"><i class="fas fa-edit"></i> লেনদেন সংশোধন</h3>
+            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">মাসসমূহ:</small>
             <input type="text" id="etMonths">
+            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">টাকার পরিমাণ (৳):</small>
             <input type="number" id="etAmount">
+            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">মাধ্যম:</small>
             <input type="text" id="etMethod">
+            
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">তারিখ:</small>
             <input type="text" id="etDate">
+
             <small style="font-weight: bold; color: var(--sk-text-muted); font-size: 11px;">Trx ID / সেন্ডার বিবরণ:</small>
             <input type="text" id="etTrx">
+            
             <div style="display: flex; gap: 8px; margin-top: 12px;">
                 <button class="btn" style="flex: 1; margin-top:0;" onclick="saveTxnEdit()">সংরক্ষণ</button>
                 <button class="btn" style="background: #64748b; flex: 1; box-shadow: none; margin-top:0;" onclick="openKhata(editingUid)">বাতিল</button>
@@ -1459,63 +1481,64 @@
         </button>
     </div>
 </div>
-
-<!-- Google/Chrome Style Saved Accounts Bottom Sheet -->
+<!-- Chrome Style Saved Accounts Bottom Sheet -->
 <div id="gAccountsBackdrop" class="g-sheet-backdrop" onclick="closeSavedAccountsSheet()"></div>
 <div id="gAccountsSheet" class="g-sheet">
     <div class="g-sheet-handle"></div>
     <div class="g-sheet-head">
-        <div style="display:flex; align-items:center; gap:9px;">
-            <div style="width:30px; height:30px; border-radius:50%; background:#ecfdf5; color:var(--sk-primary); display:flex; align-items:center; justify-content:center; font-size:14px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:34px; height:34px; border-radius:10px; background:#eff6ff; color:var(--sk-primary); display:flex; align-items:center; justify-content:center; font-size:15px; border:1px solid #bfdbfe;">
                 <i class="fas fa-key"></i>
             </div>
             <div>
-                <b style="font-size:14px; color:var(--sk-text-main); display:block;">সংরক্ষিত অ্যাকাউন্টসমূহ</b>
-                <small style="font-size:10.5px; color:var(--sk-text-muted);">১ ক্লিকে দ্রুত লগইন করুন</small>
+                <b style="font-size:14px; color:var(--sk-primary); display:block;">সংরক্ষিত অ্যাকাউন্টসমূহ</b>
+                <small style="font-size:10.5px; color:var(--sk-text-muted);">১ ক্লিকেই দ্রুত লগইন করুন</small>
             </div>
         </div>
         <button type="button" onclick="closeSavedAccountsSheet()" style="border:none; background:#f1f5f9; color:#475569; width:30px; height:30px; border-radius:50%; font-size:18px; cursor:pointer;">&times;</button>
     </div>
     <div id="gAccountsSheetList" class="g-sheet-body"></div>
-    <button type="button" class="btn" style="background:#f1f5f9; color:var(--sk-text-main) !important; box-shadow:none; margin-top:6px;" onclick="useAnotherAccount()">
+    <button type="button" class="btn" style="background:#f1f5f9 !important; color:var(--sk-primary) !important; border:1px solid var(--sk-border); box-shadow:none; margin-top:6px;" onclick="useAnotherAccount()">
         <i class="fas fa-user-plus"></i> অন্য অ্যাকাউন্ট ব্যবহার করুন
     </button>
 </div>
 
-<!-- Google/Chrome Style Save/Update Password Floating Prompt -->
+<!-- Latest Password Save / Update Floating Box -->
 <div id="gSavePassPrompt" class="g-save-prompt" style="display: none;">
-    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+    <div class="g-save-top-bar">
         <div style="display:flex; align-items:center; gap:10px;">
-            <div style="width:36px; height:36px; min-width:36px; border-radius:12px; background:#ecfdf5; color:var(--sk-primary); display:flex; align-items:center; justify-content:center; font-size:16px; border:1px solid #a7f3d0;">
-                <i class="fas fa-key"></i>
+            <div style="width:34px; height:34px; min-width:34px; border-radius:10px; background:rgba(255,255,255,0.12); color:#fbbf24; display:flex; align-items:center; justify-content:center; font-size:15px; border:1px solid rgba(251,191,36,0.4);">
+                <i class="fas fa-shield-alt"></i>
             </div>
             <div>
-                <b id="gSaveTitle" style="font-size:14px; color:var(--sk-text-main); display:block;">পাসওয়ার্ড সেভ করবেন?</b>
-                <small style="font-size:11px; color:var(--sk-text-muted);">স্বপ্নযাত্রা ২০০৫ পাসওয়ার্ড ম্যানেজার</small>
+                <b id="gSaveTitle" style="font-size:13.5px; color:#ffffff; display:block;">পাসওয়ার্ড সেভ করবেন?</b>
+                <small style="font-size:10.5px; color:#fde68a;">স্বপ্নযাত্রা পাসওয়ার্ড ম্যানেজার</small>
             </div>
         </div>
-        <button type="button" onclick="dismissSavePassPrompt()" style="border:none; background:transparent; color:#94a3b8; font-size:20px; cursor:pointer; line-height:1;">&times;</button>
+        <button type="button" onclick="dismissSavePassPrompt()" style="border:none; background:rgba(255,255,255,0.15); color:#ffffff; width:26px; height:26px; border-radius:50%; font-size:16px; cursor:pointer; line-height:1;">&times;</button>
     </div>
 
-    <div style="margin-top:12px; background:#f8fafc; border:1px solid var(--sk-border); border-radius:12px; padding:10px 12px;">
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-            <div id="gSaveAvatar" class="g-avatar-circle" style="width:28px; height:28px; min-width:28px; font-size:11px;">U</div>
-            <div style="min-width:0;">
-                <b id="gSaveName" style="font-size:12.5px; color:var(--sk-text-main); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">মেম্বার</b>
-                <small id="gSaveId" style="font-size:10.5px; color:var(--sk-primary); font-weight:700;">ID: ---</small>
+    <div style="padding: 14px 16px;">
+        <div style="background:#f8fafc; border:1px solid var(--sk-border); border-radius:14px; padding:10px 12px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <div id="gSaveAvatar" class="g-avatar-circle" style="width:32px; height:32px; min-width:32px; font-size:12px;">U</div>
+                <div style="min-width:0;">
+                    <b id="gSaveName" style="font-size:13px; color:var(--sk-primary); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">মেম্বার</b>
+                    <small id="gSaveId" style="font-size:10.5px; color:#d97706; font-weight:800;">ID: ---</small>
+                </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; background:#ffffff; border:1.5px solid var(--sk-border); border-radius:10px; padding:7px 11px;">
+                <span id="gSavePassDisp" style="font-family:monospace; font-size:13.5px; font-weight:800; color:var(--sk-text-main); letter-spacing:1.5px;">••••••••</span>
+                <i id="gSaveEyeIcon" class="fas fa-eye" onclick="toggleSavePromptPass()" style="color:var(--sk-primary); cursor:pointer; font-size:14px;"></i>
             </div>
         </div>
-        <div style="display:flex; align-items:center; justify-content:space-between; background:#ffffff; border:1px solid var(--sk-border); border-radius:8px; padding:6px 10px;">
-            <span id="gSavePassDisp" style="font-family:monospace; font-size:13px; font-weight:700; color:var(--sk-text-main); letter-spacing:1.5px;">••••••••</span>
-            <i id="gSaveEyeIcon" class="fas fa-eye" onclick="toggleSavePromptPass()" style="color:var(--sk-text-muted); cursor:pointer; font-size:14px;"></i>
-        </div>
-    </div>
 
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:12px;">
-        <span onclick="neverSaveThisPass()" style="font-size:11px; color:#64748b; font-weight:700; cursor:pointer; text-decoration:underline;">আর জিজ্ঞাসা করবেন না</span>
-        <div class="g-save-actions" style="margin-top:0;">
-            <button type="button" class="g-btn-ghost" onclick="dismissSavePassPrompt()">এখন নয়</button>
-            <button type="button" id="gSaveConfirmBtn" class="g-btn-primary" onclick="confirmSavePassword()">সেভ করুন</button>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:12px;">
+            <span onclick="neverSaveThisPass()" style="font-size:11px; color:#64748b; font-weight:700; cursor:pointer; text-decoration:underline;">কখনোই না</span>
+            <div class="g-save-actions">
+                <button type="button" class="g-btn-ghost" onclick="dismissSavePassPrompt()">এখন নয়</button>
+                <button type="button" id="gSaveConfirmBtn" class="g-btn-primary" onclick="confirmSavePassword()">সেভ করুন</button>
+            </div>
         </div>
     </div>
 </div>
@@ -1526,6 +1549,7 @@
     const SUPABASE_KEY = "sb_publishable_HIkEuo9fEau6kGwCpaEY4g_WjrIROKw";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
+    // সুপার অ্যাডমিন আইডি কনফিগারেশন
     const SUPER_ADMIN_ID = "2005013";
 
     let currentPage = "loginPage", curId = "";
@@ -1649,7 +1673,7 @@
     function customConfirm(msg) {
         return new Promise((resolve) => {
             const box = document.createElement('div');
-            box.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:99999; width:90%; max-width:400px; background:#0f172a; color:white; flex-direction:column; align-items:stretch; border-left:5px solid #047857; padding:16px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.3);';
+            box.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:99999; width:90%; max-width:400px; background:#0f172a; color:white; flex-direction:column; align-items:stretch; border-left:5px solid #4f46e5; padding:16px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.3);';
             box.innerHTML = `
                 <div style="margin-bottom: 12px; font-weight: 600; font-size:13.5px;">${msg}</div>
                 <div style="display: flex; gap: 10px;">
@@ -1674,7 +1698,7 @@
         
         const toast = document.createElement('div');
         const isError = type === 'error';
-        const bgGradient = isError ? '#991b1b' : '#047857';
+        const bgGradient = isError ? '#991b1b' : '#4f46e5';
         const iconClass = isError ? 'fa-exclamation-circle' : 'fa-check-circle';
 
         toast.style.cssText = `
@@ -1759,7 +1783,7 @@
         localStorage.setItem('saved_accounts', JSON.stringify(raw));
     }
 
-    function deleteSavedAccount(id, event) {
+    function deleteSavedAccount(id, event, fromSheet = false) {
         if (event) event.stopPropagation();
         let raw = [];
         try { raw = JSON.parse(localStorage.getItem('saved_accounts')) || []; } catch (e) { raw = []; }
@@ -1769,8 +1793,12 @@
             document.getElementById('lId').value = "";
             document.getElementById('lPass').value = "";
         }
-        renderSavedAccountsSheet();
-        if (updated.length === 0) closeSavedAccountsSheet();
+        if (fromSheet) {
+            renderSavedAccountsSheet();
+            if (updated.length === 0) closeSavedAccountsSheet();
+        } else {
+            showSavedAccountsModal();
+        }
     }
 
     let suppressAccountSheet = false;
@@ -1779,7 +1807,7 @@
         if (suppressAccountSheet) return;
         const accounts = getSavedAccounts();
         if (accounts.length > 0 && !document.getElementById('gAccountsSheet')?.classList.contains('open')) {
-            showSavedAccountsModal();
+            openSavedAccountsSheet();
         }
     }
 
@@ -1788,7 +1816,7 @@
         const passVal = document.getElementById('lPass')?.value || "";
         const accounts = getSavedAccounts();
         if (!passVal && accounts.length > 0 && !document.getElementById('gAccountsSheet')?.classList.contains('open')) {
-            showSavedAccountsModal();
+            openSavedAccountsSheet();
         }
     }
 
@@ -1807,19 +1835,18 @@
                     <div style="display:flex; align-items:center; gap:10px; min-width:0; flex:1;">
                         <div class="g-avatar-circle">${avatarHTML}</div>
                         <div style="min-width:0;">
-                            <b style="font-size:13.5px; color:var(--sk-text-main); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${acc.name}</b>
+                            <b style="font-size:13.5px; color:var(--sk-primary); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${acc.name}</b>
                             <small style="color:var(--sk-text-muted); font-size:11px; font-weight:700;">ID: ${acc.id} • ••••••</small>
                         </div>
                     </div>
-                    <div onclick="deleteSavedAccount('${acc.id}', event)" style="color:#dc2626; background:#fee2e2; width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;" title="মুছুন">
+                    <div onclick="deleteSavedAccount('${acc.id}', event, true)" style="color:#dc2626; background:#fee2e2; width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;" title="মুছুন">
                         <i class="fas fa-trash-alt" style="font-size:12px;"></i>
                     </div>
                 </div>`;
         }).join('');
     }
 
-    function showSavedAccountsModal() {
-        suppressAccountSheet = false;
+    function openSavedAccountsSheet() {
         renderSavedAccountsSheet();
         document.getElementById('gAccountsBackdrop')?.classList.add('open');
         document.getElementById('gAccountsSheet')?.classList.add('open');
@@ -1838,13 +1865,40 @@
         document.getElementById('lId').focus();
     }
 
+    function showSavedAccountsModal() {
+        const accounts = getSavedAccounts();
+        const listEl = document.getElementById('savedAccountsList');
+        if (!listEl) return;
+        listEl.innerHTML = accounts.length === 0 ? `<center style="color: var(--sk-text-muted); font-size: 13px; padding: 25px 0;">কোনো সংরক্ষিত অ্যাকাউন্ট নেই</center>` :
+            accounts.map(acc => {
+                const avatarHTML = acc.avatar ? `<img src="${acc.avatar}" alt="u">` : (acc.name || 'U').charAt(0).toUpperCase();
+                return `
+                <div class="g-acc-item" style="margin-bottom:8px;" onclick="selectSavedAccount('${acc.id}', false)">
+                    <div style="display:flex; align-items:center; gap:10px; min-width:0; flex:1;">
+                        <div class="g-avatar-circle">${avatarHTML}</div>
+                        <div style="text-align: left; min-width:0;">
+                            <b style="font-size: 13.5px; color: var(--sk-primary); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${acc.name}</b>
+                            <small style="color: var(--sk-text-muted); font-size: 11px; font-weight:700;">ID: ${acc.id} • ••••••</small>
+                        </div>
+                    </div>
+                    <div style="color: #dc2626; background:#fee2e2; width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor: pointer;" onclick="deleteSavedAccount('${acc.id}', event, false)"><i class="fas fa-trash-alt" style="font-size:12px;"></i></div>
+                </div>`;
+            }).join('');
+        showPage('savedAccountsPage');
+    }
+
     function selectSavedAccount(id, autoLogin = false) {
         const acc = getSavedAccounts().find(a => a.id === id);
         if (!acc) return;
         document.getElementById('lId').value = acc.id;
         document.getElementById('lPass').value = acc.pass;
-        closeSavedAccountsSheet();
-        if (autoLogin) login();
+        if (autoLogin) {
+            closeSavedAccountsSheet();
+            login();
+        } else {
+            suppressAccountSheet = true;
+            showPage('loginPage');
+        }
     }
 
     let gPendingSaveData = null;
@@ -2039,7 +2093,7 @@
         }
         
         const searchQuery = document.getElementById('histSearch')?.value.toLowerCase() || "";
-       let filteredTxs = [];
+        let filteredTxs = [];
         historyTxsMap = {}; 
 
         transactionHistoryData.forEach(t => {
@@ -2101,8 +2155,6 @@
     }
 
     function filterHistory() { renderHistory(); }
-
-
 
     async function login() {
         const id = document.getElementById('lId').value.trim();
@@ -2195,10 +2247,7 @@
         if (currentPage === 'adminCollectionPage') {
             showAdminTab('colPage', document.getElementById('tabColAdmin')); 
             showPage('adminDashboardPage');
-        } else if (currentPage === 'adminMemberDetPage') {
-            showAdminTab('mPage', document.getElementById('tabMAdmin')); 
-            showPage('adminDashboardPage');
-        } else if (currentPage === 'adminKhataPage' || currentPage === 'adminPaymentListPage' || currentPage === 'adminReportPreviewPage' || currentPage === 'adminTxnEditPage') {
+        } else if (currentPage === 'adminMemberDetPage' || currentPage === 'adminKhataPage' || currentPage === 'adminPaymentListPage' || currentPage === 'adminReportPreviewPage' || currentPage === 'adminTxnEditPage') {
             showAdminTab('kPage', document.getElementById('tabKAdmin')); 
             showPage('adminDashboardPage');
         } else if (currentPage === 'adminDashboardPage') {
@@ -2362,22 +2411,19 @@
                 } else {
                     alertBox.style.display = "block";
                     const isGreenPeriod = (curDay >= 1 && curDay <= 15);
-                    const dueChipsHTML = dueMonths.map(m =>
-                        `<span style="display:inline-block; background:${isGreenPeriod ? '#d1fae5' : '#fee2e2'}; color:${isGreenPeriod ? '#065f46' : '#991b1b'}; border:1px solid ${isGreenPeriod ? '#6ee7b7' : '#fca5a5'}; padding:2px 8px; border-radius:6px; font-size:10.5px; font-weight:800; margin:3px 4px 1px 0;">${m}</span>`
-                    ).join('');
 
                     if (isGreenPeriod) {
                         alertInner.style.cssText = "background: #ecfdf5; border: 1.5px solid #a7f3d0; padding: 12px 14px; border-radius: 12px; border-left: 4px solid #10b981;";
-                        remTitle.style.cssText = "color: #065f46; font-weight: 800; font-size: 12px; display: block; margin-bottom: 3px;";
-                        remMsg.style.cssText = "font-size: 12px; color: #022c22; line-height: 1.5; font-weight: 600;";
+                        remTitle.style.cssText = "color: #065f46; font-weight: 800; font-size: 12px; display: block; margin-bottom: 2px;";
+                        remMsg.style.cssText = "font-size: 12px; color: #022c22; line-height: 1.45; font-weight: 600;";
                         remTitle.innerHTML = `<i class="fas fa-calendar-check" style="color: #10b981;"></i> সঞ্চয় রিমাইন্ডার (${dueCount} মাসের বকেয়া):`;
-                        remMsg.innerHTML = `আপনার বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। আগামী ১৫ তারিখের মধ্যে পরিশোধ করুন।<div style="margin-top:5px;"><small style="font-weight:700; display:block; margin-bottom:2px;">বকেয়া মাসসমূহ:</small>${dueChipsHTML}</div>`;
+                        remMsg.innerHTML = `আপনার বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। আগামী ১৫ তারিখের মধ্যে পরিশোধ করুন।`;
                     } else {
                         alertInner.style.cssText = "background: #fef2f2; border: 1.5px solid #fecaca; padding: 12px 14px; border-radius: 12px; border-left: 4px solid #dc2626;";
-                        remTitle.style.cssText = "color: #dc2626; font-weight: 800; font-size: 12px; display: block; margin-bottom: 3px;";
-                        remMsg.style.cssText = "font-size: 12px; color: #991b1b; line-height: 1.5; font-weight: 700;";
+                        remTitle.style.cssText = "color: #dc2626; font-weight: 800; font-size: 12px; display: block; margin-bottom: 2px;";
+                        remMsg.style.cssText = "font-size: 12px; color: #991b1b; line-height: 1.45; font-weight: 700;";
                         remTitle.innerHTML = `<i class="fas fa-radiation-alt"></i> রেড এলার্ট - সঞ্চয় বকেয়া!`;
-                        remMsg.innerHTML = `নির্ধারিত ১৫ তারিখ অতিক্রম হয়েছে! বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। দ্রুত পরিশোধ করুন।<div style="margin-top:5px;"><small style="font-weight:800; display:block; margin-bottom:2px;">বকেয়া মাসসমূহ:</small>${dueChipsHTML}</div>`;
+                        remMsg.innerHTML = `নির্ধারিত ১৫ তারিখ অতিক্রম হয়েছে! বকেয়া পাওনা: <b>৳${totalDues.toLocaleString('bn-BD')}</b>। দ্রুত পরিশোধ করুন।`;
                     }
                 }
             }
@@ -2840,9 +2886,9 @@
 
         const rmText = document.getElementById('colRunningMonthText');
         if(rmText) {
-            const dMonthsList = (info.dueMonths && info.dueMonths.length > 0) ? ` (${info.dueMonths.join(', ')})` : '';
-            rmText.innerHTML = (dueMonthsCount > 0) ? `<b style="color:#dc2626;">${dueMonthsCount} মাসের বকেয়া: ৳${liveDue}${dMonthsList} ⚠️</b>` : `<b style="color:#16a34a;">সকল কিস্তি পরিশোধিত ✅</b>`;
+            rmText.innerHTML = (dueMonthsCount > 0) ? `<b style="color:#dc2626;">${dueMonthsCount} মাসের বকেয়া: ৳${liveDue} ⚠️</b>` : `<b style="color:#16a34a;">সকল কিস্তি পরিশোধিত ✅</b>`;
         }
+
         setTodayDate();
         document.getElementById('colAmt').value = "";
         document.getElementById('colTrx').value = "";
@@ -2934,12 +2980,12 @@
             if(u.status === "Approved" || !u.status) {
                 hasApproved = true; count++;
                 khataTableHTML += `
-                    <tr>
+                    <tr onclick="openKhata('${id}')" style="cursor:pointer;">
                         <td style="color:var(--sk-text-muted); font-weight:600;">${count}</td>
                         <td><span class="id-badge">${id}</span></td>
                         <td style="font-weight:700; color:var(--sk-text-main); text-align:left;">${u.name}${u.phone ? `<br><small style="color:var(--sk-text-muted); font-size:10px; font-weight:600;">📞 ${u.phone}</small>` : ''}</td>
                         <td>
-                            <button class="tbl-btn" onclick="openKhata('${id}')"><i class="fas fa-file-invoice"></i> খাতা</button>
+                            <button class="tbl-btn" onclick="event.stopPropagation(); openKhata('${id}')"><i class="fas fa-file-invoice"></i> খাতা</button>
                         </td>
                     </tr>`;
             }
@@ -3723,42 +3769,182 @@
         } catch (err) { wrapper.remove(); toggleLoader(false); customAlert("আইডি কার্ড তৈরিতে সমস্যা হয়েছে!"); }
     }
 
+    const PL_ALL_MONTHS = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+
+    function setPlChipState(el, selected) {
+        if (!el) return;
+        el.dataset.selected = selected ? "1" : "0";
+        el.style.background = selected ? "var(--sk-primary)" : "#f8fafc";
+        el.style.color = selected ? "#fbbf24" : "var(--sk-text-main)";
+        el.style.borderColor = selected ? "var(--sk-primary)" : "#cbd5e1";
+    }
+
+    function togglePlMonthChip(el) {
+        const isSelected = el.dataset.selected === "1";
+        setPlChipState(el, !isSelected);
+        updatePlSelectedInfo();
+    }
+
+    function getSelectedPlMonths() {
+        const chips = document.querySelectorAll('#plMonthContainer .pl-month-chip');
+        const selected = [];
+        chips.forEach(c => {
+            if (c.dataset.selected === "1") selected.push(c.dataset.month);
+        });
+        return selected;
+    }
+
+    function updatePlSelectedInfo() {
+        const infoEl = document.getElementById('plSelectedInfo');
+        if (!infoEl) return;
+        const selected = getSelectedPlMonths();
+        const toBn = n => String(n).replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+        if (selected.length === 0) {
+            infoEl.innerText = "নির্বাচিত মাস: কোনোটি নয় (অন্তত ১টি মাস সিলেক্ট করুন)";
+            infoEl.style.color = "#dc2626";
+        } else {
+            infoEl.innerText = `নির্বাচিত (${toBn(selected.length)} মাস): ${selected.join(', ')}`;
+            infoEl.style.color = "#047857";
+        }
+    }
+
+    function quickSelectPlMonths(mode) {
+        const chips = document.querySelectorAll('#plMonthContainer .pl-month-chip');
+        const now = new Date();
+        const curYear = now.getFullYear().toString();
+        const curMonthIdx = now.getMonth();
+        const selYear = document.getElementById('plYear')?.value || curYear;
+
+        chips.forEach((chip, idx) => {
+            if (mode === 'clear') {
+                setPlChipState(chip, false);
+            } else if (mode === 'all') {
+                setPlChipState(chip, true);
+            } else if (mode === 'julyToNow') {
+                if (selYear === '2026') {
+                    const endIdx = (selYear === curYear && curMonthIdx >= 6) ? curMonthIdx : 11;
+                    setPlChipState(chip, idx >= 6 && idx <= endIdx);
+                } else if (selYear === curYear) {
+                    setPlChipState(chip, idx >= 0 && idx <= curMonthIdx);
+                } else {
+                    setPlChipState(chip, true);
+                }
+            }
+        });
+        updatePlSelectedInfo();
+    }
+
+    function initPlMonthSelector() {
+        const py = document.getElementById('plYear');
+        const d = new Date();
+        const curYearStr = d.getFullYear().toString();
+        if (py) {
+            if (![...py.options].some(o => o.value === curYearStr)) {
+                const opt = document.createElement('option');
+                opt.value = curYearStr; opt.text = curYearStr;
+                py.appendChild(opt);
+            }
+            py.value = curYearStr;
+        }
+        const curMonthName = PL_ALL_MONTHS[d.getMonth()];
+        document.querySelectorAll('#plMonthContainer .pl-month-chip').forEach(chip => {
+            setPlChipState(chip, chip.dataset.month === curMonthName);
+        });
+        updatePlSelectedInfo();
+    }
+    document.addEventListener('DOMContentLoaded', initPlMonthSelector);
+
     async function showPaymentListPage(type) {
-        const selMonth = document.getElementById('reportMonth').value;
-        const selYear = document.getElementById('reportYear').value;
-        if (selMonth === "All") return customAlert("নির্দিষ্ট মাস নির্বাচন করুন!");
+        const selectedMonths = getSelectedPlMonths();
+        const selYear = document.getElementById('plYear')?.value || document.getElementById('reportYear')?.value || new Date().getFullYear().toString();
+        if (!selectedMonths || selectedMonths.length === 0) return customAlert("অন্তত একটি মাস নির্বাচন করুন!");
 
         toggleLoader(true);
         const { data: allUsers } = await supabaseClient.from('users').select('*').eq('status', 'Approved');
         const { data: txs } = await supabaseClient.from('transactions').select('*').eq('status', 'Approved');
         toggleLoader(false);
 
-        let userTxMap = {};
+        const userPaidMonthsMap = {};
+        const userPaidAmountMap = {};
+
         txs?.forEach(t => {
-            if ((t.date ? t.date.includes(selYear) : true) && (t.months ? t.months.includes(selMonth) : false)) {
-                userTxMap[t.user_id.toString().trim().toLowerCase()] = t;
-            }
+            const matchYear = (t.date ? t.date.includes(selYear) : true) || (t.months ? t.months.includes(selYear) : false);
+            if (!matchYear || !t.user_id) return;
+
+            const mStr = (t.months || "").toString();
+            const txMonths = PL_ALL_MONTHS.filter(m => mStr.includes(m));
+            if (txMonths.length === 0) return;
+
+            const uidKey = t.user_id.toString().trim().toLowerCase();
+            if (!userPaidMonthsMap[uidKey]) userPaidMonthsMap[uidKey] = [];
+            if (!userPaidAmountMap[uidKey]) userPaidAmountMap[uidKey] = 0;
+
+            const perMonthAmt = parseFloat(t.amount || 0) / txMonths.length;
+            txMonths.forEach(m => {
+                if (selectedMonths.includes(m)) {
+                    userPaidAmountMap[uidKey] += perMonthAmt;
+                    if (!userPaidMonthsMap[uidKey].includes(m)) {
+                        userPaidMonthsMap[uidKey].push(m);
+                    }
+                }
+            });
         });
 
+        const toBn = n => String(n).replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
         let targetMembers = [];
+        let grandTotal = 0;
+
         getSortedUserIds().forEach((id) => {
             const u = users[id] || allUsers?.find(x => x.id === id);
             if (u && (u.status === 'Approved' || !u.status)) {
-                const tx = userTxMap[id.toLowerCase()];
-                if (type === 'paid' && tx) {
-                    targetMembers.push({ serial: targetMembers.length + 1, id: id, name: u.name, rawAmount: tx.amount, months: tx.months, status: 'পরিশোধিত' });
-                } else if (type === 'unpaid' && !tx) {
-                    targetMembers.push({ serial: targetMembers.length + 1, id: id, name: u.name, dues: 1000, months: selMonth, status: 'বকেয়া' });
+                const uidKey = id.toLowerCase();
+                const paidList = userPaidMonthsMap[uidKey] || [];
+
+                if (type === 'paid' && paidList.length > 0) {
+                    const paidAmt = Math.round(userPaidAmountMap[uidKey] || 0);
+                    grandTotal += paidAmt;
+                    const mText = paidList.join(', ') + (selectedMonths.length > 1 ? ` (${toBn(paidList.length)}/${toBn(selectedMonths.length)} মাস)` : '');
+                    targetMembers.push({
+                        serial: targetMembers.length + 1,
+                        id: id,
+                        name: u.name,
+                        rawAmount: paidAmt,
+                        months: mText,
+                        status: 'পরিশোধিত'
+                    });
+                } else if (type === 'unpaid') {
+                    const unpaidList = selectedMonths.filter(m => !paidList.includes(m));
+                    if (unpaidList.length > 0) {
+                        const dueAmt = unpaidList.length * 1000;
+                        grandTotal += dueAmt;
+                        const mText = unpaidList.join(', ') + (unpaidList.length > 1 ? ` (${toBn(unpaidList.length)} মাস)` : '');
+                        targetMembers.push({
+                            serial: targetMembers.length + 1,
+                            id: id,
+                            name: u.name,
+                            dues: dueAmt,
+                            amount: `৳${dueAmt.toLocaleString('bn-BD')}`,
+                            months: mText,
+                            status: 'বকেয়া'
+                        });
+                    }
                 }
             }
         });
 
-        currentPlType = type; currentPlMonth = selMonth; currentPlYear = selYear; currentPlData = targetMembers;
-        const listTitle = type === 'paid' ? `পেমেন্ট তালিকা (${selMonth})` : `নন-পেমেন্ট তালিকা (${selMonth})`;
+        const monthsLabel = selectedMonths.length === 1
+            ? selectedMonths[0]
+            : (selectedMonths.length <= 3 ? selectedMonths.join(', ') : `${selectedMonths[0]} – ${selectedMonths[selectedMonths.length - 1]} (${toBn(selectedMonths.length)} মাস)`);
 
-        const headers = `<th style="border:1px solid #000; padding:4px;">ক্রমিক</th><th style="border:1px solid #000; padding:4px;">আইডি</th><th style="border:1px solid #000; padding:4px;">নাম</th><th style="border:1px solid #000; padding:4px;">পরিমাণ</th><th style="border:1px solid #000; padding:4px;">মাস</th><th style="border:1px solid #000; padding:4px;">অবস্থা</th>`;
+        currentPlType = type; currentPlMonth = monthsLabel; currentPlYear = selYear; currentPlData = targetMembers;
+        const listTitle = type === 'paid'
+            ? `পেমেন্ট তালিকা (${monthsLabel} ${selYear}) | মোট: ${toBn(targetMembers.length)} জন (৳${grandTotal.toLocaleString('bn-BD')})`
+            : `নন-পেমেন্ট তালিকা (${monthsLabel} ${selYear}) | মোট: ${toBn(targetMembers.length)} জন (বকেয়া: ৳${grandTotal.toLocaleString('bn-BD')})`;
+
+        const headers = `<th style="border:1px solid #000; padding:4px; width:7%;">ক্রমিক</th><th style="border:1px solid #000; padding:4px; width:13%;">আইডি</th><th style="border:1px solid #000; padding:4px; width:26%;">নাম</th><th style="border:1px solid #000; padding:4px; width:15%;">পরিমাণ</th><th style="border:1px solid #000; padding:4px; width:27%;">মাস</th><th style="border:1px solid #000; padding:4px; width:12%;">অবস্থা</th>`;
         globalReportHTML = generateChunkedPDFHTML(listTitle, headers, targetMembers, true);
-        globalReportFilename = `${type === 'paid' ? 'Paid_List' : 'Unpaid_List'}_${selMonth}.pdf`;
+        const fileTag = selectedMonths.length === 1 ? selectedMonths[0] : `${selectedMonths[0]}_to_${selectedMonths[selectedMonths.length - 1]}`;
+        globalReportFilename = `${type === 'paid' ? 'Paid_List' : 'Unpaid_List'}_${fileTag}_${selYear}.pdf`;
 
         document.getElementById('plPageTitle').innerText = listTitle;
         renderModernScreenPreview(targetMembers, true, false, 'plPageContent');
@@ -3814,8 +4000,69 @@
             }
             if (!t) { toggleLoader(false); return customAlert("লেনদেন পাওয়া যায়নি!"); }
 
+            const [{ data: liveUser }, { data: uidApprovedTxs }] = await Promise.all([
+                supabaseClient.from('users').select('name, balance').eq('id', uid).maybeSingle(),
+                supabaseClient.from('transactions').select('amount, months, date, status').eq('user_id', uid).eq('status', 'Approved')
+            ]);
+            if (liveUser) {
+                u = { ...u, name: liveUser.name || u.name, balance: liveUser.balance };
+            }
+            const totalSavings = parseFloat(u.balance || 0);
+
+            const bnMonthsListR = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const nowR = new Date();
+            const curYearR = nowR.getFullYear();
+            const curMonthIdxR = nowR.getMonth();
+            const curYearStrR = curYearR.toString();
+
+            let elapsedMonthsR = ((curYearR - 2026) * 12) + ((curMonthIdxR + 1) - 7) + 1;
+            if (elapsedMonthsR < 1) elapsedMonthsR = 1;
+            const expectedUpToNow = elapsedMonthsR * 1000;
+
+            let totalDue = 0;
+            const uidKeyR = String(uid).trim().toLowerCase();
+            if (curYearR === 2026 && window.userDueInfoMap && window.userDueInfoMap[uidKeyR] && window.userDueInfoMap[uidKeyR].totalDue !== undefined) {
+                totalDue = parseFloat(window.userDueInfoMap[uidKeyR].totalDue || 0);
+            } else {
+                const paidSetR = new Set();
+                (uidApprovedTxs || []).forEach(tx => {
+                    const mStr = (tx.months || "").toString();
+                    const dStr = (tx.date || "").toString();
+                    if (dStr.includes(curYearStrR) || mStr.includes(curYearStrR) || !dStr) {
+                        bnMonthsListR.forEach(m => {
+                            if (mStr.includes(m)) paidSetR.add(m);
+                        });
+                    }
+                });
+                let dueCountR = 0;
+                if (curYearR === 2026) {
+                    for (let i = 6; i <= curMonthIdxR; i++) {
+                        if (!paidSetR.has(bnMonthsListR[i])) dueCountR++;
+                    }
+                } else {
+                    for (let y = 2026; y <= curYearR; y++) {
+                        const sIdx = (y === 2026) ? 6 : 0;
+                        const eIdx = (y === curYearR) ? curMonthIdxR : 11;
+                        for (let i = sIdx; i <= eIdx; i++) {
+                            const mName = bnMonthsListR[i];
+                            const yStr = y.toString();
+                            const isPaid = (uidApprovedTxs || []).some(tx => {
+                                const mStr = (tx.months || "").toString();
+                                const dStr = (tx.date || "").toString();
+                                return mStr.includes(mName) && (dStr.includes(yStr) || mStr.includes(yStr));
+                            });
+                            if (!isPaid) dueCountR++;
+                        }
+                    }
+                }
+                totalDue = dueCountR * 1000;
+            }
+
+            const advanceAmt = Math.max(0, Math.round(totalSavings - (expectedUpToNow - totalDue)));
+
             const RECEIPT_LOGO_URL = "https://i.ibb.co.com/gb63ZYs1/20261121-121837.webp";
 
+            // ডিজিটাল বারকোড (CODE128) তৈরি
             let barcodeImgHTML = "";
             try {
                 if (typeof JsBarcode !== "undefined") {
@@ -3844,21 +4091,23 @@
                 <div style="width: 800px; padding: 26px; background: #ffffff; color: #0f172a; border: 2.5px solid #047857; border-radius: 18px; box-sizing: border-box; text-align: left; position: relative; overflow: hidden;">
                     <img src="${RECEIPT_LOGO_URL}" crossorigin="anonymous" style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 250px; object-fit: contain; opacity: 0.06; pointer-events: none;">
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #047857; padding-bottom: 14px; position: relative; z-index: 1;">
-                        <div style="display: flex; align-items: center; gap: 14px;">
-                            <img src="${RECEIPT_LOGO_URL}" crossorigin="anonymous" style="width: 72px; height: 72px; border-radius: 50%; object-fit: contain; border: 2px solid #d1fae5; background: #ffffff; padding: 2px;">
-                            <div>
-                                <h2 style="margin: 0; color: #047857; font-size: 23px; font-weight: 800;">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</h2>
-                                <p style="margin: 2px 0 0 0; font-size: 12px; color: #0284c7; font-weight: 700;">বন্ধুত্ব | সঞ্চয় | প্রবৃত্তি</p>
+                    <table style="width: 100%; border-collapse: collapse; border-bottom: 2px solid #047857; margin-bottom: 16px; position: relative; z-index: 1;">
+                        <tr>
+                            <td style="width: 84px; vertical-align: middle; padding: 0 0 14px 0; text-align: left;">
+                                <img src="${RECEIPT_LOGO_URL}" crossorigin="anonymous" style="width: 72px; height: 72px; border-radius: 50%; object-fit: contain; border: 2px solid #d1fae5; background: #ffffff; padding: 2px; display: block;">
+                            </td>
+                            <td style="vertical-align: middle; padding: 0 10px 14px 6px; text-align: left;">
+                                <h2 style="margin: 0; color: #047857; font-size: 21px; font-weight: 800; line-height: 1.25; white-space: nowrap;">স্বপ্নযাত্রা ২০০৫ সমবায় সমিতি</h2>
+                                <p style="margin: 3px 0 0 0; font-size: 12px; color: #0284c7; font-weight: 700;">বন্ধুত্ব | সঞ্চয় | প্রবৃত্তি</p>
                                 <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b; font-weight: 600;">ডিজিটাল অর্থ প্রাপ্তি রসিদ (Money Receipt)</p>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <span style="background: #047857; color: white; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; display: inline-block;">✓ VERIFIED PAID</span>
-                            <div style="font-size: 11.5px; color: #0f172a; font-weight: 700; margin-top: 6px;">রসিদ নং: #SJ-${t.id}</div>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">তারিখ: ${t.date}</div>
-                        </div>
-                    </div>
+                            </td>
+                            <td style="width: 175px; vertical-align: middle; padding: 0 0 14px 0; text-align: right; white-space: nowrap;">
+                                <span style="background: #047857; color: white; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; display: inline-block;">✓ VERIFIED PAID</span>
+                                <div style="font-size: 11.5px; color: #0f172a; font-weight: 700; margin-top: 6px;">রসিদ নং: #SJ-${t.id}</div>
+                                <div style="font-size: 11px; color: #64748b; margin-top: 2px;">তারিখ: ${t.date}</div>
+                            </td>
+                        </tr>
+                    </table>
 
                     <table style="width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; position: relative; z-index: 1;">
                         <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; width: 28%; font-weight:bold; background: rgba(248,250,252,0.85);">সদস্যের নাম:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:800;">${u.name}</td></tr>
@@ -3866,6 +4115,9 @@
                         <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(248,250,252,0.85);">জমার মাসসমূহ:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:600;">${t.months}</td></tr>
                         <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(248,250,252,0.85);">মাধ্যম ও TrxID:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1;">${t.method || 'বিকাশ'} (${t.trx || 'N/A'})</td></tr>
                         <tr style="background: rgba(236,253,245,0.92);"><td style="padding: 11px 12px; border: 1px solid #cbd5e1; font-weight:bold; font-size:16px; color:#047857;">গৃহীত পরিমাণ:</td><td style="padding: 11px 12px; border: 1px solid #cbd5e1; font-weight:900; font-size:21px; color:#047857;">৳${parseFloat(t.amount || 0).toLocaleString('bn-BD')}/-</td></tr>
+                        <tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(248,250,252,0.85);">মোট জমা (সর্বমোট):</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:800; font-size:15px; color:#0b2545;">৳${totalSavings.toLocaleString('bn-BD')}/-</td></tr>
+                        ${totalDue > 0 ? `<tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(254,242,242,0.85); color:#dc2626;">বকেয়া পাওনা:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:800; font-size:15px; color:#dc2626;">৳${totalDue.toLocaleString('bn-BD')}/-</td></tr>` : ''}
+                        ${advanceAmt > 0 ? `<tr><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:bold; background: rgba(239,246,255,0.85); color:#1d4ed8;">অগ্রিম জমা:</td><td style="padding: 9px 12px; border: 1px solid #cbd5e1; font-weight:800; font-size:15px; color:#1d4ed8;">৳${advanceAmt.toLocaleString('bn-BD')}/-</td></tr>` : ''}
                     </table>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px dashed #cbd5e1; padding-top: 12px; position: relative; z-index: 1;">
@@ -3881,7 +4133,7 @@
                 </div>`;
 
             wrapper = document.createElement('div');
-            wrapper.style.cssText = 'position:fixed; top:0; left:0; width:0; height:0; overflow:hidden;';
+            wrapper.style.cssText = 'position:absolute; top:-9999px; left:-9999px; width:800px; background:#ffffff;';
             const container = document.createElement('div');
             container.style.cssText = 'width:800px; background:white;';
             container.innerHTML = receiptHTML;
@@ -3889,7 +4141,7 @@
             document.body.appendChild(wrapper);
 
             await waitForImages(container);
-            const canvas = await html2canvasWithTimeout(container.firstElementChild, { scale: 2, useCORS: true });
+            const canvas = await html2canvasWithTimeout(container.firstElementChild, { scale: 2, useCORS: true, width: 800, windowWidth: 1000 });
             const imgData = canvas.toDataURL('image/jpeg', 0.98);
             const filename = `Receipt_${uid}_${t.id}.jpg`;
 
@@ -3913,7 +4165,7 @@
         }
     }
 
-    async function submitFund() {
+async function submitFund() {
         const fDate = document.getElementById('fDate').value;
         const fAmt = parseFloat(document.getElementById('fAmt').value);
         const fMethod = document.getElementById('fMethod').value;
@@ -4087,6 +4339,71 @@
         box.appendChild(d);
         box.scrollTop = box.scrollHeight;
     }
+</script>
+<script>
+    function openAppDrawer() {
+        syncDrawerData();
+        document.getElementById('appDrawer')?.classList.add('open');
+        document.getElementById('appDrawerBackdrop')?.classList.add('open');
+    }
+
+    function closeAppDrawer() {
+        document.getElementById('appDrawer')?.classList.remove('open');
+        document.getElementById('appDrawerBackdrop')?.classList.remove('open');
+    }
+
+    function drawerGo(pageId) {
+        closeAppDrawer();
+        if (typeof showPage === 'function') showPage(pageId);
+    }
+
+    function syncDrawerData() {
+        const nameEl = document.getElementById('uNameDisp');
+        const idEl = document.getElementById('uIdDisp');
+        const phoneEl = document.getElementById('uPhoneDisp');
+        const balEl = document.getElementById('uBal');
+        const badgeEl = document.getElementById('userBadge');
+        const adminMenuBtn = document.getElementById('adminMenuBtn');
+
+        const dName = document.getElementById('drawerUserName');
+        const dId = document.getElementById('drawerUserId');
+        const dPhone = document.getElementById('drawerUserPhone');
+        const dBal = document.getElementById('drawerUserBal');
+        const dAvatar = document.getElementById('drawerAvatar');
+        const dAdmin = document.getElementById('drawerAdminBtn');
+
+        if (dName && nameEl) dName.innerText = nameEl.innerText;
+        if (dId && idEl) dId.innerText = idEl.innerText;
+        if (dPhone && phoneEl) dPhone.innerText = phoneEl.innerText;
+        if (dBal && balEl) dBal.innerText = balEl.innerText;
+        if (dAvatar && badgeEl) dAvatar.innerHTML = badgeEl.innerHTML;
+        if (dAdmin && adminMenuBtn) {
+            dAdmin.style.display = (adminMenuBtn.style.display !== 'none') ? 'flex' : 'none';
+        }
+    }
+
+    function updateDrawerToggleVisibility() {
+        const toggleBtn = document.getElementById('drawerToggleBtn');
+        if (!toggleBtn) return;
+        const activePage = document.querySelector('.page.active');
+        const pid = activePage ? activePage.id : '';
+        const hideOn = ['loginPage', 'regPage', 'savedAccountsPage', ''];
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const nextDisp = (isLoggedIn && !hideOn.includes(pid)) ? 'flex' : 'none';
+        if (toggleBtn.style.display !== nextDisp) toggleBtn.style.display = nextDisp;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const appContainer = document.querySelector('.container');
+        if (appContainer) {
+            const observer = new MutationObserver(() => {
+                updateDrawerToggleVisibility();
+                syncDrawerData();
+            });
+            observer.observe(appContainer, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+        }
+        setTimeout(() => { updateDrawerToggleVisibility(); syncDrawerData(); }, 400);
+    });
 </script>
 <!-- ==================== DATE-WISE STATEMENT & PDF SCRIPT ==================== -->
 <script>
