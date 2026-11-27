@@ -1819,22 +1819,172 @@
 
     function customAlert(msg, title = "বিজ্ঞপ্তি") { showToast(title + ": " + msg, "error"); }
 
-    function customConfirm(msg) {
-        return new Promise((resolve) => {
-            const box = document.createElement('div');
-            box.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:99999; width:90%; max-width:400px; background:#0f172a; color:white; flex-direction:column; align-items:stretch; border-left:5px solid #4f46e5; padding:16px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.3);';
-            box.innerHTML = `
-                <div style="margin-bottom: 12px; font-weight: 600; font-size:13.5px;">${msg}</div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn" style="flex:1; background:#dc2626; color:white; margin-top:0; padding:8px;" id="confYes">হ্যাঁ</button>
-                    <button class="btn" style="flex:1; background:#64748b; color:white; margin-top:0; padding:8px;" id="confNo">বাতিল</button>
+    
+
+function customConfirm(msg) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:999999;
+            background:rgba(0,0,0,0.65);
+            backdrop-filter:blur(5px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:18px;
+        `;
+
+        const box = document.createElement('div');
+
+        box.style.cssText = `
+            width:100%;
+            max-width:390px;
+            background:var(--card-bg, #ffffff);
+            color:var(--text-color, #111827);
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 20px 60px rgba(0,0,0,0.3);
+            animation:confirmPop .25s ease;
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confirmPop {
+                from {opacity:0;transform:scale(.92) translateY(15px);}
+                to {opacity:1;transform:scale(1) translateY(0);}
+            }
+        `;
+        document.head.appendChild(style);
+
+        const rows = msg.split('\n')
+            .filter(line => line.trim() && !line.includes('সব তথ্য ঠিক আছে'))
+            .map(line => {
+                const parts = line.split(':');
+                if (parts.length < 2) return '';
+
+                const label = parts.shift().replace(/^[\s•]+/, '').trim();
+                const value = parts.join(':').trim();
+
+                return `
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:12px;
+                        padding:13px 15px;
+                        border-bottom:1px solid rgba(128,128,128,.16);
+                    ">
+                        <span style="font-size:13px;opacity:.7;">${label}</span>
+                        <strong style="font-size:13px;text-align:right;word-break:break-word;">${value}</strong>
+                    </div>
+                `;
+            }).join('');
+
+        box.innerHTML = `
+            <div style="
+                padding:22px 18px 17px;
+                text-align:center;
+                background:linear-gradient(135deg,#4338ca,#6366f1);
+                color:white;
+            ">
+                <div style="
+                    width:48px;height:48px;
+                    margin:0 auto 10px;
+                    border-radius:50%;
+                    background:rgba(255,255,255,.18);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:25px;
+                ">✓</div>
+
+                <div style="font-size:18px;font-weight:700;">
+                    জমার তথ্য যাচাই করুন
                 </div>
-            `;
-            document.body.appendChild(box);
-            box.querySelector('#confYes').onclick = () => { box.remove(); resolve(true); };
-            box.querySelector('#confNo').onclick = () => { box.remove(); resolve(false); };
-        });
-    }
+
+                <div style="font-size:12px;opacity:.85;margin-top:5px;">
+                    জমা দেওয়ার আগে তথ্যগুলো মিলিয়ে নিন
+                </div>
+            </div>
+
+            <div style="padding:8px 15px;">
+                ${rows}
+            </div>
+
+            <div style="
+                padding:12px 15px 17px;
+                display:flex;
+                flex-direction:column;
+                gap:9px;
+            ">
+                <button id="confEdit" style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #3b82f6;
+                    border-radius:11px;
+                    background:#eff6ff;
+                    color:#2563eb;
+                    font-size:14px;
+                    font-weight:700;
+                ">✏️ এডিট করুন</button>
+
+                <div style="display:flex;gap:10px;">
+                    <button id="confNo" style="
+                        flex:1;
+                        padding:12px;
+                        border:1px solid #cbd5e1;
+                        border-radius:11px;
+                        background:#f1f5f9;
+                        color:#334155;
+                        font-size:14px;
+                        font-weight:600;
+                    ">বাতিল</button>
+
+                    <button id="confYes" style="
+                        flex:1;
+                        padding:12px;
+                        border:0;
+                        border-radius:11px;
+                        background:linear-gradient(135deg,#16a34a,#059669);
+                        color:white;
+                        font-size:14px;
+                        font-weight:700;
+                    ">✓ নিশ্চিত করুন</button>
+                </div>
+            </div>
+        `;
+
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+
+        function closeDialog() {
+            overlay.remove();
+            style.remove();
+        }
+
+        box.querySelector('#confYes').onclick = () => {
+            closeDialog();
+            resolve(true);
+        };
+
+        box.querySelector('#confNo').onclick = () => {
+            closeDialog();
+            resolve(false);
+        };
+
+        box.querySelector('#confEdit').onclick = () => {
+            closeDialog();
+            resolve(false);
+
+            setTimeout(() => {
+                document.getElementById('colAmt')?.focus();
+            }, 150);
+        };
+    });
+}
 
     function showToast(msg, type = "success") {
         let container = document.getElementById('toastContainer');
@@ -3198,7 +3348,29 @@
 
         let selectedMonths = [];
         document.querySelectorAll('#colMonthContainer input[type="checkbox"]').forEach(cb => { if(cb.checked) selectedMonths.push(cb.value); });
+// টাকার পরিমাণ যাচাই
+if (colAmt <= 0) {
+    return customAlert("আগে জমার টাকার পরিমাণ লিখুন!");
+}
 
+// তারিখ ও মাস যাচাই
+if (!colDate || selectedMonths.length === 0) {
+    return customAlert("জমার তারিখ ও মাস সিলেক্ট করুন!");
+}
+
+// জমা দেওয়ার আগে নিশ্চিতকরণ
+const confirmCollection = await customConfirm(
+    `জমার তথ্য যাচাই করুন:\n\n` +
+    `সদস্য: ${users[uid].name}\n` +
+    `আইডি: ${uid}\n` +
+    `জমার পরিমাণ: ৳${colAmt.toLocaleString('en-US')}\n` +
+    `মাস: ${selectedMonths.join(', ')}\n\n` +
+    `সব তথ্য ঠিক আছে কি?`
+);
+
+if (!confirmCollection) {
+    return;
+}
         toggleLoader(true);
         try {
             let updatedBalance = newBal;
