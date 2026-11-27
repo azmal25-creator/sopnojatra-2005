@@ -341,6 +341,7 @@
             min-height: auto;
             cursor: pointer;
             box-shadow: none;
+            position: relative;
             transition: background 0.18s, transform 0.15s;
         }
         .sk-option-card:hover { background: #f8fafc; }
@@ -364,6 +365,27 @@
         .opt-amber .sk-opt-icon { background: #fef3c7; color: #b45309; }
         .opt-teal .sk-opt-icon { background: #e0f2fe; color: #0369a1; }
 
+        /* ১২ মাসের কিস্তি চার্ট (Report Page) */
+        .rep-chart-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .rep-month-box {
+            border-radius: 12px;
+            padding: 9px 4px;
+            text-align: center;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .rep-month-box.paid { background: #ecfdf5; border-color: #6ee7b7; color: #065f46; }
+        .rep-month-box.due { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+        .rep-month-box.upcoming { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+        .rep-month-box.inactive { background: #f1f5f9; border-color: #e2e8f0; color: #94a3b8; }
+        .rep-month-box b { display: block; font-size: 12px; font-weight: 800; }
+        .rep-month-box small { display: block; font-size: 10px; font-weight: 700; margin-top: 2px; }
+
         /* সার্চ বক্স */
         .search-container { position: relative; margin-bottom: 14px; }
         .search-container input {
@@ -378,26 +400,64 @@
         .search-container i { position: absolute; left: 14px; top: 15px; color: var(--sk-primary); font-size: 15px; }
 
         /* অ্যাডমিন ট্যাব */
+        /* ==================== 3x2 FULL-WIDTH TABLAYOUT (NO RIGHT GAP) ==================== */
         .admin-tabs {
             display: grid !important;
-            grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-            gap: 4px !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 0 !important;
             width: 100% !important;
-            background: #dbe3ed;
-            padding: 4px !important;
-            border-radius: 12px;
-            margin-bottom: 14px;
+            background: #ffffff !important;
+            padding: 0 !important;
+            border-radius: 14px !important;
+            border: 1px solid var(--sk-border) !important;
+            box-shadow: var(--shadow-card) !important;
+            overflow: hidden !important;
+            margin-bottom: 14px !important;
         }
         .admin-tab {
-            padding: 8px 1px !important; font-size: 11px !important; font-weight: 800;
-            color: #334155; cursor: pointer; border-radius: 9px;
-            text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            position: relative; transition: 0.2s;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            border-bottom: 3px solid #f1f5f9 !important;
+            border-right: 1px solid #f1f5f9 !important;
+            border-radius: 0 !important;
+            padding: 11px 4px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 5px !important;
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            color: var(--sk-text-muted) !important;
+            box-shadow: none !important;
+            position: relative !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            transition: all 0.2s ease !important;
+        }
+        .admin-tab:nth-child(3n) { border-right: none !important; }
+        .admin-tab i {
+            width: auto !important;
+            height: auto !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            color: inherit !important;
+            font-size: 12.5px !important;
+            display: inline-block !important;
         }
         .admin-tab.active {
-            background: var(--sk-primary);
-            color: #fbbf24 !important;
-            box-shadow: 0 2px 8px rgba(11, 37, 69, 0.25);
+            background: #f8fafc !important;
+            color: var(--sk-primary) !important;
+            font-weight: 800 !important;
+            border-bottom: 3px solid #d97706 !important;
+            box-shadow: none !important;
+        }
+        .admin-tab.active i {
+            background: transparent !important;
+            border: none !important;
+            color: #d97706 !important;
         }
 
         /* অফিশিয়াল লেজার টেবিল স্টাইল */
@@ -464,6 +524,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             font-size: 10px; color: #cbd5e1; cursor: pointer; 
             font-weight: 700; flex: 1; height: 48px; border-radius: 14px; margin: 0 2px;
+            position: relative;
             transition: all 0.22s ease;
         }
         .nav-item i { font-size: 17px; margin-bottom: 3px; }
@@ -474,6 +535,27 @@
             box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
         }
         .nav-item.active-nav i { color: #071930; }
+
+        .notice-unread-dot {
+            display: none;
+            position: absolute;
+            top: 4px;
+            right: 14px;
+            min-width: 15px;
+            height: 15px;
+            padding: 0 4px;
+            border-radius: 10px;
+            background: #dc2626;
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 800;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            border: 1.5px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.5);
+            animation: modernPulse 1.8s infinite;
+        }
         
         /* মাঝখানের বাটন অন্য সবার মতো সমান */
         #nav-historyPage { 
@@ -637,6 +719,58 @@
             padding: 8px 18px; font-size: 12.5px; font-weight: 800; cursor: pointer;
             box-shadow: 0 4px 12px rgba(11, 37, 69, 0.25);
         }
+        /* ==================== COMPACT FONT & SIZE ADJUSTMENT ==================== */
+        html, body {
+            -webkit-text-size-adjust: 100% !important;
+            text-size-adjust: 100% !important;
+            font-size: 13px;
+        }
+        header { height: 58px; padding: 0 12px; }
+        header .brand { font-size: 13.5px; }
+        header .brand img { width: 32px; height: 32px; }
+        .container { padding: 10px; }
+        .card { padding: 14px; margin-bottom: 11px; border-radius: 15px; }
+        .card h3 { font-size: 14.5px; }
+        .user-profile-strip { padding: 10px 13px; }
+        .sk-banner-card { padding: 11px 10px; }
+        .sk-banner-card b { font-size: 15px; }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child { padding: 15px 15px; }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child b { font-size: 21px; }
+        .sk-option-grid { padding: 10px 6px; }
+        .sk-opt-icon { width: 42px; height: 42px; font-size: 17px; border-radius: 13px; }
+        .sk-opt-title { font-size: 11px; }
+        input, select, textarea { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+        .btn { min-height: 42px; padding: 10px 14px; font-size: 13px; }
+        .somiti-table, .statement-table { font-size: 11px !important; }
+        .bottom-nav { height: 58px; border-radius: 18px; }
+        .nav-item { height: 44px; font-size: 9.5px; }
+        .nav-item i, #nav-historyPage i { font-size: 15.5px !important; }
+        /* ==================== COMPACT FONT & SIZE ADJUSTMENT ==================== */
+        html, body {
+            -webkit-text-size-adjust: 100% !important;
+            text-size-adjust: 100% !important;
+            font-size: 13px;
+        }
+        header { height: 58px; padding: 0 12px; }
+        header .brand { font-size: 13.5px; }
+        header .brand img { width: 32px; height: 32px; }
+        .container { padding: 10px; }
+        .card { padding: 14px; margin-bottom: 11px; border-radius: 15px; }
+        .card h3 { font-size: 14.5px; }
+        .user-profile-strip { padding: 10px 13px; }
+        .sk-banner-card { padding: 11px 10px; }
+        .sk-banner-card b { font-size: 15px; }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child { padding: 15px 15px; }
+        #homePage .sk-dashboard-banner .sk-banner-card:first-child b { font-size: 21px; }
+        .sk-option-grid { padding: 10px 6px; }
+        .sk-opt-icon { width: 42px; height: 42px; font-size: 17px; border-radius: 13px; }
+        .sk-opt-title { font-size: 11px; }
+        input, select, textarea { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+        .btn { min-height: 42px; padding: 10px 14px; font-size: 13px; }
+        .somiti-table, .statement-table { font-size: 11px !important; }
+        .bottom-nav { height: 58px; border-radius: 18px; }
+        .nav-item { height: 44px; font-size: 9.5px; }
+        .nav-item i, #nav-historyPage i { font-size: 15.5px !important; }
     </style>
 </head>
 <body>
@@ -881,6 +1015,7 @@
 
             <!-- বিজ্ঞপ্তি / নোটিশ -->
             <div class="sk-option-card opt-orange" onclick="showPage('noticePage')">
+                <span id="homeNoticeBadge" style="display:none; position:absolute; top:8px; right:10px; width:10px; height:10px; border-radius:50%; background:#dc2626; box-shadow:0 0 0 3px rgba(220,38,38,0.2);"></span>
                 <div class="sk-opt-icon"><i class="fas fa-bell"></i></div>
                 <div>
                     <div class="sk-opt-title">বিজ্ঞপ্তি / নোটিশ</div>
@@ -928,6 +1063,18 @@
             <div class="report-row"><span>মোট সঞ্চয়:</span> <b id="repBal" style="color: var(--sk-primary);">৳ ০</b></div>
             <div class="report-row" style="border-bottom:none;"><span>বকেয়া পাওনা:</span> <b style="color:var(--sk-orange-card);" id="repDue">৳ ০</b></div>
         </div>
+
+        <!-- ১২ মাসের ভিজ্যুয়াল কিস্তি চার্ট -->
+        <div class="card" style="text-align: left; padding: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <h3 style="margin: 0; color: var(--sk-primary); font-size: 14px;"><i class="fas fa-calendar-check"></i> ১২ মাসের কিস্তি চার্ট</h3>
+                <select id="repChartYear" onchange="renderReportMonthlyChart()" style="width: 90px; min-height: 34px; padding: 4px 8px; margin: 0; font-size: 12px; font-weight: 800;">
+                    <option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option>
+                </select>
+            </div>
+            <div id="repMonthlyChartGrid" class="rep-chart-grid"></div>
+        </div>
+
         <button class="btn" style="background:#64748b !important; box-shadow:none; margin-top: 5px;" onclick="handleBackPress()">ফিরে যান</button>
     </div>
 
@@ -1039,7 +1186,6 @@
         </div>
         <button class="btn" style="background:#64748b !important; box-shadow:none;" onclick="handleBackPress()">ফিরে যান</button>
     </div>
-
     <!-- ==================== ADMIN DASHBOARD PAGE ==================== -->
     <div id="adminDashboardPage" class="page">
         <!-- ৩টি স্ট্যাটাস কার্ড -->
@@ -1064,14 +1210,14 @@
             <h1 id="totalSum" style="margin: 0; color: #fde047; font-size: 32px; font-weight: 800; letter-spacing: -0.5px;">৳ ০</h1>
         </div>
 
-        <!-- সাব-ট্যাব বার -->
+        <!-- সাব-ট্যাব বার (Smart 3x2 Icon Cards) -->
         <div class="admin-tabs">
-            <div id="tabMAdmin" class="admin-tab active" onclick="showAdminTab('mPage', this)">সদস্য</div>
-            <div id="tabColAdmin" class="admin-tab" style="color: var(--sk-orange-card);" onclick="showAdminTab('colPage', this)">কালেকশন</div>
-            <div id="tabKAdmin" class="admin-tab" onclick="showAdminTab('kPage', this)">স্টেটমেন্ট</div>
-            <div id="tabVAdmin" class="admin-tab" onclick="showAdminTab('vPage', this)">ভেরিফাই <span id="vBadge" class="dot-badge"></span></div>
-            <div id="tabPAdmin" class="admin-tab" onclick="showAdminTab('pPage', this)">পেমেন্ট <span id="pBadge" class="dot-badge"></span></div>
-            <div id="tabSAdmin" class="admin-tab" onclick="showAdminTab('sPage', this)">সেটিংস</div>
+            <div id="tabMAdmin" class="admin-tab active" onclick="showAdminTab('mPage', this)"><i class="fas fa-users"></i><span>সদস্য</span></div>
+            <div id="tabColAdmin" class="admin-tab col-tab" onclick="showAdminTab('colPage', this)"><i class="fas fa-hand-holding-dollar"></i><span>কালেকশন</span></div>
+            <div id="tabKAdmin" class="admin-tab stmt-tab" onclick="showAdminTab('kPage', this)"><i class="fas fa-file-invoice-dollar"></i><span>স্টেটমেন্ট</span></div>
+            <div id="tabVAdmin" class="admin-tab ver-tab" onclick="showAdminTab('vPage', this)"><i class="fas fa-user-check"></i><span>ভেরিফাই</span><span id="vBadge" class="dot-badge"></span></div>
+            <div id="tabPAdmin" class="admin-tab pay-tab" onclick="showAdminTab('pPage', this)"><i class="fas fa-wallet"></i><span>পেমেন্ট</span><span id="pBadge" class="dot-badge"></span></div>
+            <div id="tabSAdmin" class="admin-tab set-tab" onclick="showAdminTab('sPage', this)"><i class="fas fa-cog"></i><span>সেটিংস</span></div>
         </div>
 
         <!-- Member List Sub-page -->
@@ -1171,7 +1317,7 @@
                     <button class="btn" style="background: #dc2626; flex: 1; margin-top: 0; padding: 9px;" onclick="showPaymentListPage('unpaid')">নন-পেমেন্ট লিস্ট</button>
                 </div>
             </div>
-<!-- তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট (DD.MM.YY ফরম্যাট) -->
+            <!-- তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট (DD.MM.YY ফরম্যাট) -->
             <div class="card" style="text-align: left; padding: 14px; margin-bottom: 14px;">
                 <h3 style="color: var(--sk-primary); font-size: 13.5px; margin-bottom: 10px; justify-content: flex-start;">
                     <i class="fas fa-calendar-alt"></i> তারিখ অনুযায়ী ট্রাঞ্জেকশন স্টেটমেন্ট
@@ -1401,7 +1547,8 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <h3 id="plPageTitle" style="color: var(--sk-primary); margin: 0; font-size: 16px;">তালিকা</h3>
             </div>
-            <button class="btn" style="margin-bottom: 14px;" onclick="downloadPaymentListPDF()"><i class="fas fa-file-pdf"></i> তালিকা ডাউনলোড (PDF)</button>
+            <button class="btn" style="margin-bottom: 10px;" onclick="downloadPaymentListPDF()"><i class="fas fa-file-pdf"></i> তালিকা ডাউনলোড (PDF)</button>
+            <button id="btnSendDueReminderSMS" class="btn" style="display: none; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); margin-bottom: 14px; margin-top: 0;" onclick="sendBulkDueReminderSMS()"><i class="fas fa-sms"></i> বকেয়া রিমাইন্ডার SMS পাঠান</button>
             <div id="plPageContent" style="max-height: 380px; overflow-y: auto;"></div>
             <button class="btn" style="background:#64748b !important; box-shadow:none; margin-top: 14px;" onclick="showAdminTab('kPage', document.getElementById('tabKAdmin')); showPage('adminDashboardPage');">ফিরে যান</button>
         </div>
@@ -1449,6 +1596,7 @@
                 <button class="btn" style="flex: 1; margin-top:0;" onclick="saveTxnEdit()">সংরক্ষণ</button>
                 <button class="btn" style="background: #64748b; flex: 1; box-shadow: none; margin-top:0;" onclick="openKhata(editingUid)">বাতিল</button>
             </div>
+            <button type="button" class="btn" style="background: #dc2626; margin-top: 12px;" onclick="deleteAdminTxn()"><i class="fas fa-trash-alt"></i> ভুল লেনদেন ডিলিট করুন (ব্যালেন্স সমন্বয়সহ)</button>
         </div>
     </div>
 
@@ -1460,7 +1608,7 @@
     <div id="nav-fundPage" class="nav-item" onclick="showPage('fundPage')"><i class="fas fa-plus-circle"></i><span>জমা দিন</span></div>
     <div id="nav-historyPage" class="nav-item" onclick="showPage('historyPage')"><i class="fas fa-history"></i><span>ইতিহাস</span></div>
     <div id="nav-reportPage" class="nav-item" onclick="showPage('reportPage')"><i class="fas fa-file-invoice-dollar"></i><span>রিপোর্ট</span></div>
-    <div id="nav-noticePage" class="nav-item" onclick="showPage('noticePage')"><i class="fas fa-bell"></i><span>নোটিশ</span></div>
+    <div id="nav-noticePage" class="nav-item" onclick="showPage('noticePage')"><i class="fas fa-bell"></i><span>নোটিশ</span><span id="noticeDotBadge" class="notice-unread-dot"></span></div>
 </div>
 
 <!-- চ্যাট বক্স উইন্ডো (AI Assistant) -->
@@ -1542,7 +1690,6 @@
         </div>
     </div>
 </div>
-
 <!-- ==================== LOGIC AND APIS SCRIPT ==================== -->
 <script>
     const SUPABASE_URL = "https://bzoltdbzowebkdnhoqvc.supabase.co";
@@ -1565,7 +1712,7 @@
     let currentKhataUid = "";
     let activeCollectionUid = "";
 
-    let editingUid = "", editingTxnId = "", oldTxnAmount = 0;
+    let editingUid = "", editingTxnId = "", oldTxnAmount = 0, editingTxnStatus = "Approved";
     let lastReceiptImgData = "", lastReceiptFilename = "";
     let globalReportHTML = "", globalReportFilename = "";
     let globalReportRawData = [];
@@ -1579,6 +1726,8 @@
     let currentPhotoTargetId = "";
     window.currentMonthPaidUsers = new Set();
     window.userDueInfoMap = {};
+    window.lastUserDueSummary = null;
+    window.latestNoticeIdCache = "";
 
     function initRunningMonthSelectors() {
         const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
@@ -1966,6 +2115,8 @@
         gPendingSaveData = null;
     }
 
+    let lastBgSyncTime = 0;
+
     async function initApp() {
         const loggedIn = localStorage.getItem('isLoggedIn');
         const savedId = localStorage.getItem('user_id');
@@ -1998,6 +2149,7 @@
             if (roleLabel) roleLabel.innerText = 'স্বাগতম, ' + (currentRole === 'super_admin' ? 'সুপার অ্যাডমিন' : (currentRole === 'admin' ? 'অ্যাডমিন' : 'মেম্বার'));
             document.getElementById('adminMenuBtn').style.display = isAdminMode ? 'flex' : 'none';
             showPage('homePage'); 
+            lastBgSyncTime = Date.now();
             refreshUserData(); 
             if(isAdminMode) refreshAdminData();
         } else { 
@@ -2006,11 +2158,20 @@
         }
 
         setInterval(() => {
-            if (localStorage.getItem('isLoggedIn') === 'true') {
+            if (!document.hidden && localStorage.getItem('isLoggedIn') === 'true') {
+                lastBgSyncTime = Date.now();
                 refreshUserData();
                 if (isAdminMode) refreshAdminData();
             }
-        }, 6000);
+        }, 25000);
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && localStorage.getItem('isLoggedIn') === 'true' && (Date.now() - lastBgSyncTime) > 15000) {
+                lastBgSyncTime = Date.now();
+                refreshUserData();
+                if (isAdminMode) refreshAdminData();
+            }
+        });
     }
 
     function showPage(id) {
@@ -2043,6 +2204,12 @@
             if (id === 'fundPage') {
                 setTodayDate();
                 document.getElementById('copyNumberContainer').style.display = 'none';
+            }
+            if (id === 'noticePage') {
+                markNoticesSeen();
+            }
+            if (id === 'reportPage') {
+                renderReportMonthlyChart();
             }
             toggleLoader(false);
         }, 150);
@@ -2268,6 +2435,170 @@
         else if (typeof Android !== "undefined" && Android.finish) Android.finish();
     }
 
+    function calculateMemberDueSummary(approvedTxs, nowDate = new Date()) {
+        const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+        const bnToEn = s => String(s || '').replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
+        const toBnYr = y => String(y).replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+
+        const curYear = nowDate.getFullYear();
+        const curMonthIdx = nowDate.getMonth();
+        const paidKeysSet = new Set();
+
+        (approvedTxs || []).forEach(t => {
+            if (t.status && t.status !== "Approved") return;
+            const mStr = (t.months || "").toString();
+            const dStr = bnToEn(t.date || "").trim();
+
+            let txYear = 2026;
+            let txDateMonthIdx = -1;
+            let dm = dStr.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+            if (dm) {
+                txDateMonthIdx = parseInt(dm[2], 10) - 1;
+                txYear = parseInt(dm[3], 10);
+            } else {
+                let ym = dStr.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+                if (ym) {
+                    txYear = parseInt(ym[1], 10);
+                    txDateMonthIdx = parseInt(ym[2], 10) - 1;
+                } else {
+                    let yOnly = dStr.match(/20\d{2}/);
+                    if (yOnly) txYear = parseInt(yOnly[0], 10);
+                }
+            }
+
+            const explicitYearMatch = bnToEn(mStr).match(/20\d{2}/);
+            const explicitYear = explicitYearMatch ? parseInt(explicitYearMatch[0], 10) : null;
+
+            bnMonths.forEach((m, mIdx) => {
+                if (!mStr.includes(m)) return;
+                let targetYear = explicitYear || txYear;
+                if (!explicitYear) {
+                    if (txYear === 2026 && mIdx < 6) {
+                        targetYear = 2027;
+                    } else if (txDateMonthIdx >= 10 && mIdx <= 2) {
+                        targetYear = txYear + 1;
+                    } else if (txDateMonthIdx >= 0 && txDateMonthIdx <= 1 && mIdx >= 9) {
+                        targetYear = txYear - 1;
+                    }
+                    if (targetYear < 2026) targetYear = 2026;
+                }
+                paidKeysSet.add(`${targetYear}-${mIdx}`);
+            });
+        });
+
+        const dueLabels = [];
+        for (let y = 2026; y <= curYear; y++) {
+            const sIdx = (y === 2026) ? 6 : 0;
+            const eIdx = (y === curYear) ? curMonthIdx : 11;
+            for (let i = sIdx; i <= eIdx; i++) {
+                if (!paidKeysSet.has(`${y}-${i}`)) {
+                    dueLabels.push(curYear > 2026 ? `${bnMonths[i]} ${toBnYr(y)}` : bnMonths[i]);
+                }
+            }
+        }
+
+        const dueCount = dueLabels.length;
+        return {
+            paidKeysSet,
+            dueLabels,
+            dueCount,
+            totalDue: dueCount * 1000
+        };
+    }
+
+    function renderReportMonthlyChart() {
+        const grid = document.getElementById('repMonthlyChartGrid');
+        const yearSel = document.getElementById('repChartYear');
+        if (!grid || !yearSel) return;
+
+        const now = new Date();
+        const curYear = now.getFullYear();
+        const curMonthIdx = now.getMonth();
+
+        if (!yearSel.dataset.userInit) {
+            const curYearStr = curYear.toString();
+            if (![...yearSel.options].some(o => o.value === curYearStr)) {
+                const opt = document.createElement('option');
+                opt.value = curYearStr; opt.text = curYearStr;
+                yearSel.appendChild(opt);
+            }
+            yearSel.value = curYearStr;
+            yearSel.dataset.userInit = "1";
+        }
+
+        const selYear = parseInt(yearSel.value || curYear, 10);
+        const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+        const paidKeysSet = (window.lastUserDueSummary && window.lastUserDueSummary.paidKeysSet)
+            ? window.lastUserDueSummary.paidKeysSet
+            : calculateMemberDueSummary((transactionHistoryData || []).filter(t => t.status === "Approved"), now).paidKeysSet;
+
+        let html = "";
+        bnMonths.forEach((mName, idx) => {
+            if (selYear === 2026 && idx < 6) {
+                html += `<div class="rep-month-box inactive"><b>${mName}</b><small>শুরুর আগে</small></div>`;
+            } else if (paidKeysSet.has(`${selYear}-${idx}`)) {
+                const isAdv = (selYear > curYear) || (selYear === curYear && idx > curMonthIdx);
+                html += `<div class="rep-month-box paid"><b>${mName}</b><small>${isAdv ? '✅ অগ্রিম' : '✅ পরিশোধিত'}</small></div>`;
+            } else if (selYear < curYear || (selYear === curYear && idx <= curMonthIdx)) {
+                html += `<div class="rep-month-box due"><b>${mName}</b><small>❌ বাকি</small></div>`;
+            } else {
+                html += `<div class="rep-month-box upcoming"><b>${mName}</b><small>⏳ আসন্ন</small></div>`;
+            }
+        });
+        grid.innerHTML = html;
+    }
+
+    function markNoticesSeen() {
+        if (!curId) return;
+        if (window.latestNoticeIdCache) {
+            localStorage.setItem('last_seen_notice_id_' + curId, window.latestNoticeIdCache);
+        }
+        const navDot = document.getElementById('noticeDotBadge');
+        const homeDot = document.getElementById('homeNoticeBadge');
+        if (navDot) navDot.style.display = 'none';
+        if (homeDot) homeDot.style.display = 'none';
+    }
+
+    function updateNoticeUnreadBadges(notices) {
+        const navDot = document.getElementById('noticeDotBadge');
+        const homeDot = document.getElementById('homeNoticeBadge');
+        if (!notices || notices.length === 0) {
+            window.latestNoticeIdCache = "";
+            if (navDot) navDot.style.display = 'none';
+            if (homeDot) homeDot.style.display = 'none';
+            return;
+        }
+
+        const latestId = String(notices[0].id);
+        window.latestNoticeIdCache = latestId;
+
+        if (currentPage === 'noticePage') {
+            markNoticesSeen();
+            return;
+        }
+
+        const lastSeen = curId ? (localStorage.getItem('last_seen_notice_id_' + curId) || "") : "";
+        let unreadCount = 0;
+        if (!lastSeen) {
+            unreadCount = notices.length;
+        } else if (lastSeen !== latestId) {
+            unreadCount = notices.filter(n => Number(n.id) > Number(lastSeen)).length;
+            if (unreadCount === 0) unreadCount = 1;
+        }
+
+        const toBn = n => String(n).replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
+        if (unreadCount > 0) {
+            if (navDot) {
+                navDot.innerText = toBn(unreadCount > 9 ? '9+' : unreadCount);
+                navDot.style.display = 'inline-flex';
+            }
+            if (homeDot) homeDot.style.display = 'block';
+        } else {
+            if (navDot) navDot.style.display = 'none';
+            if (homeDot) homeDot.style.display = 'none';
+        }
+    }
+
     async function refreshUserData() {
         if(!curId) return;
         try {
@@ -2302,47 +2633,13 @@
                 if(myP) document.getElementById('pendingInfo').innerHTML = `৳${myP.amount} (${myP.months})`;
             }
 
-            const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
             const now = new Date();
-            const curMonthIdx = now.getMonth();
-            const curMonthName = bnMonths[curMonthIdx];
-            const curYearStr = now.getFullYear().toString();
             const curDay = now.getDate();
-
-            let paidMonthsList = [];
-            if (txs && txs.length > 0) {
-                txs.forEach(t => {
-                    if (t.status === "Approved") {
-                        const mStr = (t.months || "").toString();
-                        const dStr = (t.date || "").toString();
-                        if (dStr.includes(curYearStr) || mStr.includes(curYearStr) || !dStr) {
-                            bnMonths.forEach(m => {
-                                if (mStr.includes(m) && !paidMonthsList.includes(m)) {
-                                    paidMonthsList.push(m);
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-
-            const startMonthIdx = 6;
-            let dueMonths = [];
-            if (curMonthIdx >= startMonthIdx) {
-                for (let i = startMonthIdx; i <= curMonthIdx; i++) {
-                    if (!paidMonthsList.includes(bnMonths[i])) dueMonths.push(bnMonths[i]);
-                }
-            } else {
-                for (let i = startMonthIdx; i < 12; i++) {
-                    if (!paidMonthsList.includes(bnMonths[i])) dueMonths.push(bnMonths[i]);
-                }
-                for (let i = 0; i <= curMonthIdx; i++) {
-                    if (!paidMonthsList.includes(bnMonths[i])) dueMonths.push(bnMonths[i]);
-                }
-            }
-
-            let dueCount = dueMonths.length;
-            let totalDues = dueCount * 1000;
+            const dueSummary = calculateMemberDueSummary(txs || [], now);
+            window.lastUserDueSummary = dueSummary;
+            let dueMonths = dueSummary.dueLabels;
+            let dueCount = dueSummary.dueCount;
+            let totalDues = dueSummary.totalDue;
 
             if(u) {
                 document.getElementById('uBal').innerText = "৳ " + parseFloat(u.balance || 0).toLocaleString();
@@ -2369,6 +2666,7 @@
                 document.getElementById('repBal').innerText = "৳ " + parseFloat(u.balance || 0).toLocaleString();
                 document.getElementById('repDue').innerText = "৳ " + totalDues.toLocaleString('bn-BD');
                 document.getElementById('repId').innerText = curId;
+                renderReportMonthlyChart();
 
                 document.getElementById('profName').innerText = u.name;
                 document.getElementById('profId').innerText = curId;
@@ -2386,6 +2684,7 @@
             if(notices) {
                 const list = document.getElementById('noticeList'); 
                 if(list) list.innerHTML = notices.length > 0 ? notices.map(n => `<div style="background:#f8fafc; padding:12px; border-radius:10px; border-left:4px solid var(--sk-primary); margin-bottom:8px;"><p style="margin:0; font-size:13px; text-align:justify; line-height:1.65;">${n.text}</p><small style="color:var(--sk-text-muted); display:block; margin-top:4px; text-align:right;"><i class="fas fa-clock"></i> ${n.time}</small></div>`).join('') : "<center><small style='color:var(--sk-text-muted);'>কোনো নোটিশ নেই</small></center>";
+                updateNoticeUnreadBadges(notices);
             }
 
             const { data: pushMsgs } = await supabaseClient.from('push_notifications').select('*').order('id', { ascending: false }).limit(1);
@@ -2448,57 +2747,43 @@
         try {
             initRunningMonthSelectors();
             const { data: allUsers } = await supabaseClient.from('users').select('*');
-            const { data: txs } = await supabaseClient.from('transactions').select('user_id, months, date, status').eq('status', 'Approved');
+            const { data: txs } = await supabaseClient.from('transactions').select('id, user_id, months, date, status, trx, amount').eq('status', 'Approved');
 
-            const bnMonths = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
             const d = new Date();
-            const curMIdx = d.getMonth();
-            const curM = bnMonths[curMIdx];
-            const curY = d.getFullYear().toString();
+            const currentMonthKey = `${d.getFullYear()}-${d.getMonth()}`;
 
             window.currentMonthPaidUsers = new Set();
             window.userDueInfoMap = {};
+            window.allApprovedTrxMap = {};
+
+            if (txs) {
+                txs.forEach(t => {
+                    const tk = String(t.trx || '').trim().toLowerCase();
+                    if (tk && tk !== 'n/a' && tk !== 'admin cash' && tk !== 'admin hand cash') {
+                        if (!window.allApprovedTrxMap[tk]) window.allApprovedTrxMap[tk] = [];
+                        window.allApprovedTrxMap[tk].push(t);
+                    }
+                });
+            }
 
             if (allUsers) {
+                const txByUser = {};
+                if (txs) {
+                    txs.forEach(t => {
+                        if (t.user_id) {
+                            const k = t.user_id.toString().trim().toLowerCase();
+                            if (!txByUser[k]) txByUser[k] = [];
+                            txByUser[k].push(t);
+                        }
+                    });
+                }
+
                 allUsers.forEach(u => {
                     const uIdStr = u.id.toString().trim().toLowerCase();
-                    let uPaidMonths = [];
-                    if (txs) {
-                        txs.forEach(t => {
-                            if (t.user_id && t.user_id.toString().trim().toLowerCase() === uIdStr) {
-                                const mStr = (t.months || "").toString();
-                                const dStr = (t.date || "").toString();
-                                if (dStr.includes(curY) || mStr.includes(curY) || !dStr) {
-                                    bnMonths.forEach(m => {
-                                        if (mStr.includes(m) && !uPaidMonths.includes(m)) {
-                                            uPaidMonths.push(m);
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    }
+                    const summary = calculateMemberDueSummary(txByUser[uIdStr] || [], d);
 
-                    if (uPaidMonths.includes(curM)) window.currentMonthPaidUsers.add(uIdStr);
-
-                    const startMonthIdx = 6;
-                    let uDueMonths = [];
-                    if (curMIdx >= startMonthIdx) {
-                        for (let i = startMonthIdx; i <= curMIdx; i++) {
-                            if (!uPaidMonths.includes(bnMonths[i])) uDueMonths.push(bnMonths[i]);
-                        }
-                    } else {
-                        for (let i = startMonthIdx; i < 12; i++) {
-                            if (!uPaidMonths.includes(bnMonths[i])) uDueMonths.push(bnMonths[i]);
-                        }
-                        for (let i = 0; i <= curMIdx; i++) {
-                            if (!uPaidMonths.includes(bnMonths[i])) uDueMonths.push(bnMonths[i]);
-                        }
-                    }
-
-                    let dCount = uDueMonths.length;
-                    let uTotalDue = dCount * 1000;
-                    window.userDueInfoMap[uIdStr] = { dueCount: dCount, totalDue: uTotalDue, dueMonths: uDueMonths };
+                    if (summary.paidKeysSet.has(currentMonthKey)) window.currentMonthPaidUsers.add(uIdStr);
+                    window.userDueInfoMap[uIdStr] = { dueCount: summary.dueCount, totalDue: summary.totalDue, dueMonths: summary.dueLabels };
                 });
 
                 users = {};
@@ -3065,7 +3350,7 @@
                         </td>
                         <td style="padding: 11px 4px; text-align: center;">
                             <div style="display: inline-flex; gap: 4px; align-items: center; justify-content: center;">
-                                <button style="background: #f97316; color: white; border: none; width: 28px; height: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(249, 115, 22, 0.25);" onclick="openTxnEdit('${id}', '${t.id}')" title="সংশোধন">
+                                <button style="background: #f97316; color: white; border: none; width: 28px; height: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(249, 115, 22, 0.25);" onclick="openTxnEdit('${id}', '${t.id}')" title="সংশোধন ও ডিলিট">
                                     <i class="fas fa-edit" style="font-size: 11px;"></i>
                                 </button>
                                 <button style="background: var(--sk-primary); color: white; border: none; width: 28px; height: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(4, 120, 87, 0.25);" onclick="downloadReceipt('${id}', '${t.id}')" title="রসিদ ডাউনলোড">
@@ -3093,7 +3378,7 @@
         }
         if (!t) return customAlert("ট্রানজেকশন তথ্য পাওয়া যায়নি!");
 
-        editingUid = uid; editingTxnId = txnId; oldTxnAmount = parseFloat(t.amount || 0);
+        editingUid = uid; editingTxnId = txnId; oldTxnAmount = parseFloat(t.amount || 0); editingTxnStatus = t.status || "Approved";
         document.getElementById('etMonths').value = t.months || "";
         document.getElementById('etAmount').value = t.amount || 0;
         document.getElementById('etMethod').value = t.method || "বিকাশ";
@@ -3128,6 +3413,41 @@
         refreshAdminData();
     }
 
+    async function deleteAdminTxn() {
+        if (!editingTxnId || !editingUid) return;
+        const ok = await customConfirm("আপনি কি নিশ্চিতভাবে এই লেনদেনটি ডিলিট করতে চান? অনুমোদিত লেনদেন হলে সদস্যের মোট সঞ্চয় থেকে এই পরিমাণ টাকা সমন্বয় (বিয়োগ) হবে।");
+        if (!ok) return;
+
+        toggleLoader(true);
+        try {
+            const { data: txRow } = await supabaseClient.from('transactions').select('*').eq('id', editingTxnId).maybeSingle();
+            const amtToDeduct = txRow ? parseFloat(txRow.amount || 0) : parseFloat(oldTxnAmount || 0);
+            const txStatus = txRow ? (txRow.status || "Approved") : editingTxnStatus;
+
+            const { error: delErr } = await supabaseClient.from('transactions').delete().eq('id', editingTxnId);
+            if (delErr) {
+                toggleLoader(false);
+                return customAlert("ডিলিট ব্যর্থ: " + delErr.message);
+            }
+
+            if (txStatus === "Approved" && amtToDeduct > 0) {
+                const { data: u } = await supabaseClient.from('users').select('balance').eq('id', editingUid).maybeSingle();
+                if (u) {
+                    const updatedBal = Math.max(0, parseFloat(u.balance || 0) - amtToDeduct);
+                    await supabaseClient.from('users').update({ balance: updatedBal }).eq('id', editingUid);
+                }
+            }
+
+            toggleLoader(false);
+            showToast("লেনদেন ডিলিট ও ব্যালেন্স সমন্বয় সম্পন্ন হয়েছে!");
+            openKhata(editingUid);
+            refreshAdminData();
+        } catch (e) {
+            toggleLoader(false);
+            customAlert("সার্ভারে সমস্যা হয়েছে!");
+        }
+    }
+
     async function updatePaymentNumber() {
         const num = document.getElementById('payNumInput').value.trim();
         if(!num) return customAlert("সঠিক নম্বর দিন!");
@@ -3137,7 +3457,6 @@
         showToast("পেমেন্ট নাম্বার আপডেট হয়েছে!");
         refreshAdminData();
     }
-
     function renderPushList(data) {
         const pl = document.getElementById('pushList');
         if (pl) pl.innerHTML = "";
@@ -3154,6 +3473,15 @@
             showToast("ডিলিট হয়েছে!");
             refreshAdminData();
         }
+    }
+
+    function isPhoneOrGenericTrx(trxStr) {
+        const clean = String(trxStr || '').trim().toLowerCase();
+        if (!clean) return true;
+        const compact = clean.replace(/[\s\-]/g, '');
+        if (/^(?:\+?88)?01[3-9]\d{8}$/.test(compact)) return true;
+        const generics = ['n/a', 'na', 'cash', 'hand cash', 'হ্যান্ড ক্যাশ', 'admin', 'admin cash', 'admin hand cash'];
+        return generics.includes(clean);
     }
 
     function renderR(data) {
@@ -3177,11 +3505,36 @@
         }
         
         data.forEach(r => {
+            const memberObj = users[r.user_id] || Object.values(users).find(u => String(u.id).trim().toLowerCase() === String(r.user_id).trim().toLowerCase());
+            const memberName = memberObj ? memberObj.name : "সদস্য";
+
+            const trxKey = String(r.trx || '').trim().toLowerCase();
+            let dupWarningHTML = "";
+            if (trxKey && trxKey !== 'n/a' && trxKey !== 'admin cash' && trxKey !== 'admin hand cash') {
+                const approvedMatches = (window.allApprovedTrxMap && window.allApprovedTrxMap[trxKey]) ? window.allApprovedTrxMap[trxKey].filter(x => String(x.id) !== String(r.id)) : [];
+                const pendingMatches = data.filter(x => String(x.id) !== String(r.id) && String(x.trx || '').trim().toLowerCase() === trxKey);
+                const allMatches = [...approvedMatches, ...pendingMatches];
+                if (allMatches.length > 0) {
+                    const firstM = allMatches[0];
+                    const matchLabel = isPhoneOrGenericTrx(r.trx)
+                        ? `এই নম্বর/বিবরণে পূর্বেও এন্ট্রি আছে (ID: ${firstM.user_id}, ${firstM.date || 'পেন্ডিং'})`
+                        : `⚠️ ডুপ্লিকেট TrxID! এটি পূর্বে ব্যবহৃত হয়েছে (ID: ${firstM.user_id}, ${firstM.date || 'পেন্ডিং'})`;
+                    dupWarningHTML = `<div style="background:#fef2f2; border:1px solid #fecaca; color:#dc2626; padding:6px 8px; border-radius:8px; font-size:11px; font-weight:800; margin-top:6px;"><i class="fas fa-exclamation-triangle"></i> ${matchLabel}</div>`;
+                }
+            }
+
             l.innerHTML += `
                 <div class="card" style="text-align: left;">
-                    <b style="font-size:14px; color: var(--sk-text-main);">ID: ${r.user_id} | ৳${r.amount}</b><br>
-                    <small style="color:var(--sk-text-muted)">📌 মাস: ${r.months} | 💳 মাধ্যম: ${r.method || 'বিকাশ'}</small><br>
-                    <small style="color:var(--sk-text-muted)">Trx: ${r.trx || 'N/A'}</small>
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap; margin-bottom:4px;">
+                        <div>
+                            <b style="font-size:14.5px; color: var(--sk-primary);">${memberName}</b>
+                            <span class="id-badge" style="margin-left:4px;">ID: ${r.user_id}</span>
+                        </div>
+                        <b style="font-size:15px; color:#047857;">৳${r.amount}</b>
+                    </div>
+                    <small style="color:var(--sk-text-muted)">📌 মাস: ${r.months} | 💳 মাধ্যম: ${r.method || 'বিকাশ'} | 📅 ${r.date || ''}</small><br>
+                    <small style="color:var(--sk-text-muted)">Trx: <b style="color:var(--sk-text-main);">${r.trx || 'N/A'}</b></small>
+                    ${dupWarningHTML}
                     <div style="display:flex; gap:10px; margin-top:10px;">
                         <button class="btn" style="background:var(--sk-primary); flex:1; margin-top:0;" onclick="appP('${r.id}','${r.user_id}',${r.amount})">Approve</button>
                         <button class="btn" style="background:#dc2626; flex:1; margin-top:0;" onclick="rejectP('${r.id}')">Reject</button>
@@ -3189,7 +3542,6 @@
                 </div>`;
         });
     }
-
     async function sendBulkDepositSMS(phone, name, userId, depositAmt, totalAmt) {
         const cleanPhone = String(phone || '').replace(/[^\d]/g, '');
         if (!cleanPhone) {
@@ -3203,7 +3555,6 @@
         const msg = `Shopnojatra 2005: Dear ${cleanName} (ID: ${userId}), Tk ${depStr} deposited. Total Savings: Tk ${totStr}. Thank you.`;
 
         try {
-            // Use the configured Supabase client for Edge Function requests.
             const { data: result, error } = await supabaseClient.functions.invoke('send-sns', {
                 body: { number: cleanPhone, message: msg, adminId: curId }
             });
@@ -3231,6 +3582,24 @@
 
     async function appP(txnId, userId, amount) { 
         toggleLoader(true);
+        const { data: txCheck } = await supabaseClient.from('transactions').select('id, trx, status').eq('id', txnId).maybeSingle();
+        if (!txCheck || txCheck.status === 'Approved') {
+            toggleLoader(false);
+            refreshAdminData();
+            return showToast("এই লেনদেনটি আগেই অ্যাপ্রুভ হয়ে গেছে!", "error");
+        }
+
+        const trxKey = String(txCheck.trx || '').trim().toLowerCase();
+        if (trxKey && !isPhoneOrGenericTrx(txCheck.trx)) {
+            const approvedMatches = (window.allApprovedTrxMap && window.allApprovedTrxMap[trxKey]) ? window.allApprovedTrxMap[trxKey] : [];
+            if (approvedMatches.length > 0) {
+                toggleLoader(false);
+                const ok = await customConfirm(`⚠️ সতর্কতা: এই TrxID (${txCheck.trx}) দিয়ে আগেই একটি পেমেন্ট অ্যাপ্রুভ করা আছে (ID: ${approvedMatches[0].user_id})! তবুও কি অ্যাপ্রুভ করতে চান?`);
+                if (!ok) return;
+                toggleLoader(true);
+            }
+        }
+
         const { data: u } = await supabaseClient.from('users').select('balance, name, phone').eq('id', userId).single();
         let newVal = 0;
         if(u) {
@@ -3336,7 +3705,7 @@
     function renderN(data) { 
         const l = document.getElementById('nList'); if(!l) return; l.innerHTML = ""; 
         data?.forEach(n => { 
-            l.innerHTML += `<div class="item-row" style="font-size:12px;">${n.text}<div onclick="deleteNotice('${n.id}')" style="color:#dc2626; padding:10px; cursor:pointer;"><i class="fas fa-trash-alt"></i></div></div>`; 
+            l.innerHTML += `<div class="item-row" style="font-size:12px; gap:10px;"><div style="flex:1; text-align:justify; line-height:1.65;">${n.text}</div><div onclick="deleteNotice('${n.id}')" style="color:#dc2626; padding:10px; cursor:pointer; flex-shrink:0;"><i class="fas fa-trash-alt"></i></div></div>`; 
         }); 
     }
 
@@ -3922,7 +4291,9 @@
                             serial: targetMembers.length + 1,
                             id: id,
                             name: u.name,
+                            phone: u.phone || "",
                             dues: dueAmt,
+                            unpaidCount: unpaidList.length,
                             amount: `৳${dueAmt.toLocaleString('bn-BD')}`,
                             months: mText,
                             status: 'বকেয়া'
@@ -3946,9 +4317,68 @@
         const fileTag = selectedMonths.length === 1 ? selectedMonths[0] : `${selectedMonths[0]}_to_${selectedMonths[selectedMonths.length - 1]}`;
         globalReportFilename = `${type === 'paid' ? 'Paid_List' : 'Unpaid_List'}_${fileTag}_${selYear}.pdf`;
 
+        const smsBtn = document.getElementById('btnSendDueReminderSMS');
+        if (smsBtn) {
+            smsBtn.style.display = (type === 'unpaid' && targetMembers.length > 0) ? 'inline-flex' : 'none';
+        }
+
         document.getElementById('plPageTitle').innerText = listTitle;
         renderModernScreenPreview(targetMembers, true, false, 'plPageContent');
         showPage('adminPaymentListPage');
+    }
+
+    async function sendBulkDueReminderSMS() {
+        if (currentPlType !== 'unpaid' || !currentPlData || currentPlData.length === 0) {
+            return customAlert("বকেয়া তালিকায় কোনো সদস্য নেই!");
+        }
+
+        const targets = currentPlData.map(m => {
+            const rawPhone = m.phone || users[m.id]?.phone || "";
+            const cleanPhone = String(rawPhone).replace(/[^\d]/g, '');
+            return { ...m, cleanPhone };
+        }).filter(m => m.cleanPhone.length >= 10);
+
+        if (targets.length === 0) {
+            return customAlert("বকেয়া সদস্যদের কারও সঠিক মোবাইল নম্বর সেট করা নেই!");
+        }
+
+        const noPhoneCount = currentPlData.length - targets.length;
+        const warnNote = noPhoneCount > 0 ? ` (${noPhoneCount} জনের নম্বর না থাকায় বাদ যাবে)` : '';
+        const ok = await customConfirm(`নন-পেমেন্ট তালিকার ${targets.length} জন সদস্যকে বকেয়া রিমাইন্ডার SMS পাঠাতে চান?${warnNote}`);
+        if (!ok) return;
+
+        toggleLoader(true);
+        let sentCount = 0;
+        let failCount = 0;
+
+        for (const m of targets) {
+            const dueStr = parseFloat(m.dues || 0).toLocaleString('en-US');
+            const mCount = m.unpaidCount || 1;
+            const cleanName = String(m.name || 'Member').trim();
+            const msg = `Shopnojatra 2005: Dear ${cleanName} (ID: ${m.id}), Tk ${dueStr} due (${mCount} month). Please pay by 15th of this month. Thank you.`;
+
+            try {
+                const { data: result, error } = await supabaseClient.functions.invoke('send-sns', {
+                    body: { number: m.cleanPhone, message: msg, adminId: curId }
+                });
+                if (!error && result && result.success === true) {
+                    sentCount++;
+                } else {
+                    failCount++;
+                }
+            } catch (e) {
+                failCount++;
+            }
+        }
+
+        toggleLoader(false);
+        if (sentCount > 0 && failCount === 0) {
+            showToast(`সফলভাবে ${sentCount} জনকে বকেয়া রিমাইন্ডার SMS পাঠানো হয়েছে!`);
+        } else if (sentCount > 0) {
+            showToast(`${sentCount} জনকে SMS পাঠানো হয়েছে, ${failCount} টি ব্যর্থ।`, "error");
+        } else {
+            customAlert("SMS পাঠানো যায়নি! SMS গেটওয়ে বা নেটওয়ার্ক চেক করুন।");
+        }
     }
 
     async function downloadPaymentListPDF() { confirmDownloadPDF(); }
@@ -4009,54 +4439,19 @@
             }
             const totalSavings = parseFloat(u.balance || 0);
 
-            const bnMonthsListR = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
             const nowR = new Date();
             const curYearR = nowR.getFullYear();
             const curMonthIdxR = nowR.getMonth();
-            const curYearStrR = curYearR.toString();
 
             let elapsedMonthsR = ((curYearR - 2026) * 12) + ((curMonthIdxR + 1) - 7) + 1;
             if (elapsedMonthsR < 1) elapsedMonthsR = 1;
             const expectedUpToNow = elapsedMonthsR * 1000;
 
-            let totalDue = 0;
+            const dueSummaryR = calculateMemberDueSummary(uidApprovedTxs || [], nowR);
             const uidKeyR = String(uid).trim().toLowerCase();
-            if (curYearR === 2026 && window.userDueInfoMap && window.userDueInfoMap[uidKeyR] && window.userDueInfoMap[uidKeyR].totalDue !== undefined) {
-                totalDue = parseFloat(window.userDueInfoMap[uidKeyR].totalDue || 0);
-            } else {
-                const paidSetR = new Set();
-                (uidApprovedTxs || []).forEach(tx => {
-                    const mStr = (tx.months || "").toString();
-                    const dStr = (tx.date || "").toString();
-                    if (dStr.includes(curYearStrR) || mStr.includes(curYearStrR) || !dStr) {
-                        bnMonthsListR.forEach(m => {
-                            if (mStr.includes(m)) paidSetR.add(m);
-                        });
-                    }
-                });
-                let dueCountR = 0;
-                if (curYearR === 2026) {
-                    for (let i = 6; i <= curMonthIdxR; i++) {
-                        if (!paidSetR.has(bnMonthsListR[i])) dueCountR++;
-                    }
-                } else {
-                    for (let y = 2026; y <= curYearR; y++) {
-                        const sIdx = (y === 2026) ? 6 : 0;
-                        const eIdx = (y === curYearR) ? curMonthIdxR : 11;
-                        for (let i = sIdx; i <= eIdx; i++) {
-                            const mName = bnMonthsListR[i];
-                            const yStr = y.toString();
-                            const isPaid = (uidApprovedTxs || []).some(tx => {
-                                const mStr = (tx.months || "").toString();
-                                const dStr = (tx.date || "").toString();
-                                return mStr.includes(mName) && (dStr.includes(yStr) || mStr.includes(yStr));
-                            });
-                            if (!isPaid) dueCountR++;
-                        }
-                    }
-                }
-                totalDue = dueCountR * 1000;
-            }
+            const totalDue = (window.userDueInfoMap && window.userDueInfoMap[uidKeyR] && window.userDueInfoMap[uidKeyR].totalDue !== undefined)
+                ? parseFloat(window.userDueInfoMap[uidKeyR].totalDue || 0)
+                : dueSummaryR.totalDue;
 
             const advanceAmt = Math.max(0, Math.round(totalSavings - (expectedUpToNow - totalDue)));
 
@@ -4165,7 +4560,7 @@
         }
     }
 
-async function submitFund() {
+    async function submitFund() {
         const fDate = document.getElementById('fDate').value;
         const fAmt = parseFloat(document.getElementById('fAmt').value);
         const fMethod = document.getElementById('fMethod').value;
@@ -4177,8 +4572,36 @@ async function submitFund() {
         if (!fDate || isNaN(fAmt) || fAmt <= 0 || !fTrx || selectedMonths.length === 0) return customAlert("সব তথ্য সঠিকভাবে পূরণ করুন!");
 
         let formattedDate = fDate.split('-').reverse().join('/');
+        const monthsStr = selectedMonths.join(', ');
         toggleLoader(true);
-        const { error } = await supabaseClient.from('transactions').insert([{ user_id: curId, amount: fAmt, months: selectedMonths.join(', '), method: fMethod, trx: fTrx, date: formattedDate, status: 'Pending' }]);
+
+        try {
+            const { data: dupTxs } = await supabaseClient
+                .from('transactions')
+                .select('id, user_id, amount, months, date, status')
+                .ilike('trx', fTrx);
+
+            if (dupTxs && dupTxs.length > 0) {
+                const exactSame = dupTxs.find(x =>
+                    String(x.user_id).trim().toLowerCase() === String(curId).trim().toLowerCase() &&
+                    (x.status === 'Pending' || (parseFloat(x.amount || 0) === fAmt && String(x.months || '') === monthsStr))
+                );
+                if (exactSame) {
+                    toggleLoader(false);
+                    return customAlert("এই ট্রানজেকশনটি ইতিমধ্যেই জমা দেওয়া হয়েছে! অনুগ্রহ করে ২ বার পাঠাবেন না।");
+                }
+                if (!isPhoneOrGenericTrx(fTrx)) {
+                    toggleLoader(false);
+                    return customAlert(`এই TrxID (${fTrx}) ইতিমধ্যেই ব্যবহৃত হয়েছে! অনুগ্রহ করে সঠিক TrxID দিন।`);
+                }
+                toggleLoader(false);
+                const ok = await customConfirm("এই মোবাইল নম্বর/বিবরণে পূর্বেও একটি লেনদেন পাওয়া গেছে। আপনি কি নিশ্চিত এটি নতুন মাসের পেমেন্ট?");
+                if (!ok) return;
+                toggleLoader(true);
+            }
+        } catch (e) { console.error(e); }
+
+        const { error } = await supabaseClient.from('transactions').insert([{ user_id: curId, amount: fAmt, months: monthsStr, method: fMethod, trx: fTrx, date: formattedDate, status: 'Pending' }]);
         toggleLoader(false);
 
         if (error) customAlert("ব্যর্থ: " + error.message);
